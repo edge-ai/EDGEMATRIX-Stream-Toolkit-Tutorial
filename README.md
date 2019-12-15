@@ -1,2 +1,2 @@
-# EdgeStreamSDKTutorial
-This repository contains various files to build a tutorial document for the EdgeStreamSDK.
+# smatra_docs
+the repository to store docs of EdgeStream SDK for the readthedocs integration
