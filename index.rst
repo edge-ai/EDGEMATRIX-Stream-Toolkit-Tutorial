@@ -12,4 +12,4 @@ EdgeMatrix EdgeStream SDK Tutorial
 
    overview
    quickstart
-   tutorial
+   configurations
