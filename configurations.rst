@@ -32,6 +32,8 @@ Overview
 
 This is a configuration about an overview of an EAP.
 
+An example screenshot from the quick start example looks like this:
+
     .. image:: images/overview.png
        :align: center
 
@@ -44,6 +46,8 @@ This is a configuration about an input of a pipeline.
 The GStreamer used for this is nvstreammux.
 
 Please refer to the DeepStream Plugin Manual for details.
+
+An example screenshot from the quick start example looks like this:
 
     .. image:: images/input.png
        :align: center
@@ -60,6 +64,8 @@ The GStreamer used for this is nvinfer.
 
 Please refer to the DeepStream Plugin Manual for details.
 
+An example screenshot from the quick start example looks like this:
+
     .. image:: images/primary.png
        :align: center
 
@@ -72,6 +78,8 @@ This is a configuration about a tracker of a pipeline.
 The GStreamer used for this is nvtracker.
 
 Please refer to the DeepStream Plugin Manual for details.
+
+An example screenshot from the quick start example looks like this:
 
     .. image:: images/tracker.png
        :align: center
@@ -86,6 +94,8 @@ The GStreamer used for this is nvinfer.
 
 Please refer to the DeepStream Plugin Manual for details.
 
+An example screenshot from the quick start example looks like this:
+
     .. image:: images/secondary.png
        :align: center
 
@@ -99,6 +109,8 @@ The GStreamer used for this is nvdsosd.
 
 Please refer to the DeepStream Plugin Manual for details.
 
+An example screenshot from the quick start example looks like this:
+
     .. image:: images/overlay.png
        :align: center
 
@@ -108,6 +120,8 @@ Callback and Events
 
 This is a configuration about the callback function name and event definitions.
 
+An example screenshot from the quick start example looks like this:
+
     .. image:: images/callback_and_events.png
        :align: center
 
@@ -115,7 +129,7 @@ This is a configuration about the callback function name and event definitions.
 Callback
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The callback function defined as the callback function name must exists in a python file "called emi_signal_callback.py".
+The callback function defined as the callback function name must exist in a python file "called emi_signal_callback.py".
 
 This is a python file in which source code represents a signal callback function to be activated if the conditions defined in the stream-configuration file are satisfied.
 
