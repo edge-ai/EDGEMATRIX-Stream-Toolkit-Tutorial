@@ -90,12 +90,12 @@ Play a pipeline
 Now you are ready to run your application in the stream.
 Click "Play" button, and wait for a few seconds, you'll see events are getting generated and passed as actions.
 
-    .. image:: images/test_playing.png
+    .. image:: images/test_playing_actions.png
        :align: center
 
-You can also see performance stats. Click "Stats" button.
+Note that "Show Debug Window" is checked. The debug window is shown, too.
 
-    .. image:: images/test_playing_stats.png
+    .. image:: images/test_playing_debugwindow.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -103,11 +103,18 @@ Pause a pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 By clicking "Pause", you can pause the pipeline.
+Note that the debug window disapeared.
 
     .. image:: images/test_paused.png
        :align: center
 
+You can also see performance stats. Click "Stats" button.
+
+    .. image:: images/test_paused_stats.png
+       :align: center
+
 By clicking "Play" again, you can resume the pipeline.
+The debug window appears again.
 
     .. image:: images/test_resumed.png
        :align: center
