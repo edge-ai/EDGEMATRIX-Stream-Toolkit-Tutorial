@@ -1,6 +1,10 @@
 Overview
 ==================================
 
+    .. image:: images/overview/edge_ai_service.png
+       :align: center
+
+
 EdgeStream SDK is a software development kit released by `EdgeMatrix, Inc <https://edgematrix.com/>`_ (EMI),
 and which is defined as folows::
 
@@ -25,10 +29,7 @@ So, EMI provides an Edge AI Service so that an AI model developer could focus on
 Such an invaluable asset is wrapped by an EAP that can be integrated dynamically with the service for an end user.
 And EMI will take care of various interactions between end users.
 
-The overal look of the EMI's Edge AI service is as follows.
-
-    .. image:: images/edge_ai_service.png
-       :align: center
+The overal look of the EMI's Edge AI service is as shown above.
 
 ==========================================
 SDK Box
@@ -51,7 +52,7 @@ The EdgeStream is the EMI's core streaming engine that:
 
 Here's the picture of the EdgeStream's concept.
 
-    .. image:: images/edgestream_concept.png
+    .. image:: images/overview/edgestream_concept.png
        :align: center
 
 As you can see, the EdgeStream relies on the NVIDIA's DeepStream about performance.
@@ -59,7 +60,7 @@ Then, on top of it, the EdgeStream provides both of performance and efficiency o
 
 Next, here's the technical overview of the EdgeStream.
 
-    .. image:: images/edgestream_component.png
+    .. image:: images/overview/edgestream_component.png
        :align: center
 
 A single EdgeStream instance consists of three components.
@@ -110,10 +111,10 @@ Also, we have two visionary pipelines as our goals.
 
 1. A single EdgeStream pipeline consists of multiple AI model developers
 
-    .. image:: images/multiple_ai_vendors.png
+    .. image:: images/overview/multiple_ai_vendors.png
        :align: center
 
 2. A single 4K RTSP stream shared among several EdgeStream pipelines
 
-    .. image:: images/4K_multiple_edgestreams.png
+    .. image:: images/overview/4K_multiple_edgestreams.png
        :align: center

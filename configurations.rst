@@ -19,7 +19,7 @@ SDK Directory Structure
 
 The directory structure of the EdgeStream SDK looks like this:
 
-    .. image:: images/sdk_directories.png
+    .. image:: images/configurations/sdk_directories.png
        :align: center
 
 ============================================================
@@ -34,7 +34,7 @@ This is a configuration about an overview of an EAP.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/overview.png
+    .. image:: images/configurations/overview.png
        :align: center
 
 ----------------
@@ -49,7 +49,7 @@ Please refer to the DeepStream Plugin Manual for details.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/input.png
+    .. image:: images/configurations/input.png
        :align: center
 
 Please note that an end user is allowed to configure their own ROI over their RTSP stream.
@@ -66,7 +66,7 @@ Please refer to the DeepStream Plugin Manual for details.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/primary.png
+    .. image:: images/configurations/primary.png
        :align: center
 
 ----------------
@@ -81,7 +81,7 @@ Please refer to the DeepStream Plugin Manual for details.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/tracker.png
+    .. image:: images/configurations/tracker.png
        :align: center
 
 ----------------
@@ -96,7 +96,7 @@ Please refer to the DeepStream Plugin Manual for details.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/secondary.png
+    .. image:: images/configurations/secondary.png
        :align: center
 
 ----------------
@@ -111,7 +111,7 @@ Please refer to the DeepStream Plugin Manual for details.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/overlay.png
+    .. image:: images/configurations/overlay.png
        :align: center
 
 ----------------------
@@ -122,7 +122,7 @@ This is a configuration about the callback function name and event definitions.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/callback_and_events.png
+    .. image:: images/configurations/callback_and_events.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -381,7 +381,7 @@ The actions determine the video duration for:
 Pre-recording: recorded video before triggering an event.
 Post-recording: recorded video after triggering an event.
 
-    .. image:: images/prerecording.png
+    .. image:: images/configurations/prerecording.png
        :align: center
 
 The videos for both recording processes will have the same duration.
@@ -390,7 +390,7 @@ Record action
 
 This action establishes the duration of videos for pre-recording and post-recording equivalently. It must define as integer value.
 
-.. code-block:: json
+.. code-block:: javascript
 
     "action":{
         "action_name": "record", "duration_in_seconds": 15
@@ -400,7 +400,7 @@ Video prolongation for post-recording
 
 This recording module performs a video prolongation in post-recording for incoming events during the recording process. The video prolongation depends on the record time, defined in actions, and the time for each incoming event. The next figure shows how the video prolongation works.
 
-    .. image:: images/recording_processing_rules.png
+    .. image:: images/configurations/recording_processing_rules.png
        :align: center
 
 * Tr = Record time
