@@ -24,9 +24,9 @@ copyright = '2019, EdgeMatrix, Inc.'
 author = 'Takenori Sato'
 
 # The short X.Y version
-version = '0.9.8'
+version = '0.9.9'
 # The full version, including alpha/beta/rc tags
-release = '0.9.8pre'
+release = '0.9.9dev'
 
 
 # -- General configuration ---------------------------------------------------

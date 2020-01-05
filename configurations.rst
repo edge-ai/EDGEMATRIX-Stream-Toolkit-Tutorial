@@ -126,6 +126,55 @@ An example screenshot from the quick start example looks like this:
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Signal
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The structure of a signal is defined as follows by example.
+
+.. code-block:: python
+
+    {# Holds batch information containing frames from different sources.
+      "frame": [ # List of frame meta in the current batch
+        {
+          "frame_num": 0, # Current frame number of the source
+          "buf_pts": 0, # PTS of the frame
+          "timestamp": "2019-12-30T08:24:36.748-0600", # System timestamp when the buffer was received by the aimeta element
+          "object": [ #L ist of object meta in the current frame 
+            {
+              "class_id": 0, # Index of the object class infered by the primary detector/classifier
+              "object_id": 65, # Unique ID for tracking the object. '-1' indicates the object has not been tracked
+              "confidence": 0,# Confidence value of the object, set by inference component
+              "rect_params": { # Structure containing the positional parameters of the object in the frame
+                "left": 1722, # Holds left coordinate of the box in pixels
+                "top": 601, # Holds top coordinate of the box in pixels
+                "width": 192, # Holds width of the box in pixels
+                "height": 166 # Holds height of the box in pixels
+              },
+              "text_params": { # Holds the text parameters of the overlay text
+                "display_text": "Car 65 audi " # Holds the text to be overlayed
+              },
+              "classifier": [ # List of classifier meta for the current object
+                {
+                  "num_labels": 1, # Number of output labels of the classifier
+                  "unique_component_id": 2, # Unique component id of the element that attached this metadata
+                  "label_info": [ # List of label meta of the current classifier
+                    {
+                      "num_classes": 0, # Number of classes of the given label
+                      "result_label": "audi", # String describing the label of the classified object
+                      "result_class_id": 1, # Class id of the best result
+                      "label_id": 0, # Label id in case of multi label classifier
+                      "result_prob": 0.708984375 # Probability of best result
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Callback
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -133,7 +182,7 @@ The callback function defined as the callback function name must exist in a pyth
 
 This is a python file in which source code represents a signal callback function to be activated if the conditions defined in the stream-configuration file are satisfied.
 
-The signal callback file mus at minimum comply with the following conditions:
+The signal callback file must at minimum comply with the following conditions:
 
 * The file must be named emi_signal_callback.py
 * Must define a method with the name defined in the emi_stream_config.json signal_callback_function_name field

@@ -1,6 +1,9 @@
 Quick Start
 =====================
 
+#. Update to the latest version
+    #. Check the current version
+    #. Run an update script
 #. Create a new EAP by copying from a template EAP
     #. runedgestreamsdk and sdk_home
     #. Launch the EdgeStream SDK application
@@ -16,6 +19,61 @@ Quick Start
     #. Pause a pipeline
     #. Stop a pipeline
     #. Movie files made by record actions
+
+--------------------------------------------------------
+Update to the latest version
+--------------------------------------------------------
+
+Before starting, please update to the latest version.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Check the current version
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Run the following command to check the currently installed version.
+
+.. code-block:: bash
+
+  nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ pip3 show edgestreamsdk
+  Name: edgestreamsdk
+  Version: 0.9.8
+  Summary: edgestreamsdk allows an AI model developer to build, test, upload an Edge Stream Application Package.
+  Home-page: https://github.com/edge-ai/EdgeStreamSDK
+  Author: Takenori Sato
+  Author-email: tsato@edgematrix.com
+  License: Proprietary
+  Location: /home/nvidia/.local/lib/python3.6/site-packages
+  Requires: pycairo, PyGObject
+
+In the example above, the version is 0.9.8.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Run an update script
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Run the following command to try updating to the latest version.
+
+.. code-block:: bash
+
+  nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ bin/update_sdk.sh 
+  Collecting edgestreamsdk
+    Downloading http://54.250.165.6/packages/edgestreamsdk-0.9.9-py3-none-any.whl (42kB)
+      100% |████████████████████████████████| 51kB 2.3MB/s 
+  Collecting pycairo (from edgestreamsdk)
+  Collecting PyGObject (from edgestreamsdk)
+  Installing collected packages: pycairo, PyGObject, edgestreamsdk
+  Successfully installed PyGObject-3.34.0 edgestreamsdk-0.9.9 pycairo-1.18.2
+  Name: edgestreamsdk
+  Version: 0.9.9
+  Summary: edgestreamsdk allows an AI model developer to build, test, upload an Edge Stream Application Package.
+  Home-page: https://github.com/edge-ai/EdgeStreamSDK
+  Author: Takenori Sato
+  Author-email: tsato@edgematrix.com
+  License: Proprietary
+  Location: /home/nvidia/.local/lib/python3.6/site-packages
+  Requires: PyGObject, pycairo
+
+In the example above, the sdk was updated to 0.9.9.
 
 --------------------------------------------------------
 Create a new EAP by copying from a template EAP
@@ -45,9 +103,9 @@ then, the following window will be shown.
     .. image:: images/quickstart/edgestreamsdk_launched.png
        :align: center
 
-By clicking "About" button, you can check the version, v0.9.8.
+By clicking "About" button, you can check the version, v0.9.9.
 
-    .. image:: images/quickstart/about_dialog.png
+    .. image:: images/quickstart/about.png
        :align: center
 
 Now this time, let's create a new applicatoin that counts a vehicle with its car make.
