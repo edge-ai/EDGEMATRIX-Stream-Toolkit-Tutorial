@@ -16,7 +16,6 @@ Quick Start
 #. Test the new EAP
     #. Execute, Choose a stream and Create an EAP package
     #. Play a pipeline
-    #. Pause a pipeline
     #. Stop a pipeline
     #. Movie files made by record actions
 
@@ -269,24 +268,6 @@ So, how are those encrypted files treated while playing? Let's check the folder,
 
 No changes. No decrypted files on a disk. They are decrypted and processed in memory.
 So even if an AI Box is stolen, your precious trained model binaries won't be exploited immediately.
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Pause a pipeline
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-By clicking "Pause", you can pause the pipeline.
-Note that the debug window disapeared.
-
-    .. image:: images/quickstart/test_eap_dialog_paused.png
-       :align: center
-
-You can also see performance stats. Click "Stats" button.
-
-    .. image:: images/quickstart/test_eap_playing_stats.png
-       :align: center
-
-By clicking "Play" again, you can resume the pipeline.
-The debug window appears again.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Stop a pipeline
