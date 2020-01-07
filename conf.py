@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'EdgeStream SDK'
-copyright = '2019, EdgeMatrix, Inc.'
+copyright = '(C) 2019 EdgeMatrix, Inc.'
 author = 'Takenori Sato'
 
 # The short X.Y version

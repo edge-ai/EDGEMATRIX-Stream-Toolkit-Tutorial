@@ -456,22 +456,95 @@ Debug Window)
 Using your own trained SSD model binary with IPlugin
 --------------------------------------------------------
 
-TBD
+This is pretty much the same as the previous Yolo example.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Follow the SSD tutorial on DeepStream SDK
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TBD
+If you did not download the deepstream package, yet, download `it from here <https://drive.google.com/open?id=1t6yS6BuD3BpQSk7zDZn9jYOoXl0stbjf>`_.
+
+After extracting the pakcage,
+go to the project directory, follow the README file to build custom libraries as follows.
+
+.. code-block:: bash
+
+  $ cd sources/objectDetector_SSD/
+  $ cp /usr/src/tensorrt/data/ssd/ssd_coco_labels.txt ./
+  $ apt search uff-converter
+  $ pip3 show tensorflow-gpu
+  $ wget http://download.tensorflow.org/models/object_detection/ssd_inception_v2_coco_2017_11_17.tar.gz
+  $ tar xzvf ssd_inception_v2_coco_2017_11_17.tar.gz
+  $ cd ssd_inception_v2_coco_2017_11_17/
+  $ python3 /usr/lib/python3.6/dist-packages/uff/bin/convert_to_uff.py \
+           frozen_inference_graph.pb -O NMS \
+           -p /usr/src/tensorrt/samples/sampleUffSSD/config.py \
+           -o sample_ssd_relu6.uff
+  $ cp ssd_inception_v2_coco_2017_11_17/sample_ssd_relu6.uff ./
+  $ export CUDA_VER=10.0
+  $ make -C nvdsinfer_custom_impl_ssd
+
+Then, launch the deepstream-app to check if it correctly works.
+Also, at this initial launch, a TensorRT engine file is created.
+
+.. code-block:: bash
+
+  $ deepstream-app -c deepstream_app_config_ssd.txt
+
+Note that the SSD application runs as fast as about 16 fps in FP32 mode on Jetson TX2.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Place your trained SSD model binary and related files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TBD
+Now that you have a working example of your SSDK model binary and related files,
+let's package them as an EAP file.
+
+Copy the simple Detector project folder in applications folder,
+then rename as "My SSD Detector".
+
+Then, remove all the text files and the so file under resource folder.
+Also, drop the Secondary_CarMake folder and all the files in the Primary_Detector folder under the resource/models folder.
+
+Old files got cleanup. So, let's put new files.
+
+Copy config_infer_primary_ssd.txt and nvdsinfer_custom_impl_ssd/libnvdsinfer_custom_impl_ssd.so to the resource folder.
+Then, copy the following files to the resource/models/Primary_Detector folder.
+
+* sample_ssd_relu6.uff
+* sample_ssd_relu6.uff_b1_fp32.engine
+* ssd_coco_labels.txt
+
+The folder structure now looks like this:
+
+    .. image:: images/tutorials/myssddetector_ls.png
+       :align: center
+
+Close if you still open the SDK, then open to load the new application.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Change property configurations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TBD
+The only property you have to change is config-file-path in the Primary.
+
+    .. image:: images/tutorials/myssddetector_primary.png
+       :align: center
+
+After changing the property, open config_infer_primary_ssd.txt,
+and update properties as follows.
+
+    .. image:: images/tutorials/myssddetector_diff.png
+       :align: center
+
+By following the procedures as before, your application will be launched as below.
+
+Actions)
+
+    .. image:: images/tutorials/myssddetector_ls.png
+       :align: center
+
+Debug Window)
+
+    .. image:: images/tutorials/myssddetector_debug.png
+       :align: center
