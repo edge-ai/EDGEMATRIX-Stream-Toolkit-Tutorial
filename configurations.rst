@@ -434,7 +434,6 @@ The following actions are available on the EMI's Edge AI Platform.
 
 #. Recording Action
 #. Upload to Amazon Kinesis Firehorse Action
-#. Send a notification email Action
 #. Send a LINE message/stamp Action
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -508,29 +507,6 @@ Here's such a configuration.
     "accessKey": "",
     "secretKey": "",
     "region": ""
-    }
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Send a notification email Action
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This is one of delegate actions executed by a Device Agent.
-
-It will send an event to a user defined email address.
-
-Here's such a configuration.
-
-.. code-block:: javascript
-
-    "action": {
-        "action_name": "email",
-        "recipients": [
-            "XXXXX@edgematrix.com",
-            "YYYYY@gmail.com"
-        ],
-        "subject": "",
-        "text": "",
-        "aggregationMinutes": 1
     }
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
