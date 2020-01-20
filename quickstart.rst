@@ -35,16 +35,17 @@ Run the following command to check the currently installed version.
 
   nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ pip3 show edgestreamsdk
   Name: edgestreamsdk
-  Version: 0.9.8
+  Version: 1.0.1
   Summary: edgestreamsdk allows an AI model developer to build, test, upload an Edge Stream Application Package.
   Home-page: https://github.com/edge-ai/EdgeStreamSDK
   Author: Takenori Sato
   Author-email: tsato@edgematrix.com
   License: Proprietary
   Location: /home/nvidia/.local/lib/python3.6/site-packages
-  Requires: pycairo, PyGObject
+  Requires: pycairo, boto3, qtfaststart, PyGObject, edgestream, requests
+  Required-by: 
 
-In the example above, the version is 0.9.8.
+In the example above, the version is 1.0.1.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Run an update script
@@ -55,22 +56,54 @@ Run the following command to try updating to the latest version.
 .. code-block:: bash
 
   nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ bin/update_sdk.sh 
+  Looking in indexes: http://54.250.165.6:80/
   Collecting edgestreamsdk
-    Downloading http://54.250.165.6/packages/edgestreamsdk-0.9.9-py3-none-any.whl (42kB)
-      100% |████████████████████████████████| 51kB 2.3MB/s 
-  Collecting pycairo (from edgestreamsdk)
-  Collecting PyGObject (from edgestreamsdk)
-  Installing collected packages: pycairo, PyGObject, edgestreamsdk
-  Successfully installed PyGObject-3.34.0 edgestreamsdk-0.9.9 pycairo-1.18.2
+    Downloading http://54.250.165.6/packages/edgestreamsdk-1.0.1-py3-none-any.whl (46kB)
+       |████████████████████████████████| 51kB 1.7MB/s 
+  Requirement already satisfied: edgestream in /home/nvidia/.local/lib/python3.6/site-packages (from edgestreamsdk) (1.2.1)
+  Requirement already satisfied: qtfaststart in /home/nvidia/.local/lib/python3.6/site-packages (from edgestreamsdk) (1.8)
+  Requirement already satisfied: requests in /usr/local/lib/python3.6/dist-packages (from edgestreamsdk) (2.22.0)
+  Requirement already satisfied: pycairo in /usr/lib/python3/dist-packages (from edgestreamsdk) (1.16.2)
+  Requirement already satisfied: boto3 in /home/nvidia/.local/lib/python3.6/site-packages (from edgestreamsdk) (1.11.3)
+  Requirement already satisfied: PyGObject in /usr/lib/python3/dist-packages (from edgestreamsdk) (3.26.1)
+  Requirement already satisfied: gpustat>=0.6.0 in /home/nvidia/.local/lib/python3.6/site-packages (from edgestream->edgestreamsdk) (0.6.0)
+  Requirement already satisfied: restrictedpython>=5.0 in /home/nvidia/.local/lib/python3.6/site-packages (from edgestream->edgestreamsdk) (5.0)
+  Requirement already satisfied: pynput>=1.1 in /home/nvidia/.local/lib/python3.6/site-packages (from edgestream->edgestreamsdk) (1.6.5)
+  Requirement already satisfied: jsonschema>=3.0.0 in /home/nvidia/.local/lib/python3.6/site-packages (from edgestream->edgestreamsdk) (3.2.0)
+  Requirement already satisfied: psutil>=3.0 in /usr/local/lib/python3.6/dist-packages (from edgestream->edgestreamsdk) (5.6.7)
+  Requirement already satisfied: xlib>=0.10 in /home/nvidia/.local/lib/python3.6/site-packages (from edgestream->edgestreamsdk) (0.21)
+  Requirement already satisfied: click>=7.0 in /home/nvidia/.local/lib/python3.6/site-packages (from edgestream->edgestreamsdk) (7.0)
+  Requirement already satisfied: chardet<3.1.0,>=3.0.2 in /usr/lib/python3/dist-packages (from requests->edgestreamsdk) (3.0.4)
+  Requirement already satisfied: idna<2.9,>=2.5 in /usr/lib/python3/dist-packages (from requests->edgestreamsdk) (2.6)
+  Requirement already satisfied: certifi>=2017.4.17 in /usr/lib/python3/dist-packages (from requests->edgestreamsdk) (2018.1.18)
+  Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in /usr/lib/python3/dist-packages (from requests->edgestreamsdk) (1.22)
+  Requirement already satisfied: botocore<1.15.0,>=1.14.3 in /home/nvidia/.local/lib/python3.6/site-packages (from boto3->edgestreamsdk) (1.14.3)
+  Requirement already satisfied: s3transfer<0.4.0,>=0.3.0 in /home/nvidia/.local/lib/python3.6/site-packages (from boto3->edgestreamsdk) (0.3.0)
+  Requirement already satisfied: jmespath<1.0.0,>=0.7.1 in /home/nvidia/.local/lib/python3.6/site-packages (from boto3->edgestreamsdk) (0.9.4)
+  Requirement already satisfied: six>=1.7 in /usr/local/lib/python3.6/dist-packages (from gpustat>=0.6.0->edgestream->edgestreamsdk) (1.13.0)
+  Requirement already satisfied: nvidia-ml-py3>=7.352.0 in /home/nvidia/.local/lib/python3.6/site-packages (from gpustat>=0.6.0->edgestream->edgestreamsdk) (7.352.0)
+  Requirement already satisfied: blessings>=1.6 in /home/nvidia/.local/lib/python3.6/site-packages (from gpustat>=0.6.0->edgestream->edgestreamsdk) (1.7)
+  Requirement already satisfied: setuptools in /usr/lib/python3/dist-packages (from restrictedpython>=5.0->edgestream->edgestreamsdk) (39.0.1)
+  Requirement already satisfied: python-xlib>=0.17; "linux" in sys_platform in /home/nvidia/.local/lib/python3.6/site-packages (from pynput>=1.1->edgestream->edgestreamsdk) (0.26)
+  Requirement already satisfied: pyrsistent>=0.14.0 in /home/nvidia/.local/lib/python3.6/site-packages (from jsonschema>=3.0.0->edgestream->edgestreamsdk) (0.15.7)
+  Requirement already satisfied: importlib-metadata; python_version < "3.8" in /home/nvidia/.local/lib/python3.6/site-packages (from jsonschema>=3.0.0->edgestream->edgestreamsdk) (1.4.0)
+  Requirement already satisfied: attrs>=17.4.0 in /home/nvidia/.local/lib/python3.6/site-packages (from jsonschema>=3.0.0->edgestream->edgestreamsdk) (19.3.0)
+  Requirement already satisfied: docutils<0.16,>=0.10 in /home/nvidia/.local/lib/python3.6/site-packages (from botocore<1.15.0,>=1.14.3->boto3->edgestreamsdk) (0.15.2)
+  Requirement already satisfied: python-dateutil<3.0.0,>=2.1 in /usr/lib/python3/dist-packages (from botocore<1.15.0,>=1.14.3->boto3->edgestreamsdk) (2.6.1)
+  Requirement already satisfied: zipp>=0.5 in /home/nvidia/.local/lib/python3.6/site-packages (from importlib-metadata; python_version < "3.8"->jsonschema>=3.0.0->edgestream->edgestreamsdk) (0.6.0)
+  Requirement already satisfied: more-itertools in /home/nvidia/.local/lib/python3.6/site-packages (from zipp>=0.5->importlib-metadata; python_version < "3.8"->jsonschema>=3.0.0->edgestream->edgestreamsdk) (8.0.2)
+  Installing collected packages: edgestreamsdk
+  Successfully installed edgestreamsdk-1.0.1
   Name: edgestreamsdk
-  Version: 0.9.9
+  Version: 1.0.1
   Summary: edgestreamsdk allows an AI model developer to build, test, upload an Edge Stream Application Package.
   Home-page: https://github.com/edge-ai/EdgeStreamSDK
   Author: Takenori Sato
   Author-email: tsato@edgematrix.com
   License: Proprietary
   Location: /home/nvidia/.local/lib/python3.6/site-packages
-  Requires: PyGObject, pycairo
+  Requires: PyGObject, requests, boto3, edgestream, qtfaststart, pycairo
+  Required-by: 
 
 In the example above, the sdk was updated to 0.9.9.
 
@@ -102,7 +135,7 @@ then, the following window will be shown.
     .. image:: images/quickstart/edgestreamsdk_launched.png
        :align: center
 
-By clicking "About" button, you can check the version, v0.9.9.
+By clicking "About" button, you can check the version, v1.0.1.
 
     .. image:: images/quickstart/about.png
        :align: center
@@ -118,7 +151,7 @@ Press New, then you will see a dialog below.
     .. image:: images/quickstart/new_eap_dialog.png
        :align: center
 
-Then, enter "My First Vehicle Counter", select "vehicle_counter_by_make_template", then click OK.
+Then, enter "My First Vehicle Counter", select "EMI Vehicle IOU Counter By Make", then click OK.
 
     .. image:: images/quickstart/new_eap_dialog_filled.png
        :align: center
@@ -218,7 +251,7 @@ By clicking the "Execute" button, it will show you an execution dialog.
 
 At first, you need to choose a stream where your application will run.
 By default, "streams" folrder of the sdk home directory is chosen.
-Click the file chooser, open "vehicle_stream" folder, then select "vehicle_by_make_counter_stream_configuration.json".
+Click the file chooser, open "vehicle_stream" folder, then select "vehicle_counter_stream_configuration.json".
 
 The "streams" folder and the "movies" folder looks as below.
 
@@ -260,6 +293,14 @@ Click "Play" button, and wait for a few seconds, you'll see events are getting g
        :align: center
 
 Note that "Show Debug Window" is checked. The debug window is shown, too.
+
+    .. image:: images/quickstart/test_eap_playing_debug.png
+       :align: center
+
+Also, some stats about a running pipeline can be checked.
+
+    .. image:: images/quickstart/test_eap_dialog_stopped.png
+       :align: center
 
 So, how are those encrypted files treated while playing? Let's check the folder, again.
 

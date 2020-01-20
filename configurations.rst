@@ -11,7 +11,7 @@ Configurations
     #. Overlay
     #. AI Meta
     #. Callback and Events
-    #. Action
+    #. Actions
 
 ============================================================
 SDK Directory Structure
@@ -114,15 +114,21 @@ An example screenshot from the quick start example looks like this:
     .. image:: images/configurations/overlay.png
        :align: center
 
-----------------------
-Callback and Events
-----------------------
+----------------
+AI Meta
+----------------
 
-This is a configuration about the callback function name and event definitions.
+This is a configuration about a signaling of inference result of a pipeline.
+
+This GStreamer element is a priprietary one by EdgeMatrix, Inc.
+
+The only property available is signal-interval.
+
+The signal-interval property is the interval between signals (in buffers). Change this property to reduce the frequency of emitted signals in non-critical applications.
 
 An example screenshot from the quick start example looks like this:
 
-    .. image:: images/configurations/callback_and_events.png
+    .. image:: images/configurations/aimeta.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -173,6 +179,17 @@ The structure of a signal is defined as follows by example.
         }
       ]
     }
+
+----------------------
+Callback and Events
+----------------------
+
+This is a configuration about the callback function name and event definitions.
+
+An example screenshot from the quick start example looks like this:
+
+    .. image:: images/configurations/callback_and_events.png
+       :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Callback
@@ -408,19 +425,20 @@ Restricted::
         property
 
 ----------------
-Action
+Actions
 ----------------
 
 An action is executed when an event matchs a user defined action rule.
 
 The following actions are available on the EMI's Edge AI Platform.
 
-#. Recording
-#. Upload to Amazon Kinesis Firehorse
-#. Send a notification email
+#. Recording Action
+#. Upload to Amazon Kinesis Firehorse Action
+#. Send a notification email Action
+#. Send a LINE message/stamp Action
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Recording
+Recording Action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The EdgeStream application implements the video recording module which records videos for each incoming event, this module is configured according to established actions into the stream configuration file.
@@ -472,18 +490,67 @@ Format name for recorded video::
 * S = seconds
 * z = numeric time zone
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Upload to Amazon Kinesis Firehorse
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Upload to Amazon Kinesis Firehorse Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is one of delegate actions executed by a Device Agent.
 
 It will upload an event to a user defined location of the Amazon Kinesis Firehorse.
 
+Here's such a configuration.
+
+.. code-block:: javascript
+
+    "action": {
+    "action_name": "upload",
+    "deliveryStreamName": "pedestrianStream",
+    "accessKey": "",
+    "secretKey": "",
+    "region": ""
+    }
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Send a notification email
+Send a notification email Action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is one of delegate actions executed by a Device Agent.
 
 It will send an event to a user defined email address.
+
+Here's such a configuration.
+
+.. code-block:: javascript
+
+    "action": {
+        "action_name": "email",
+        "recipients": [
+            "XXXXX@edgematrix.com",
+            "YYYYY@gmail.com"
+        ],
+        "subject": "",
+        "text": "",
+        "aggregationMinutes": 1
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Send a LINE message/stamp Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+It will send a message and/or a stamp to a specified LINE talk room.
+
+Here's such a configuration.
+
+.. code-block:: javascript
+
+    "action": {
+        "action_name": "line",
+        "token_id": "",
+        "message": "",
+        "stickerId": 0,
+        "stickerPackageId": 0
+    }
+
+Please check the Notification section of `the LINE Notify API Document <https://notify-bot.line.me/doc/en/>`_ .

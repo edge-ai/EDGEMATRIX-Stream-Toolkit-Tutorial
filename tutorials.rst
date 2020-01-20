@@ -103,12 +103,14 @@ Copy the following content to the "emi_signal_callback.py".
 
   class Car:
 
-      def __init__(self, detected_timestamp, left, top, width, height):
+      def __init__(self, detected_timestamp, left, top, width, height, class_id, confidence):
           self.detected_timestamp = detected_timestamp
           self.left = left
           self.top = top
           self.width = width
           self.height = height
+          self.class_id = class_id
+          self.confidence = confidence
 
       def to_event_item(self):
           event_item = {
@@ -116,7 +118,9 @@ Copy the following content to the "emi_signal_callback.py".
               'left': self.left,
               'top': self.top,
               'width': self.width,
-              'height': self.height
+              'height': self.height,
+              'class_id': self.class_id,
+              'confidence': self.confidence
           }
           return event_item
 
@@ -130,18 +134,14 @@ Copy the following content to the "emi_signal_callback.py".
       for frame in frame_list:
           timestamp = frame['timestamp']
           for obj in frame["object"]:
-              class_id = obj['class_id']
-              # Detect a car with class_id = 0
-              if class_id != 0:
-                  # this is not a car
-                  continue
-              
+              class_id = obj['class_id']   
+              confidence = obj['confidence']         
               rect_params = obj['rect_params']
               left = rect_params['left']
               top = rect_params['top']
               width = rect_params['width']
               height = rect_params['height']
-              car = Car(timestamp, left, top, width, height)
+              car = Car(timestamp, left, top, width, height, class_id, confidence)
               detected_cars.append(car.to_event_item())
 
       return detected_cars
@@ -158,7 +158,7 @@ Oops, failed. If you look at your console, you'll see an output like this.
     .. image:: images/tutorials/mydetector_keyerror.png
        :align: center
 
-It says "rect_params" does not exist in the produced event, which is based on a template.
+It says "confidence" does not exist in the produced event, which is based on a template.
 So, let's create our own event and use it for this check.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -179,6 +179,7 @@ If you happen to place such a file in an application folder, it wouldn't work co
               "object": [
                   {
                       "class_id": 0,
+                      "confidence": 0.0,
                       "rect_params": {
                           "left": 0,
                           "top": 0,
@@ -190,6 +191,8 @@ If you happen to place such a file in an application folder, it wouldn't work co
           }
       ]
   }
+
+Note that another missing key, "rect_params", was also added.
 
 Then, try again "Spell Check". This time, make sure to choose "my_signal.json".
 By pressing "Execute", you'll see your application pass the check.
@@ -218,12 +221,13 @@ then copy the following content.
 .. code-block:: javascript
 
   {
-    "stream_id": "rr-tx2-vehicle",
+    "stream_id": "mydetector_stream",
     "created": "2019-07-23T09:10:29.842496+09:00",
     "last_updated": "2019-07-24T10:11:30.842496+09:00",
     "revision": 3,
     "stream_type": "rtsp",
     "location": "rtsp://127.0.0.1:8554/test",
+    "mode": "sender",
     "roi": {
       "left": 0,
       "right": 0,
@@ -232,17 +236,17 @@ then copy the following content.
     },
     "action_rules": [
       {
-        "rule_name": "Large Vehicle Recording",
+        "rule_name": "Vehicle Recording",
         "and": [
           {
             "key": "width",
             "operator": ">",
-            "value": 300
+            "value": 100
           },
           {
             "key": "height",
             "operator": ">",
-            "value": 300
+            "value": 100
           }
         ],
         "or": [],
@@ -268,7 +272,10 @@ then copy the following content.
         "or": [],
         "action": {
           "action_name": "upload",
-          "deliveryStreamName": "carStream"
+          "deliveryStreamName": "trafficStream",
+          "accessKey": "",
+          "secretKey": "",
+          "region": ""
         }
       }
     ],
@@ -390,10 +397,12 @@ Also, at this initial launch, a TensorRT engine file is created.
 
 .. code-block:: bash
 
-  $ deepstream-app -c deepstream_app_config_yoloV3.txt
+  $ deepstream-app -c deepstream_app_config_yoloV3_tiny.txt
 
-Note that the Yolo V3 application runs as fast as about 5 fps in FP16 mode on Jetson TX2.
+Note that the Tiny Yolo V3 application runs as fast as about 50 fps in FP32 mode on Jetson TX2.
 You can try different Yolo versions to see their performances.
+
+The configuration of the tiny Yolo V3 will be used here in the following sections.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Place your trained Yolo model binary and related files
@@ -410,13 +419,13 @@ Also, drop the Secondary_CarMake folder and all the files in the Primary_Detecto
 
 Old files got cleanup. So, let's put new files.
 
-Copy config_infer_primary_yoloV3.txt and nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so to the resource folder.
+Copy config_infer_primary_yoloV3_tiny.txt and nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so to the resource folder.
 Then, copy the following files to the resource/models/Primary_Detector folder.
 
 * labels.txt
-* model_b1_fp16.engine
-* yolov3.cfg
-* yolov3.weights
+* model_b1_fp32.engine
+* yolov3_tiny.cfg
+* yolov3_tiny.weights
 
 The folder structure now looks like this:
 
@@ -434,17 +443,17 @@ The only property you have to change is config-file-path in the Primary.
     .. image:: images/tutorials/myyolodetector_primary.png
        :align: center
 
-After changing the property, open config_infer_primary_yoloV3.txt,
+After changing the property, save the config. Then, open config_infer_primary_yoloV3_tiny.txt,
 and update properties as follows.
 
     .. image:: images/tutorials/myyolodetector_diff.png
        :align: center
 
-By following the procedures as before, your application will be launched as below.
+By following the procedures as before, your application can be launched in the mydetector_stream as below.
 
 Actions)
 
-    .. image:: images/tutorials/myyolodetector_ls.png
+    .. image:: images/tutorials/myyolodetector_actions.png
        :align: center
 
 Debug Window)
@@ -491,7 +500,7 @@ Also, at this initial launch, a TensorRT engine file is created.
 
   $ deepstream-app -c deepstream_app_config_ssd.txt
 
-Note that the SSD application runs as fast as about 16 fps in FP32 mode on Jetson TX2.
+Note that the SSD application runs as fast as about 21 fps in FP32 mode on Jetson TX2.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Place your trained SSD model binary and related files
@@ -531,17 +540,17 @@ The only property you have to change is config-file-path in the Primary.
     .. image:: images/tutorials/myssddetector_primary.png
        :align: center
 
-After changing the property, open config_infer_primary_ssd.txt,
+After changing the property, save the config. Then, open config_infer_primary_ssd.txt,
 and update properties as follows.
 
     .. image:: images/tutorials/myssddetector_diff.png
        :align: center
 
-By following the procedures as before, your application will be launched as below.
+By following the procedures as before, your application can be launched in the mydetector_stream as below.
 
 Actions)
 
-    .. image:: images/tutorials/myssddetector_ls.png
+    .. image:: images/tutorials/myssddetector_actions.png
        :align: center
 
 Debug Window)
