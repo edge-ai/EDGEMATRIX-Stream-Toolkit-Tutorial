@@ -14,3 +14,4 @@ EdgeMatrix EdgeStream SDK Tutorial
    quickstart
    tutorials
    configurations
+   knownissues
