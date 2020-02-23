@@ -90,61 +90,64 @@ Copy the following content to the "emi_signal_callback.py".
 
   ISO_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 
-  ''' 
-  Vehicle counter with Yolo
+  '''
+  Vehicle Detector
 
   Keys:
-      detected_datetime (string): The datetime when this object was detected
-      left (number): The left coordinate of this object
-      top (number): The top coordinate of this object
-      width (number): The width of this object
-      height (number): The height of this object
+      detected_datetime (string): The datetime when this object was detected
+      left (number): The left coordinate of this object
+      top (number): The top coordinate of this object
+      width (number): The width of this object
+      height (number): The height of this object
   '''
 
   class Car:
 
-      def __init__(self, detected_timestamp, left, top, width, height, class_id, confidence):
-          self.detected_timestamp = detected_timestamp
-          self.left = left
-          self.top = top
-          self.width = width
-          self.height = height
-          self.class_id = class_id
-          self.confidence = confidence
+      def __init__(self, detected_timestamp, left, top, width, height, class_id, confidence):
+          self.detected_timestamp = detected_timestamp
+          self.left = left
+          self.top = top
+          self.width = width
+          self.height = height
+          self.class_id = class_id
+          self.confidence = confidence
 
-      def to_event_item(self):
-          event_item = {
-              'detected_timestamp': self.detected_timestamp,
-              'left': self.left,
-              'top': self.top,
-              'width': self.width,
-              'height': self.height,
-              'class_id': self.class_id,
-              'confidence': self.confidence
-          }
-          return event_item
+      def to_event_item(self):
+          event_item = {
+              'detected_timestamp': self.detected_timestamp,
+              'left': self.left,
+              'top': self.top,
+              'width': self.width,
+              'height': self.height,
+              'class_id': self.class_id,
+              'confidence': self.confidence
+          }
+          return event_item
 
-      def iso_timestamp_to_datetime(timestamp):
-          return datetime.strptime(timestamp, ISO_FORMAT)
+      def iso_timestamp_to_datetime(timestamp):
+          return datetime.strptime(timestamp, ISO_FORMAT)
 
   def update_tracking(signal):
-      """ a signal callback function """
-      detected_cars = []
-      frame_list = signal["frame"]
-      for frame in frame_list:
-          timestamp = frame['timestamp']
-          for obj in frame["object"]:
-              class_id = obj['class_id']   
-              confidence = obj['confidence']         
-              rect_params = obj['rect_params']
-              left = rect_params['left']
-              top = rect_params['top']
-              width = rect_params['width']
-              height = rect_params['height']
-              car = Car(timestamp, left, top, width, height, class_id, confidence)
-              detected_cars.append(car.to_event_item())
+      """ a signal callback function """
+      debug_string = ''
+      detected_cars = []
+      frame_list = signal["frame"]
+      for frame in frame_list:
+          timestamp = frame['timestamp']
+          objects = frame["object"]
+          debug_string = debug_string + 'signal@' + timestamp + ':' + str(len(objects)) + 'objects\n'
+          for obj in objects:
+              class_id = obj['class_id']
+              confidence = obj['confidence']
+              rect_params = obj['rect_params']
+              left = rect_params['left']
+              top = rect_params['top']
+              width = rect_params['width']
+              height = rect_params['height']
+              car = Car(timestamp, left, top, width, height, class_id, confidence)
+              detected_cars.append(car.to_event_item())
 
-      return detected_cars
+      return detected_cars, debug_string
 
 The callback function name was left as "update_tracking", but the whole content was replaced.
 
@@ -165,7 +168,7 @@ So, let's create our own event and use it for this check.
 Use your own event
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Copy the following content to "my_signal.json" in the SDK root folder.
+Copy the following content to "detector_signal.json" in the signals folder under the SDK root folder.
 If you happen to place such a file in an application folder, it wouldn't work correctly.
 
 .. code-block:: javascript
@@ -194,7 +197,7 @@ If you happen to place such a file in an application folder, it wouldn't work co
 
 Note that another missing key, "rect_params", was also added.
 
-Then, try again "Spell Check". This time, make sure to choose "my_signal.json".
+Then, try again "Spell Check". This time, make sure to choose "detector_signal.json".
 By pressing "Execute", you'll see your application pass the check.
 
     .. image:: images/tutorials/mydetector_passed.png
@@ -214,6 +217,9 @@ Now the folder structure should look like this.
 
     .. image:: images/tutorials/mydetector_streams_ls.png
        :align: center
+
+If you find any other files or folders when you come from the quickstart,
+then remove all the files except for "vehicle_by_make_counter_stream_configuration.json".
 
 Rename "vehicle_by_make_counter_stream_configuration.json" as "mydetector_stream_configuration.json",
 then copy the following content.
@@ -380,7 +386,7 @@ Here in this tutorial, you will see how to package a sample Yolo detector contai
 Follow the Yolo tutorial on DeepStream SDK
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At first, download `the deepstream pcakage from here <https://drive.google.com/open?id=1t6yS6BuD3BpQSk7zDZn9jYOoXl0stbjf>`_.
+At first, download `the deepstream pcakage from here <https://drive.google.com/open?id=1em99dle1ejsvzJxDJdkW8yzbYWrN7wj_>`_.
 
 After extracting the pakcage,
 go to the project directory, follow the README file to build custom libraries as follows.
@@ -389,7 +395,7 @@ go to the project directory, follow the README file to build custom libraries as
 
   $ cd sources/objectDetector_Yolo/
   $ ./prebuild.sh
-  $ ./export CUDA_VER=10.0
+  $ export CUDA_VER=10.0
   $ make -C nvdsinfer_custom_impl_Yolo
 
 Then, launch the deepstream-app to check if it correctly works.
@@ -415,7 +421,7 @@ Copy the simple Detector project folder in applications folder,
 then rename as "My Yolo Detector".
 
 Then, remove all the text files and the so file under resource folder.
-Also, drop the Secondary_CarMake folder and all the files in the Primary_Detector folder under the resource/models folder.
+Also, drop the Secondary_CarColor folder and all the files in the Primary_Detector folder under the resource/models folder.
 
 Old files got cleanup. So, let's put new files.
 
@@ -445,6 +451,7 @@ The only property you have to change is config-file-path in the Primary.
 
 After changing the property, save the config. Then, open config_infer_primary_yoloV3_tiny.txt,
 and update properties as follows.
+Please make sure to comment out the model-engine-file property, and add ".gpg" suffixes.
 
     .. image:: images/tutorials/myyolodetector_diff.png
        :align: center
@@ -471,7 +478,7 @@ This is pretty much the same as the previous Yolo example.
 Follow the SSD tutorial on DeepStream SDK
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you did not download the deepstream package, yet, download `it from here <https://drive.google.com/open?id=1t6yS6BuD3BpQSk7zDZn9jYOoXl0stbjf>`_.
+If you did not download the deepstream package, yet, download `it from here <https://drive.google.com/open?id=1em99dle1ejsvzJxDJdkW8yzbYWrN7wj_>`_.
 
 After extracting the pakcage,
 go to the project directory, follow the README file to build custom libraries as follows.
@@ -489,6 +496,7 @@ go to the project directory, follow the README file to build custom libraries as
            frozen_inference_graph.pb -O NMS \
            -p /usr/src/tensorrt/samples/sampleUffSSD/config.py \
            -o sample_ssd_relu6.uff
+  $ cd ..
   $ cp ssd_inception_v2_coco_2017_11_17/sample_ssd_relu6.uff ./
   $ export CUDA_VER=10.0
   $ make -C nvdsinfer_custom_impl_ssd
@@ -513,7 +521,7 @@ Copy the simple Detector project folder in applications folder,
 then rename as "My SSD Detector".
 
 Then, remove all the text files and the so file under resource folder.
-Also, drop the Secondary_CarMake folder and all the files in the Primary_Detector folder under the resource/models folder.
+Also, drop the Secondary_CarColor folder and all the files in the Primary_Detector folder under the resource/models folder.
 
 Old files got cleanup. So, let's put new files.
 
@@ -542,6 +550,7 @@ The only property you have to change is config-file-path in the Primary.
 
 After changing the property, save the config. Then, open config_infer_primary_ssd.txt,
 and update properties as follows.
+Please make sure to add ".gpg" suffixes.
 
     .. image:: images/tutorials/myssddetector_diff.png
        :align: center

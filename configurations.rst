@@ -47,6 +47,11 @@ The GStreamer used for this is nvstreammux.
 
 Please refer to the DeepStream Plugin Manual for details.
 
+The mandatory properties are the following.
+
+#. width
+#. height
+
 An example screenshot from the quick start example looks like this:
 
     .. image:: images/configurations/input.png
@@ -64,6 +69,15 @@ The GStreamer used for this is nvinfer.
 
 Please refer to the DeepStream Plugin Manual for details.
 
+The mandatory properties are the following.
+
+#. process-mode == 1
+#. config-file-path
+
+Note that model-engine-file property is a mandatory property, but can not be used here 
+because the property of nvinfer as a GStreamer plugin needs to be an absolute path.
+So, please make sure to define in a config file of nvinfer as indicated by config-file-path.
+
 An example screenshot from the quick start example looks like this:
 
     .. image:: images/configurations/primary.png
@@ -79,6 +93,11 @@ The GStreamer used for this is nvtracker.
 
 Please refer to the DeepStream Plugin Manual for details.
 
+The mandatory properties are the following.
+
+#. ll-config-file
+#. ll-lib-file
+
 An example screenshot from the quick start example looks like this:
 
     .. image:: images/configurations/tracker.png
@@ -93,6 +112,15 @@ This is a configuration about a secondary inference of a pipeline.
 The GStreamer used for this is nvinfer.
 
 Please refer to the DeepStream Plugin Manual for details.
+
+The mandatory properties are the following.
+
+#. process-mode == 2
+#. config-file-path
+
+Note that model-engine-file property is a mandatory property, but can not be used here 
+because the property of nvinfer as a GStreamer plugin needs to be an absolute path.
+So, please make sure to define in a config file of nvinfer as indicated by config-file-path.
 
 An example screenshot from the quick start example looks like this:
 
@@ -122,7 +150,7 @@ This is a configuration about a signaling of inference result of a pipeline.
 
 This GStreamer element is a priprietary one by EdgeMatrix, Inc.
 
-The only property available is signal-interval.
+The only property available is signal-interval, and which is mandatory.
 
 The signal-interval property is the interval between signals (in buffers). Change this property to reduce the frequency of emitted signals in non-critical applications.
 
@@ -203,7 +231,9 @@ The signal callback file must at minimum comply with the following conditions:
 
 * The file must be named emi_signal_callback.py
 * Must define a method with the name defined in the emi_stream_config.json signal_callback_function_name field
-* The method must return a dictionary array where each element of the array contains at least the fields defined in the emi_stream_config.json event_item_keys field. This array can also be empty.
+* The method must return two objects
+    * a dictionary array where each element of the array contains at least the fields defined in the emi_stream_config.json event_item_keys field. This array can also be empty.
+    * a debug string that can be used for debugging. Nothing will be logged if an empty string is retruned.
 * The python file will be compiled and executed in a sandbox environment based on Restricted Python. The allowed and restricted Python functionalities are documented below.
 
 Allowed::
