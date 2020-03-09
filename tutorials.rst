@@ -75,7 +75,7 @@
 
 同様に、コールバック関数を更新する必要があります。
 
-アプリケーションフォルダの `emi_signal_callback.py` にコールバック関数が定義されています。
+`applications` フォルダの `emi_signal_callback.py` にコールバック関数が定義されています。
 
     .. image:: images/tutorials/mydetector_ls.png
        :align: center
@@ -171,8 +171,8 @@ SDKに戻り、"Spell Check"を押下し、コールバックが正常に動作�
 自作のイベントを使う
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-以下の内容を、SDKルートフォルダ下のシグナルフォルダ内の `detector_signal.json` にコピーしてください。
-このようなファイルをアプリケーションフォルダに配置してしまうと、正常に動作しないので注意してください。
+以下の内容を、SDKルートフォルダ下の `signals` フォルダ内の `detector_signal.json` にコピーしてください。
+このようなファイルを `applications` フォルダに配置してしまうと、正常に動作しないので注意してください。
 
 .. code-block:: javascript
 
@@ -213,7 +213,7 @@ SDKに戻り、"Spell Check"を押下し、コールバックが正常に動作�
 
 それでは最後に、アプリケーションをテストしましょう。
 
-アプリケーションを実行するためには、ストリームフォルダを作成する必要があります。
+アプリケーションを実行するためには、`streams` フォルダを作成する必要があります。
 
 `vehicle_stream` フォルダをコピーし、`mydetector_stream` という名前に変更してください。
 
@@ -299,7 +299,7 @@ SDKに戻り、"Spell Check"を押下し、コールバックが正常に動作�
     .. image:: images/tutorials/mydetector_execute.png
        :align: center
 
-また、レコーディングアクションが実行され、レコーディングフォルダの中に動画ファイルが生成されます。
+また、レコーディングアクションが実行され、`recordings` フォルダの中に動画ファイルが生成されます。
 
     .. image:: images/tutorials/mydetector_execute_streams_ls.png
        :align: center
@@ -422,7 +422,7 @@ Tiny Yolo V3のコンフィグレーションは次章で使用します。
 
 それでは、Yoloモデルバイナリとその関連ファイルを用いてEAPファイルパッケージを作成してみましょう。
 
-簡単な検出器をアプリケーションフォルダにコピーし、"My Yolo Detector"と名前をつけてください。
+簡単な検出器のプロジェクトフォルダを `applications` フォルダにコピーし、"My Yolo Detector"と名前をつけてください。
 
 次に、`resource` フォルダ下のすべてのテキストファイルとsoファイルを削除してください。
 また、`resource/models/` フォルダ下の `Primary_Detector` フォルダ内のすべてのファイルと `Secondary_CarColor` フォルダも削除してください。

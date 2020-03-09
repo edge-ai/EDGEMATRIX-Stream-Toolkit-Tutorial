@@ -163,7 +163,7 @@ edgestreamsdkプログラムを実行し、EdgeStreamSDKアプリケーション
     .. image:: images/quickstart/edgestreamsdk_new_eap_created.png
        :align: center
 
-以下のように、アプリケーションフォルダは、コピーしたテンプレートフォルダとまったく同じ構造で構成されています。
+以下のように、`applications` フォルダは、コピーした `templates` フォルダとまったく同じ構造で構成されています。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_terminal.png
        :align: center
@@ -184,7 +184,7 @@ EAPを選択
     .. image:: images/quickstart/edgestreamsdk_new_eap_selected_callbackevents.png
        :align: center
 
-新しいアプリケーションフォルダの中身を確認してみましょう。
+新しい `applications` フォルダの中身を確認してみましょう。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_terminal_app_structure.png
        :align: center
@@ -235,7 +235,7 @@ EAPを選択
     .. image:: images/quickstart/validate_eap_dialog_sample_siginal.png
        :align: center
 
-この場合、"unique_component_id"の値が変更されていました。
+この場合、`unique_component_id` の値が変更されていました。
 
 --------------------------------------------------------
 新しいEAPをテスト
@@ -253,10 +253,10 @@ EAPを選択
        :align: center
 
 初めに、アプリケーションを実行するストリームを選択する必要があります。
-デフォルトでは、SDKホームディレクトリの"streams"フォルダが選択されています。
-ファイル選択ボタンを押し、"vehicle_stream"フォルダを開き、"vehicle_counter_stream_configuration.json"を選択します。
+デフォルトでは、SDKホームディレクトリの `streams` フォルダが選択されています。
+ファイル選択ボタンを押し、 `vehicle_stream` フォルダを開き、 `vehicle_counter_stream_configuration.json` を選択します。
 
-"streams"フォルダと"movies"フォルダは以下のようになっています。
+`streams` フォルダと `movies` フォルダは以下のようになっています。
 
     .. image:: images/quickstart/test_eap_dialog_terminal_streams.png
        :align: center
@@ -266,7 +266,7 @@ EAPを選択
     .. image:: images/quickstart/test_eap_dialog_selected.png
        :align: center
 
-ここで、選択したストリームフォルダの中にEAPパッケージを作成する"Convert"ボタンがアクティブになりました。
+ここで、選択した `streams` フォルダの中にEAPパッケージを作成する"Convert"ボタンがアクティブになりました。
 
 "Convert"を押すと、スピナが表示されている間、しばらくパッケージタスクが実行されます。
 ダイアログウィンドウは、完了すると次のようになります。
@@ -279,11 +279,11 @@ EAPを選択
     .. image:: images/quickstart/test_eap_dialog_ready_to_play_terminal.png
        :align: center
 
-すでにエージェントプロセスが実行されているので、EAPパッケージは"uncompressed_files"フォルダに展開されています。
+すでにエージェントプロセスが実行されているので、EAPパッケージは `uncompressed_files` フォルダに展開されています。
 
-フォルダ構成は、先ほど見たアプリケーションフォルダとまったく同じです。
+フォルダ構成は、先ほど見た `applications` フォルダとまったく同じです。
 しかし、いくつか例外があります。すべての学習済バイナリとその関連ファイルは暗号化されています。
-暗号化されたファイルは、拡張子で確認できます。".gpg"のファイルは、`GnuPG <https://gnupg.org/>`_ で暗号化されています。
+暗号化されたファイルは、拡張子で確認できます。 `.gpg` のファイルは、`GnuPG <https://gnupg.org/>`_ で暗号化されています。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 パイプラインの実行
