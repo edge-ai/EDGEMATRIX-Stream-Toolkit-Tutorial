@@ -1,120 +1,117 @@
-Overview
+概要
 ==================================
 
     .. image:: images/overview/edge_ai_service.png
        :align: center
 
 
-EdgeStream SDK is a software development kit released by `EdgeMatrix, Inc <https://edgematrix.com/>`_ (EMI),
-and which is defined as folows::
+EdgeStream SDKは、`EdgeMatrix, Inc <https://edgematrix.com/>`_ (EMI)が提供するソフトウェア開発キット (Software Development Kit, SDK)です。
+以下のような用途でご使用いただけます。::
 
-    An EdgeStream SDK is a tool installed on an SDK Box that allows an AI model developer 
-        to make an EdgeStream Application Package (EAP)
-        to run it locally for testing purposes
-        to submit a tested EAP to sell on the EMI's market place
+    EdgeStream SDKは、様々な機能がインストールされたSDKボックスです。AI開発者は、このSDKを用いて以下のようなことを行えます。
+        - EdgeStreamアプリケーションパッケージ (EdgeStream Application Package, EAP)の作成
+        - ローカルのテスト環境での実行
+        - EAPの公開とEMIマーケットプレイスでの販売
 
-This would make you wonder about many questions. 
-What is an SDK Box? EAP? The EMI's market place?
+SDKボックスやEAP、EMIマーケットプレイスなどの用語について疑問が浮かんだことでしょう。
 
-They will be covered later in details, but more importantly, please note that this tool is designed for an AI model developer.
+これらの用語については後ほど詳しく説明しますが、このSDKはAI開発者向けの製品であることを今一度ご確認ください。
 
-Until when deploying a trained model binary on an edge, it has to be built as an application and integrated with a service for the monitoring. 
-Especially, EMI focuses on an IVA (Intelligent Video Analytics) task that inevitably requires video streaming technologies.
-For example, `GStreamer <https://gstreamer.freedesktop.org/>`_ is the most proven library of such a streaming technology,
-but which is a completely different beast from an AI model development.
+学習済モデルは、現場で実際に使用される前に、アプリケーションとして開発され、モニタリングサービスに統合される必要があります。
+特に、EMIはビデオストリーミング技術が必要なIVA (Intelligent Video Analytics)タスクに注力しています。
+例えば、`GStreamer <https://gstreamer.freedesktop.org/>`_ はストリーミング技術の中で最も親しまれているライブラリですが、AI開発とは完全に異なる製品です。
 
-Yet, the most competitive intellectual property likely remains around such a trained model binary.
+しかし、このような学習済モデルに関する製品が、最も価値のある知的財産であると考えています。
 
-So, EMI provides an Edge AI Service so that an AI model developer could focus on an AI model development.
-Such an invaluable asset is wrapped by an EAP that can be integrated dynamically with the service for an end user.
-And EMI will take care of various interactions between end users.
+そのため、EMIはAI開発者がAIモデルの開発に集中できるようにするためのエッジAIサービスを提供します。
+この貴重なAIモデルは、エンドユーザ向けサービスに動的に統合できるEAPによって保護されます。
+また、EMIは、この先エンドユーザ向けにも様々なサービスを提供していきます。
 
-The overal look of the EMI's Edge AI service is as shown above.
+EMIのエッジAIサービスについての概要は以上です。
 
 ==========================================
-SDK Box
+SDKボックス
 ==========================================
 
-EMI provides an end-to-end service including an edge device called `AI Box <https://edgematrix.com/business/box/>`_.
+EMIは、`AI Box <https://edgematrix.com/business/box/>`_ と呼ばれるエッジデバイスを含む開発から販売までをサポートした統合的サービスを提供します。
 
-A SDK Box is a type of AI Box built for an AI Model Developer, which comes with the EdgeStream SDK.
+SDKボックスは、EdgeStream SDK付属の、AI開発者向けに構築されたAIボックスの一種です。
 
-For more information, please contact our sales.
+詳細については、弊社営業担当までお問い合わせください。
 
 ==========================================
 EdgeStream
 ==========================================
 
-The EdgeStream is the EMI's core streaming engine that:
+EdgeStreamは、EMIのコアストリーミングエンジンであり、以下のような特徴を持ちます。
 
-#. works on the NVIDIA's DeepStream GStreamer plugins
-#. is integrated with the EMI's Edge AI Service
+#. NVIDIAのDeepStream GStreamerプラグイン上で動作する。
+#. EMIのエッジAIサービスに統合される。
 
-Here's the picture of the EdgeStream's concept.
+これは、EdgeStreamの概要図です。
 
     .. image:: images/overview/edgestream_concept.png
        :align: center
 
-As you can see, the EdgeStream relies on the NVIDIA's DeepStream about performance.
-Then, on top of it, the EdgeStream provides both of performance and efficiency over an Edge AI development.
+ご覧の通り、EdgeStreamはNVIDIAのDeepStreamを使用しています。
+そのため、EdgeStreamはエッジAI開発に必要なパフォーマンスと効率を兼ね備えています。
 
-Next, here's the technical overview of the EdgeStream.
+次に、EdgeStreamの技術的な概要を提示します。
 
     .. image:: images/overview/edgestream_component.png
        :align: center
 
-A single EdgeStream instance consists of three components.
+1つのEdgeStreamは、以下の3つのコンポーネントから構成されます。
 
-#. EdgeStream Application Package
-#. EdgeStream Controller
-#. EdgeStream Pipeline
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-EdgeStream Application Package
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-An EdgeStream Application Package is a encrypted file with a public key of a licensed device that consists of the followings.
-
-* A config file
-* A Python file that contains a user defined callback function
-* A resource folder that contains any other files like an AI model binary
-
-A stream config file contains not only various information about this application package, but also does event item definitions.
-
-A callback function in a Python file is called back when a signal is generated from an EdgeStream pipeline, then generates events as defined in the event definitions.
-
-An EdgeSteam pipeline is constructed based on the information defined in a config file, by referring to files in a resource folder.
+#. EdgeStreamアプリケーションパッケージ
+#. EdgeStreamコントローラ
+#. EdgeStreamパイプライン
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-EdgeStream Controller
+EdgeStreamアプリケーションパッケージ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-An EdgeStream Controller is a controller class that create an EdgeStream pipeline by reading a config file.
-Whenever a signal is generated, it calls a callback function, receive events, then execute an action if such an event matches to an event.
+EdgeStreamアプリケーションパッケージは、以下のもので構成される、認証されたデバイスの公開鍵で暗号化されたファイルです。
 
-What kind of event is generated is up to an application, but what action is executed is up to an end user.
+* 設定ファイル
+* ユーザ定義のコールバック関数をもつPythonファイル
+* AIモデルなどのその他のファイルから構成されるリソースフォルダ
 
-So, an end user is allowed to define an action rule by using those events defined in a config file.
+設定ファイルには、このアプリケーションパッケージの様々な情報だけでなく、イベントアイテム定義が記載されます。
 
+Pythonファイルのコールバック関数は、EdgeStreamパイプラインからシグナルが生成されたときに呼ばれ、イベント定義によって定義されたイベントを発生させます。
+
+EdgeStreamパイプラインは、リソースフォルダを参照し、設定ファイルで定義された情報をもとに構築されます。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-EdgeStream Pipeline
+EdgeStreamコントローラ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-An EdgeStream pipeline is a GStreamer pipeline running inside a GStremaer server process.
+EdgeStreamコントローラは、設定ファイルをもとにEdgeStreamパイプラインを作成するコントローラクラスです。
+シグナルが生成されたとき、コールバック関数を呼んだり、イベントを受け取ったり、アクションを実行したりします。
 
-By running multiple pipelines inside a server process, it can efficiently share common elements like RTSP, decoder, and encoder.
+イベントの発生はアプリケーション側で定義されますが、アクションの実行はエンドユーザ側で定義されます。
 
-You will find this architecture is critical when multiple webrtc clients connect to the same stream.
+そのため、エンドユーザは設定ファイルを利用してそれらのイベントのアクションルールを定義することができます。
 
-Also, we have two visionary pipelines as our goals.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+EdgeStreamパイプライン
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. A single EdgeStream pipeline consists of multiple AI model developers
+EdgeStreamパイプラインは、GStreamerサーバプロセスの中で走るGStreamerパイプラインです。
+
+サーバプロセスの中で複数のパイプラインを走らせることにより、RTSPやデコーダ、エンコーダのような共通の要素を効率的に共有することができます。
+
+このアーキテクチャは、複数のWebRTCクライアントを同じストリームに接続するときに不可欠であることに気づくでしょう。
+
+また、今後、以下のようなパイプラインの提供を進めていきます。
+
+1. 1つのEdgeStreamパイプラインが複数のAI開発者によって構成される。
 
     .. image:: images/overview/multiple_ai_vendors.png
        :align: center
 
-2. A single 4K RTSP stream shared among several EdgeStream pipelines
+2. 1つの4K RTSPストリームがいくつかのEdgeStreamパイプラインの間で共有される。
 
     .. image:: images/overview/4K_multiple_edgestreams.png
        :align: center

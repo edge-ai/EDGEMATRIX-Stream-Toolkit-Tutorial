@@ -1,8 +1,8 @@
-Configurations
+構成
 ====================
 
-#. SDK Directory Structure
-#. Configurations
+#. SDKディレクトリ構成
+#. 画面構成
     #. Overview
     #. Input
     #. Primary
@@ -14,25 +14,25 @@ Configurations
     #. Actions
 
 ============================================================
-SDK Directory Structure
+SDKディレクトリ構成
 ============================================================
 
-The directory structure of the EdgeStream SDK looks like this:
+EdgeStream SDKのディレクトリ構成はこのようになっています。
 
     .. image:: images/configurations/sdk_directories.png
        :align: center
 
 ============================================================
-Configurations
+画面構成
 ============================================================
 
 ----------------
 Overview
 ----------------
 
-This is a configuration about an overview of an EAP.
+EAPの概要に関する構成です。
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/overview.png
        :align: center
@@ -41,44 +41,44 @@ An example screenshot from the quick start example looks like this:
 Input
 ----------------
 
-This is a configuration about an input of a pipeline.
+パイプラインの入力に関する構成です。
 
-The GStreamer used for this is nvstreammux.
+ここで使用されているGStreamerはnvstreammuxです。
 
-Please refer to the DeepStream Plugin Manual for details.
+詳細は、DeepStreamプラグインマニュアルを参照してください。
 
-The mandatory properties are the following.
+必須プロパティは次の2つです。
 
 #. width
 #. height
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/input.png
        :align: center
 
-Please note that an end user is allowed to configure their own ROI over their RTSP stream.
+エンドユーザはRTSPストリーム上に独自のROIを設定できることに注意してください。
 
 ----------------
 Primary
 ----------------
 
-This is a configuration about a primary inference of a pipeline.
+パイプラインの一次推論に関する構成です。
 
-The GStreamer used for this is nvinfer.
+ここで使用されているGStreamerはnvinferです。
 
-Please refer to the DeepStream Plugin Manual for details.
+詳細は、DeepStreamプラグインマニュアルを参照してください。
 
-The mandatory properties are the following.
+必須プロパティは次の2つです。
 
 #. process-mode == 1
 #. config-file-path
 
-Note that model-engine-file property is a mandatory property, but can not be used here 
-because the property of nvinfer as a GStreamer plugin needs to be an absolute path.
-So, please make sure to define in a config file of nvinfer as indicated by config-file-path.
+`model-engine-file` プロパティは必須ですが、ここでは扱いません。
+なぜなら、GStreamerプラグインであるnvinferのプロパティは絶対パスである必要があるからです。
+そのため、nvinferの設定ファイルは `config-file-path` で定義されていることに注意してください。
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/primary.png
        :align: center
@@ -87,18 +87,18 @@ An example screenshot from the quick start example looks like this:
 Tracker
 ----------------
 
-This is a configuration about a tracker of a pipeline.
+パイプラインのトラッカーに関する構成です。
 
-The GStreamer used for this is nvtracker.
+ここで使用されているGStreamerはnvtrackerです。
 
-Please refer to the DeepStream Plugin Manual for details.
+詳細は、DeepStreamプラグインマニュアルを参照してください。
 
-The mandatory properties are the following.
+必須プロパティは次の2つです。
 
 #. ll-config-file
 #. ll-lib-file
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/tracker.png
        :align: center
@@ -107,22 +107,22 @@ An example screenshot from the quick start example looks like this:
 Secondary
 ----------------
 
-This is a configuration about a secondary inference of a pipeline.
+パイプラインの二次推論に関する構成です。
 
-The GStreamer used for this is nvinfer.
+ここで使用されているGStreamerはnvinferです。
 
-Please refer to the DeepStream Plugin Manual for details.
+詳細は、DeepStreamプラグインマニュアルを参照してください。
 
-The mandatory properties are the following.
+必須プロパティは次の2つです。
 
 #. process-mode == 2
 #. config-file-path
 
-Note that model-engine-file property is a mandatory property, but can not be used here 
-because the property of nvinfer as a GStreamer plugin needs to be an absolute path.
-So, please make sure to define in a config file of nvinfer as indicated by config-file-path.
+`model-engine-file` プロパティは必須ですが、ここでは扱いません。
+なぜなら、GStreamerプラグインであるnvinferのプロパティは絶対パスである必要があるからです。
+そのため、nvinferの設定ファイルは `config-file-path` で定義されていることに注意してください。
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/secondary.png
        :align: center
@@ -131,13 +131,13 @@ An example screenshot from the quick start example looks like this:
 Overlay
 ----------------
 
-This is a configuration about an overlay of a pipeline.
+パイプラインのオーバーレイに関する構成です。
 
-The GStreamer used for this is nvdsosd.
+ここで使用されているGStreamerはnvdsosdです。
 
-Please refer to the DeepStream Plugin Manual for details.
+詳細は、DeepStreamプラグインマニュアルを参照してください。
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/overlay.png
        :align: center
@@ -146,24 +146,25 @@ An example screenshot from the quick start example looks like this:
 AI Meta
 ----------------
 
-This is a configuration about a signaling of inference result of a pipeline.
+パイプラインの推論シグナルに関する構成です。
 
-This GStreamer element is a priprietary one by EdgeMatrix, Inc.
+GStreamer要素は、EdgeMatrix社が専有しているものを使用しています。
 
-The only property available is signal-interval, and which is mandatory.
+使用可能かつ必須なプロパティは `signal-interval` のみです。
 
-The signal-interval property is the interval between signals (in buffers). Change this property to reduce the frequency of emitted signals in non-critical applications.
+`signal-interval` プロパティは、(バッファを含む) シグナル間の間隔です。
+必要でないアプリケーションでは、シグナルを送信する頻度を減らしてください。
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/aimeta.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Signal
+シグナル
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The structure of a signal is defined as follows by example.
+シグナルの構成は、以下の例のように定義されています。
 
 .. code-block:: python
 
@@ -173,7 +174,7 @@ The structure of a signal is defined as follows by example.
           "frame_num": 0, # Current frame number of the source
           "buf_pts": 0, # PTS of the frame
           "timestamp": "2019-12-30T08:24:36.748-0600", # System timestamp when the buffer was received by the aimeta element
-          "object": [ #L ist of object meta in the current frame 
+          "object": [ #L ist of object meta in the current frame
             {
               "class_id": 0, # Index of the object class infered by the primary detector/classifier
               "object_id": 65, # Unique ID for tracking the object. '-1' indicates the object has not been tracked
@@ -212,31 +213,31 @@ The structure of a signal is defined as follows by example.
 Callback and Events
 ----------------------
 
-This is a configuration about the callback function name and event definitions.
+コールバック関数名とイベント定義に関する構成です。
 
-An example screenshot from the quick start example looks like this:
+次の画像は、クイックスタートでの例のスクリーンショットです。
 
     .. image:: images/configurations/callback_and_events.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Callback
+コールバック
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The callback function defined as the callback function name must exist in a python file "called emi_signal_callback.py".
+コールバック関数は、 `emi_signal_callback.py`で定義されます。
 
-This is a python file in which source code represents a signal callback function to be activated if the conditions defined in the stream-configuration file are satisfied.
+このPythonファイルは、stream-configurationファイルで定義された条件が満たされたときに実行されるシグナルコールバック関数を表現したソースコードです。
 
-The signal callback file must at minimum comply with the following conditions:
+シグナルコールバックファイルは、最小でも次の条件を満たしていなければなりません。
 
-* The file must be named emi_signal_callback.py
-* Must define a method with the name defined in the emi_stream_config.json signal_callback_function_name field
-* The method must return two objects
-    * a dictionary array where each element of the array contains at least the fields defined in the emi_stream_config.json event_item_keys field. This array can also be empty.
-    * a debug string that can be used for debugging. Nothing will be logged if an empty string is retruned.
-* The python file will be compiled and executed in a sandbox environment based on Restricted Python. The allowed and restricted Python functionalities are documented below.
+* `emi_signal_callback.py` という名前であること。
+* `emi_stream_config.json` の `signal_callback_function_name` フィールドで定義された関数名であること。
+* 関数は、2つのオブジェクトを返すこと。
+    * 少なくとも `emi_stream_config.json` の `event_item_keys` フィールドで定義されたフィールドを含む要素で構成される辞書配列。この配列は空でもよい。
+    * デバッグに使用するデバッグ文字列。ない場合は、空の文字列が返される。
+* Pythonファイルは、Restricted Pythonをもとにしたsandbox環境でコンパイルされ、実行されること。許可・制限されたPythonの関数は以下に掲載されている。
 
-Allowed::
+許可されているもの::
 
     Secure exceptions are allowed. But the signal callback handler will fail if an exception is raised in the callback function. Here is a list of the allowed exceptions:
         ArithmeticError
@@ -348,7 +349,7 @@ Allowed::
         True
     While loops are allowed
 
-Restricted::
+制限されているもの::
 
     Attribute manipulation with builtin functions is restricted:
         setattr()
@@ -458,33 +459,37 @@ Restricted::
 Actions
 ----------------
 
-An action is executed when an event matchs a user defined action rule.
+アクションは、ユーザが定義したアクションルールとイベントが一致するときに実行されます。
 
-The following actions are available on the EMI's Edge AI Platform.
+以下のアクションは、EMIのエッジAIプラットフォーム上で使用可能です。
 
-#. Recording Action
-#. Upload to Amazon Kinesis Firehorse Action
-#. Send a LINE message/stamp Action
+#. アクションの記録
+#. Amazon Kinesis Firehose Actionへのアップロード
+#. LINEメッセージやスタンプの送信
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Recording Action
+アクションの記録
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The EdgeStream application implements the video recording module which records videos for each incoming event, this module is configured according to established actions into the stream configuration file.
+EdgeStreamアプリケーションは、発生したイベントそれぞれに対してビデオを録画するビデオ録画モジュールを実装しています。
+このモジュールは、ストリーム構成ファイル中で定義されたアクションに紐づいて設定されます。
 
-The actions determine the video duration for:
+アクションは、録画期間を以下のように決定しています。
 
-Pre-recording: recorded video before triggering an event.
-Post-recording: recorded video after triggering an event.
+録画前期間 (Pre-recording): イベントのトリガが発生する前のビデオ録画
+
+録画後期間 (Post-recording): イベントのトリガが発生した後のビデオ録画
 
     .. image:: images/configurations/prerecording.png
        :align: center
 
-The videos for both recording processes will have the same duration.
 
-Record action
+この2つの録画期間の長さは同じです。
 
-This action establishes the duration of videos for pre-recording and post-recording equivalently. It must define as integer value.
+録画アクション
+
+このアクションは、録画前期間と録画後期間に等しく適用されます。
+これは整数値で定義される必要があります。.
 
 .. code-block:: javascript
 
@@ -492,42 +497,44 @@ This action establishes the duration of videos for pre-recording and post-record
         "action_name": "record", "duration_in_seconds": 15
     }
 
-Video prolongation for post-recording
+録画後期間の延長
 
-This recording module performs a video prolongation in post-recording for incoming events during the recording process. The video prolongation depends on the record time, defined in actions, and the time for each incoming event. The next figure shows how the video prolongation works.
+録画モジュールには、録画プロセス中のイベント発生に伴い、録画後期間を延長する機能があります。
+録画延長は、アクションで定義された録画時間によって決定されます。
+次の図では、録画延長がどのように動作するのかを説明しています。
 
     .. image:: images/configurations/recording_processing_rules.png
        :align: center
 
-* Tr = Record time
-* T0 = Initial post-record by first event
-* T1 = Arrival time for second event
-* T2 = Arrival time for third event
-* Tr - T1 = video prolongation by second event
-* Tr - T2 = video prolongation by third event
+* Tr = 録画時間
+* T0 = 1つ目のイベントによる最初の録画後期間
+* T1 = 2つ目のイベントの発生時間
+* T2 = 3つ目のイベントの発生時間
+* Tr - T1 = 2つ目のイベントによる録画延長時間
+* Tr - T2 = 3つ目のイベントによる録画延長時間
 
-Format name for recorded video::
+録画されたビデオの命名規則::
 
     stream_id_%ID_%Y-%m-%dT%H:%M:%S%z.mp4
 
-* ID = Identifier
-* Y = year
-* m = month
-* d = day
-* H = hour
-* M = minute
-* S = seconds
-* z = numeric time zone
+* ID = 識別子
+* Y = 年
+* m = 月
+* d = 日
+* H = 時
+* M = 分
+* S = 秒
+* z = タイムゾーン
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Upload to Amazon Kinesis Firehorse Action
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Amazon Kinesis Firehose Actionへのアップロード
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This is one of delegate actions executed by a Device Agent.
+これは、デバイスエージェントによって実行される代表的なアクションです。
 
-It will upload an event to a user defined location of the Amazon Kinesis Firehorse.
+ユーザ定義のAmazon Kinesis Firehose にアップロードされます。
 
-Here's such a configuration.
+以下のJSONは、構成の一例です。
 
 .. code-block:: javascript
 
@@ -540,14 +547,14 @@ Here's such a configuration.
     }
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Send a LINE message/stamp Action
+LINEメッセージやスタンプの送信
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This is one of delegate actions executed by a Device Agent.
+これは、デバイスエージェントによって実行される代表的なアクションです。
 
-It will send a message and/or a stamp to a specified LINE talk room.
+特定のLINEトークルームにメッセージやスタンプを送信します。
 
-Here's such a configuration.
+以下のJSONは、構成の一例です。
 
 .. code-block:: javascript
 
@@ -559,4 +566,4 @@ Here's such a configuration.
         "stickerPackageId": 0
     }
 
-Please check the Notification section of `the LINE Notify API Document <https://notify-bot.line.me/doc/en/>`_ .
+`LINE Notify APIドキュメント <https://notify-bot.line.me/doc/en/>`_ の通知の章を確認してみてください。

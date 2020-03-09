@@ -1,23 +1,23 @@
-Known Issues
+よくある問題
 ====================
 
-#. A record action could hang a GStreamer daemon process if a debug window is shown
+#. デバッグウィンドウが表示される場合、レコードアクションによってGStreamerデーモンプロセスがハングする可能性がある
 
-==================================================================================
-A record action could hang a GStreamer daemon process if a debug window is shown
-==================================================================================
+==========================================================================================================================
+デバッグウィンドウが表示される場合、レコードアクションによってGStreamerデーモンプロセスがハングする可能性がある
+==========================================================================================================================
 
-When you start an EAP package with a debug window, a GStreamer Daemon process could hang when you try to stop it.
-This is known that it could happen if a record action is invoked and in progress.
+デバッグウィンドウでEAPパッケージを起動すると、パッケージを終了する際にGStreamerデーモンプロセスがハングする可能性があります。
+これは、レコードアクションが発生したり動作中に発生する可能性があることが知られています。
 
-This would lead to some error logs and could hang an entire SDK application process.
+これは、いくつかのエラーログを引き起こし、SDKアプリケーションプロセス全体をハングする可能性があります。
 
-To avoid this, you can do the followings.
+これを回避するために、以下のことを試してみてください。
 
-    #. launch an EAP without a debug window
-    #. remove a record action from a stream config
+    #. EAPをデバッグウィンドウで起動しない
+    #. ストリーム設定からレコードアクションを削除する
 
-In case when an entire SDK application stops to respond, you can do the following to kill the GStreamer Daemon process.
+SDKアプリケーション全体からの応答が止まってしまった場合には、次のコマンドでGStreamerデーモンプロセスを強制終了してください。
 
 .. code-block:: bash
 

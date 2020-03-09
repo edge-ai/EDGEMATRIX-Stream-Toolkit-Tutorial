@@ -1,35 +1,35 @@
-Quick Start
+クイックスタート
 =====================
 
-#. Update to the latest version
-    #. Check the current version
-    #. Run an update script
-#. Create a new EAP by copying from a template EAP
-    #. runedgestreamsdk and sdk_home
-    #. Launch the EdgeStream SDK application
-    #. Create a new EAP
-    #. Select the EAP
-#. Validate the new EAP
-    #. Open a validation dialog
-    #. Run a validation
-    #. Use your own sample siginal to validate
-#. Test the new EAP
-    #. Execute, Choose a stream and Create an EAP package
-    #. Play a pipeline
-    #. Stop a pipeline
-    #. Movie files made by record actions
+#. 最新バージョンにアップデート
+    #. 現在のバージョンを確認
+    #. アップデートスクリプトの実行
+#. テンプレートEAPをコピーし、新しいEAPを作成
+    #. `runedgestreamsdk` と `sdk_home`
+    #. EdgeStream SDKアプリケーションを起動
+    #. 新しいEAPを作成
+    #. EAPを選択
+#. 新しいEAPを検証
+    #. 検証ダイアログを開く
+    #. 検証を実行
+    #. サンプルシグナルを使用し、検証
+#. 新しいEAPをテスト
+    #. 実行、ストリームの選択、EAPパッケージの生成
+    #. パイプラインの実行
+    #. パイプラインの終了
+    #. レコードアクションによって生成された動画ファイル
 
 --------------------------------------------------------
-Update to the latest version
+最新バージョンにアップデート
 --------------------------------------------------------
 
-Before starting, please update to the latest version.
+始める前に、最新バージョンにアップデートしましょう。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Check the current version
+現在のバージョンを確認
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Run the following command to check the currently installed version.
+以下のコマンドを実行し、現在インストールされているバージョンを確認します。
 
 .. code-block:: bash
 
@@ -45,17 +45,17 @@ Run the following command to check the currently installed version.
   Requires: requests, boto3, PyGObject, qtfaststart, pycairo, edgestream
   Required-by:
 
-In the example above, the version is 1.0.1.
+この場合、バージョンは1.1.0です。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Run an update script
+アップデートスクリプトの実行
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Run the following command to try updating to the latest version.
+以下のコマンドを実行し、最新バージョンにアップデートします。
 
 .. code-block:: bash
 
-  nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ bin/update_sdk.sh 
+  nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ bin/update_sdk.sh
   Looking in indexes: http://54.250.165.6:80/
   Requirement already satisfied: edgestreamsdk in /home/nvidia/.local/lib/python3.6/site-packages (1.1.0)
   Requirement already satisfied: edgestream in /home/nvidia/.local/lib/python3.6/site-packages (from edgestreamsdk) (1.4.4)
@@ -100,231 +100,237 @@ Run the following command to try updating to the latest version.
   Requires: requests, boto3, qtfaststart, pycairo, edgestream, PyGObject
   Required-by: 
 
-In the example above, the sdk was confirmed as the latest version.
+これでSDKは最新バージョンになりました。
 
 --------------------------------------------------------
-Create a new EAP by copying from a template EAP
+テンプレートEAPをコピーし、新しいEAPを作成
 --------------------------------------------------------
 
-At first, let's explore a command line program and the main directory you work on.
-Then, launch the EdgeStream SDK application, then create a new EAP application from one of templates.
+初めに、コマンドラインプログラムとメインディレクトリを調べてみましょう。
+その後、EdgeStream SDKアプリケーションを起動し、テンプレートから新しいEAPアプリケーションを作成します。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-runedgestreamsdk and sdk_home
+`runedgestreamsdk` と `sdk_home`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The command line program to launch the sdk application is runedgestreamsdk.
+`runedgestreamsdk` は、SDKアプリケーションを起動するコマンドです。
 
-And the main directory you work on is sdk_home, which is mounted on a secondary drive.
+メインディレクトリは `sdk_home` です。これは、セカンダリドライブにマウントされています。
 
     .. image:: images/quickstart/edgestreamsdk_help.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Launch the EdgeStream SDK application
+EdgeStream SDKアプリケーションを起動
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Launch the EdgeStreamSDK application by executing the edgestreamsdk program.
+edgestreamsdkプログラムを実行し、EdgeStreamSDKアプリケーションを起動します。
 
 .. code-block:: bash
 
   nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ runedgestreamsdk ./
 
-Then, the following window will be shown.
+そうすると、次のようなウィンドウが表示されます。
 
     .. image:: images/quickstart/edgestreamsdk_launched.png
        :align: center
 
-By clicking "About" button, you can check the version, v1.1.0.
+"About"ボタンをクリックすると、現在のバージョンを確認できます。
+この例では、v1.1.0です。
 
     .. image:: images/quickstart/about.png
        :align: center
 
-Now this time, let's create a new applicatoin that counts a vehicle with its car make.
+
+それでは、自動車の数をカウントする新しいアプリケーションを作成していきましょう。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Create a new EAP
+新しいEAPを作成
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Press New, then you will see a dialog below.
+以下のようなダイアログが出たら、"New"ボタンを押下します。
 
     .. image:: images/quickstart/new_eap_dialog.png
        :align: center
 
-Then, enter "My First Vehicle Counter", select "EMI Vehicle DCF Counter By Color", then click OK.
+"My First Vehicle Counter"と入力し、"EMI Vehicle DCF Counter By Color"を選択後、"OK"をクリックします。
 
     .. image:: images/quickstart/new_eap_dialog_filled.png
        :align: center
 
-This will copy the template to create your application. Now the SDK window shows your application as follows.
+テンプレートがコピーされ、新しいアプリケーションが作成されました。SDKウィンドウには、以下のようにアプリケーションが表示されます。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_created.png
        :align: center
 
-As below, your application folder contains exactly the same structure as the copied template folder.
+以下のように、`applications` フォルダは、コピーした `templates` フォルダとまったく同じ構造で構成されています。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_terminal.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Select a new EAP
+EAPを選択
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now let's select the newly created EAP application in the sidebar.
+サイドバーから、先ほど作成した新しいEAPアプリケーションを選択します。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_selected.png
        :align: center
 
-Then, it will show you all the configurations.
-By clicking each of configuration groups, you can see its detail.
-For example, you can see the followings when you click "Callback&Events".
+すべてのコンフィグレーションが表示されます。
+それぞれのコンフィグレーショングループをクリックすると、詳細を確認できます。
+例えば、"Callback&Events"とクリックすると、以下のように表示されます。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_selected_callbackevents.png
        :align: center
 
-Let's check what's inside the new application folder.
+新しい `applications` フォルダの中身を確認してみましょう。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_terminal_app_structure.png
        :align: center
 
-Please note for now that this application uses trained model binaries as they are.
-You will see later how they are protected as an EAP package.
+このアプリケーションでは、学習済モデルバイナリをそのまま使用することに今一度注意してください。
+学習済モデルバイナリをEAPパッケージとして保護する方法は後ほど確認します。
 
 --------------------------------------------------------
-Validate the new EAP
+新しいEAPを検証
 --------------------------------------------------------
 
-In a real project, you will customize this app as needed. 
-Then, once ready, the first thing to try is to validate if it is valid.
+実際のプロジェクトでは、必要に応じてこのアプリケーションをカスタマイズできます。
+準備ができたら、作成したアプリケーションが有効かどうか検証してみましょう。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Open a validation dialog
+検証ダイアログを開く
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Press "Spell Check" button, which sounds odd, but was chosen among options available only for now.
-Then, you will see a dialog as below.
+"Spell Check"ボタンを押してください。
+すると、以下のようなダイアログが表示されます。
 
     .. image:: images/quickstart/validate_eap_dialog.png
        :align: center
 
-This shows two check results not shown yet and the sample signal json to test the callback function.
+これは、まだ表示されていない2つのチェック結果と、コールバック関数をテストするためのサンプルシグナルJSONを表示しています。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Run a validation
+検証を実行
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Press "Execute", and see the results.
+"Execute"を押し、結果を表示しましょう。
 
     .. image:: images/quickstart/validate_eap_dialog_passed.png
        :align: center
 
-Nothing is customized yet, so it should pass as above.
+まだ何もカスタマイズされていないので、上記のように検証を通過するはずです。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Use your own sample siginal to validate
+サンプルシグナルを使用し、検証
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-But, if you have customized your callback, then, you are likely to test a different sample json.
-In such a case, you can write your own sample, then use for this validation.
+コールバックをカスタマイズしている場合、別のサンプルJSONをテストしたい場合があります。
+この場合、自分でサンプルを書き、それを用いて検証してください。
 
-Press the file chooser, select your file, then, you are ready to validate with your own sample as below.
+ファイル選択ボタンを押し、対象のファイルを選択します。
+そうすると、以下のように独自のサンプルによる検証の準備ができます。
 
     .. image:: images/quickstart/validate_eap_dialog_sample_siginal.png
        :align: center
 
-In this case, the value of "unique_component_id" was changed.
+この場合、`unique_component_id` の値が変更されていました。
 
 --------------------------------------------------------
-Test the new EAP
+新しいEAPをテスト
 --------------------------------------------------------
 
-If you pass the validation, "Execute" button becomes active for you to run your application.
+検証を通過したら、アプリケーションを実行するための"Execute"ボタンがアクティブになります。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Execute, Choose a stream and Create an EAP package
+実行、ストリームの選択、EAPパッケージの生成
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-By clicking the "Execute" button, it will show you an execution dialog.
+"Execute"ボタンとクリックすると、実行ダイアログが表示されます。
 
     .. image:: images/quickstart/test_eap_dialog.png
        :align: center
 
-At first, you need to choose a stream where your application will run.
-By default, "streams" folrder of the sdk home directory is chosen.
-Click the file chooser, open "vehicle_stream" folder, then select "vehicle_counter_stream_configuration.json".
+初めに、アプリケーションを実行するストリームを選択する必要があります。
+デフォルトでは、SDKホームディレクトリの `streams` フォルダが選択されています。
+ファイル選択ボタンを押し、 `vehicle_stream` フォルダを開き、 `vehicle_counter_stream_configuration.json` を選択します。
 
-The "streams" folder and the "movies" folder looks as below.
+`streams` フォルダと `movies` フォルダは以下のようになっています。
 
     .. image:: images/quickstart/test_eap_dialog_terminal_streams.png
        :align: center
 
-Next, choose a movie file to use as a local RTSP streaming as below.
+次に、ローカルRTSPストリーミングとして使用する動画ファイルを選択します。
 
     .. image:: images/quickstart/test_eap_dialog_selected.png
        :align: center
 
-Now, "Convert" button becomes active for you to make an EAP package in the chosen stream folder.
+ここで、選択した `streams` フォルダの中にEAPパッケージを作成する"Convert"ボタンがアクティブになりました。
 
-Press "Convert", then the packaging task will run for a while as a spinner is shown.
-The dialog window will looks as below once completes.
+"Convert"を押すと、スピナが表示されている間、しばらくパッケージタスクが実行されます。
+ダイアログウィンドウは、完了すると次のようになります。
 
     .. image:: images/quickstart/test_eap_dialog_ready_to_play.png
        :align: center
 
-Let's check the EAP package built.
+ビルドされたEAPパッケージを確認しましょう。
 
     .. image:: images/quickstart/test_eap_dialog_ready_to_play_terminal.png
        :align: center
 
-An agent process is already up and running, so has already extracted the EAP package in the "uncompressed_files" folder.
+すでにエージェントプロセスが実行されているので、EAPパッケージは `uncompressed_files` フォルダに展開されています。
 
-The folder structure exactly the same as the one of the application folder as you have seen.
-But there are a couple of exceptions. All the trained binaries and related files are encrypted.
-You can tell by a file extention. Files with ".gpg" are encrypted with `GnuPG <https://gnupg.org/>`_.
+フォルダ構成は、先ほど見た `applications` フォルダとまったく同じです。
+しかし、いくつか例外があります。すべての学習済バイナリとその関連ファイルは暗号化されています。
+暗号化されたファイルは、拡張子で確認できます。 `.gpg` のファイルは、`GnuPG <https://gnupg.org/>`_ で暗号化されています。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Play a pipeline
+パイプラインの実行
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now you are ready to run your application in the stream.
-Click "Play" button, and wait for a few seconds, you'll see events are getting generated and passed as actions.
+ここで、アプリケーションを実行する準備が整いました。
+"Play"ボタンを押し、数秒待てば、発生したイベントを見ることができます。
 
     .. image:: images/quickstart/test_eap_playing.png
        :align: center
 
-Note that "Show Debug Window" is checked. The debug window is shown, too.
+"Show Debug Window"にチェックがついていることを確認してください。デバッグウィンドウが表示されます。
 
     .. image:: images/quickstart/test_eap_playing_debug.png
        :align: center
 
-Also, some stats about a running pipeline can be checked.
+また、実行中のパイプラインに関するいくつかの統計を確認できます。
 
     .. image:: images/quickstart/test_eap_dialog_stats.png
        :align: center
 
-So, how are those encrypted files treated while playing? Let's check the folder, again.
+では、これらの暗号化されたファイルは、再生中どのようになっているでしょうか？
+もう一度フォルダを確認してみましょう。
 
     .. image:: images/quickstart/test_eap_dialog_playing_terminal.png
        :align: center
 
-No changes. No decrypted files on a disk. They are decrypted and processed in memory.
-So even if an AI Box is stolen, your precious trained model binaries won't be exploited immediately.
+何も変わっていませんね。
+ディスク上に復号化されたファイルはありません。
+それらはメモリ内で復号されます。
+そのため、AIボックスが盗まれた場合でも、貴重な学習済モデルバイナリがすぐに悪用されることはありません。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Stop a pipeline
+パイプラインの終了
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If your test gets done, press "Stop" to terminate the EAP application process.
+テストが完了したら、"Stop"ボタンを押してEAPアプリケーションを終了しましょう。
 
     .. image:: images/quickstart/test_eap_dialog_stopped.png
        :align: center
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Movie files made by record actions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+レコードアクションによって生成された動画ファイル
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At last, let's check movie files left, which were made by record action events.
-Go to $SDK_HOME/streams/vehicle_stream/recordings folder, then you'll see some files as follows.
+最後に、レコードアクションイベントで生成された動画ファイルを確認しましょう。
+`$SDK_HOME/streams/vehicle_stream/recordings` フォルダに移動し、以下のようにファイルを確認できます。
 
     .. image:: images/quickstart/test_eap_recordings.png
        :align: center
