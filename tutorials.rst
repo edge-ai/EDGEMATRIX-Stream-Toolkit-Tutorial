@@ -1,50 +1,52 @@
-Tutorials
+チュートリアル
 =====================
 
-#. Preparing a simple Detector project
-#. Using your own events and callback function
-    #. Write your own callback function
-    #. Use your own event
-    #. Test your application
-#. Using your own input source
-    #. Preparing your movie file for a streaming
-    #. Use your own stream ready movie file
-#. Using your own trained model binary
-    #. Place your trained model binary and related files
-    #. Change property configurations
-#. Using your own trained Yolo model binary with IPlugin
-    #. Follow the Yolo tutorial on DeepStream SDK
-    #. Place your trained Yolo model binary and related files
-    #. Change property configurations
-#. Using your own trained SSD model binary with IPlugin
-    #. Follow the SSD tutorial on DeepStream SDK
-    #. Place your trained SSD model binary and related files
-    #. Change property configurations
+#. 簡単な物体検出プロジェクトを準備する
+#. 自作のイベントとコールバック関数を使用する
+    #. 自作のコールバック関数を書く
+    #. 自作のイベントを使う
+    #. アプリケーションをテストする
+#. 自作の入力ソースを使用する
+    #. 自作のストリーミング用動画ファイルを用意する
+    #. 自作のストリーム形式の動画ファイルを使用する
+#. 自作の学習済モデルバイナリを使用する
+    #. 自作の学習済モデルバイナリとその関連ファイルを配置する
+    #. プロパティコンフィグレーションを変更する
+#. IPluginで自作の学習済Yoloモデルバイナリを使用する
+    #. DeepStream SDK上でYoloチュートリアルを行う
+    #. 学習済Yoloモデルとその関連ファイルを配置する
+    #. プロパティコンフィグレーションを変更する
+#. IPluginで自作の学習済SSDモデルバイナリを使用する
+    #. DeepStream SDK上でSSDチュートリアルを行う
+    #. 学習済SSDモデルとその関連ファイルを配置する
+    #. プロパティコンフィグレーションを変更する
 
 --------------------------------------------------------
-Preparing a simple Detector project
+簡単な物体検出プロジェクトを準備する
 --------------------------------------------------------
 
-In this tutorials, a simple vehicle detector will be customized.
-So, please create one as follows.
+このチュートリアルでは、簡単な自動車検出器をカスタマイズしていきます。
+まず、以下のようにプロジェクトを作成しましょう。
 
-At first, create a simple vehicle detector from a vehicle template.
+初めに、自動車テンプレートから、簡単な自動車検出器を作成します。
 
     .. image:: images/tutorials/mydetector.png
        :align: center
 
-Then, modify the application name to reflect this application.
+次に、`application_name` を、このアプリケーションを適切に表現する名前に変更します。
 
     .. image:: images/tutorials/mydetector_overview_editted.png
        :align: center
 
-And change the resolution for the primary inference.
+次に、一次推論の解像度を変更します。
 
     .. image:: images/tutorials/mydetector_input.png
        :align: center
 
-The template has a tracker and a secondary model inference as well as a primary inference.
-So, let's remove all the properties related to a tracker and a secondary inference by selecting each property followed by "Remove".
+.. TODO: トラッカー、一次推論、二次推論の意味がわからない。
+
+テンプレートには、一次推論と同様に、トラッカーと二次モデル推論があります。
+以下の"Remove"ボタンで、それぞれのプロパティを選択し、トラッカーと二次推論に関連するすべてのプロパティを削除しましょう。
 
     .. image:: images/tutorials/mydetector_removed_tracker_props.png
        :align: center
@@ -52,37 +54,37 @@ So, let's remove all the properties related to a tracker and a secondary inferen
     .. image:: images/tutorials/mydetector_removed_secondary_proprs.png
        :align: center
 
-Then, modify event items for a detector as follows.
+次に、以下のように検出器のイベントアイテムを修正します。
 
     .. image:: images/tutorials/mydetector_events.png
        :align: center
 
-Please note that now this application raises events about a location of a detected object,
-instead of properties of each identified object by a tracker.
+この場合では、このアプリケーションは、トラッカーによって検出された物体それぞれのプロパティではなく、検出された物体の位置についてイベントを発生させていることに注意してください。
 
-Now, it's time to save these changes. Click "Save" button, then the sdk will reload applications.
+それでは、"Save"ボタンをクリックし、これらの変更を保存しましょう。
+その後、SDKはアプリケーションを再読み込みします。
 
     .. image:: images/tutorials/mydetector_save.png
        :align: center
 
 --------------------------------------------------------
-Using your own events and callback function
+自作のイベントとコールバック関数を使用する
 --------------------------------------------------------
 
-In the last section, event items are modified for the detector.
+前章では、検出器に合わせてイベントアイテムを修正しました。
 
-So, you need to update the callback function as well.
+同様に、コールバック関数を更新する必要があります。
 
-The python file that defines a callback function exists as "emi_signal_callback.py" in an application folder as follows.
+アプリケーションフォルダの `emi_signal_callback.py` にコールバック関数が定義されています。
 
     .. image:: images/tutorials/mydetector_ls.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Write your own callback function
+自作のコールバック関数を書く
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Copy the following content to the "emi_signal_callback.py".
+次の内容を `emi_signal_callback.py` にコピーしてください。
 
 .. code-block:: python
 
@@ -149,27 +151,28 @@ Copy the following content to the "emi_signal_callback.py".
 
       return detected_cars, debug_string
 
-The callback function name was left as "update_tracking", but the whole content was replaced.
+コールバック関数名は `update_tracking` のままにしましたが、全体的な内容は変更されました。
 
-Let's go back to the SDK, and check if this callback works correctly by pressing "Spell Check".
+SDKに戻り、"Spell Check"を押下し、コールバックが正常に動作するか確認しましょう。
 
     .. image:: images/tutorials/mydetector_failed.png
        :align: center
 
-Oops, failed. If you look at your console, you'll see an output like this.
+おや、失敗してしまいました。
+コンソールに以下のようなメッセージが表示されているはずです。
 
     .. image:: images/tutorials/mydetector_keyerror.png
        :align: center
 
-It says "confidence" does not exist in the produced event, which is based on a template.
-So, let's create our own event and use it for this check.
+これは「テンプレートを元に作成されたイベントに、`confidence` は存在しません」という内容です。
+それでは、自作イベントを作成し、使ってみましょう。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Use your own event
+自作のイベントを使う
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Copy the following content to "detector_signal.json" in the signals folder under the SDK root folder.
-If you happen to place such a file in an application folder, it wouldn't work correctly.
+以下の内容を、SDKルートフォルダ下のシグナルフォルダ内の `detector_signal.json` にコピーしてください。
+このようなファイルをアプリケーションフォルダに配置してしまうと、正常に動作しないので注意してください。
 
 .. code-block:: javascript
 
@@ -195,34 +198,33 @@ If you happen to place such a file in an application folder, it wouldn't work co
       ]
   }
 
-Note that another missing key, "rect_params", was also added.
+もう一つ忘れられていた `rect_params` というキーも追加されていることに注意してください。
 
-Then, try again "Spell Check". This time, make sure to choose "detector_signal.json".
-By pressing "Execute", you'll see your application pass the check.
+それでは、もう一度"Spell Check"をしてみましょう。
+このとき、`detector_signal.json` を選択することを忘れないでください。
+"Execute"を押下すると、アプリケーションがチェックを通過したことが確認できます。
 
     .. image:: images/tutorials/mydetector_passed.png
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Test your application
+アプリケーションをテストする
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-So, finally, let's test your application.
+それでは最後に、アプリケーションをテストしましょう。
 
-But, you need to create a stream folder to run this application.
+アプリケーションを実行するためには、ストリームフォルダを作成する必要があります。
 
-Copy an existing "vehicle_stream" folder and name it "mydetector_stream".
+`vehicle_stream` フォルダをコピーし、`mydetector_stream` という名前に変更してください。
 
-Now the folder structure should look like this.
+現在、フォルダ構成は次のようになっているはずです。
 
     .. image:: images/tutorials/mydetector_streams_ls.png
        :align: center
 
-If you find any other files or folders when you come from the quickstart,
-then remove all the files except for "vehicle_by_make_counter_stream_configuration.json".
+もしクイックスタートから来ていて、他のファイルやフォルダがある場合には、`vehicle_by_make_counter_stream_configuration.json` 以外のすべてのファイルを削除してください。
 
-Rename "vehicle_by_make_counter_stream_configuration.json" as "mydetector_stream_configuration.json",
-then copy the following content.
+`vehicle_by_make_counter_stream_configuration.json` を `mydetector_stream_configuration.json` にリネームし、以下の内容をコピーしてください。
 
 .. code-block:: javascript
 
@@ -291,105 +293,109 @@ then copy the following content.
     }
   }
 
-By executing this application in the "mydetector_stream" folder with the sample video file,
-it will be shown as follows, which correctly produces upload actions for each event with both of an width and an height are larger than 100.
+サンプルビデオファイルを使って `mydetector_stream` フォルダ内のアプリケーションを実行すると、以下のように表示されます。
+これは、それぞれのイベントのアップロードアクションが、幅・高さともに100以上で正常に作成されたことを示しています。
 
     .. image:: images/tutorials/mydetector_execute.png
        :align: center
 
-Also, recording actions will be invoked, and leave some movie files in the recordings folder.
+また、レコーディングアクションが実行され、レコーディングフォルダの中に動画ファイルが生成されます。
 
     .. image:: images/tutorials/mydetector_execute_streams_ls.png
        :align: center
 
 --------------------------------------------------------
-Using your own input source
+自作の入力ソースを使用する
 --------------------------------------------------------
 
-Using your own movie file is no more than choosing your own file when executing your application.
+自作の動画ファイルを使用するのにすべきことは、アプリケーションの実行時にそれを選択することだけです。
 
-But making a movie file needs to follow some rules.
+しかし、動画ファイルを作成するには、以下のいくつかのルールを守る必要があります。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Preparing your movie file for a streaming
+自作のストリーミング用動画ファイルを用意する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A movie file chosen at an execution is used internally as a source of local RTSP server.
+アプリケーション実行時に選択された動画ファイルは、ローカルのRTSPサーバのソースとして内部で使用されています。
 
-Such a movie file contianer needs to be mp4. Other container may work, but not tested well.
+このような動画ファイルコンテナはmp4である必要があります。
+他のコンテナでも動作はするかもしれませんが、正常にテストできません。
 
-The local RTSP stream is hard coded as an H.264 stream. So an encoding of video in your movie file should be H.264.
+ローカルのRTSPストリームは、H.264にハードコードされています。
+そのため、自作の動画ファイルのエンコーディングもH.264でなければなりません。
 
-And there is an issue having some troubles if the bitrate becomes high. So it is recommended to prepare one as 720p (1280x720) at up to 30 fps.
+また、ビットレートが高いと、いくつかの問題が生じます。
+そのため、720p (1280x720)の30 fps以下のファイルを推奨します。
 
-Also, a movie file has to be ready for streaming, which means all the necessary information is placed at the beginning of a file.
+さらに、動画ファイルはストリーム形式でなければなりません。
+これは、すべての必要な情報がファイルの先頭に配置されていることを意味します。
 
-This can be checked by qtfaststart. For example, the sample movie file looks as below.
+これは、 `qtfastart` で確認できます。
+例えば、サンプル動画ファイルでは以下のように表示されます。
 
     .. image:: images/tutorials/mydetector_qtfaststart.png
        :align: center
 
-With qtfaststart, you can also convert a non-faststart movie file to a faststart one by executing as follows.
+また、`qtfaststart` を使えば、ファストスタートでないファイルをファストスタートに変換することもできます。
 
 .. code-block:: bash
 
   $ qtfaststart NON_FASTSTART_FILE FASTSTART_FILE
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Use your own stream ready movie file
+自作のストリーム形式の動画ファイルを使用する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here's an example of a non-faststart file.
+これは、ファストスタートでないファイルの例です。
 
     .. image:: images/tutorials/mydetector_faststart_kanagawa.png
        :align: center
 
-Actions)
+アクション)
 
     .. image:: images/tutorials/mydetector_kanagawa_actions.png
        :align: center
 
-Debug Window)
+デバッグウィンドウ)
 
     .. image:: images/tutorials/mydetector_kanagawa_debug.png
        :align: center
 
 --------------------------------------------------------
-Using your own trained model binary
+自作の学習済モデルバイナリを使用する
 --------------------------------------------------------
 
-TBD
+準備中です。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Place your trained model binary and related files
+自作の学習済モデルバイナリとその関連ファイルを配置する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TBD
+準備中です。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Change property configurations
+プロパティコンフィグレーションを変更する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TBD
+準備中です。
 
 --------------------------------------------------------
-Using your own trained Yolo model binary with IPlugin
+IPluginで自作の学習済Yoloモデルバイナリを使用する
 --------------------------------------------------------
 
-If you have your own trained Yolo model, you can refer to the following guide by NVIDIA.
+もし学習済の自作Yoloモデルをお持ちであれば、以下のNVIDIAのガイドを参照してください。
 
-`Custom YOLO Model in the DeepStream YOLO App <https://docs.nvidia.com/metropolis/deepstream/4.0.1/Custom_YOLO_Model_in_the_DeepStream_YOLO_App.pdf>`_ 
+`Custom YOLO Model in the DeepStream YOLO App <https://docs.nvidia.com/metropolis/deepstream/4.0.1/Custom_YOLO_Model_in_the_DeepStream_YOLO_App.pdf>`_
 
-Here in this tutorial, you will see how to package a sample Yolo detector contained in DeepStream 4.0.1.
+このチュートリアルでは、DeepStream 4.0.1に搭載されているサンプルYolo検出器を使用する方法を紹介します。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Follow the Yolo tutorial on DeepStream SDK
+DeepStream SDK上でYoloチュートリアルを行う
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At first, download `the deepstream pcakage from here <https://drive.google.com/open?id=1em99dle1ejsvzJxDJdkW8yzbYWrN7wj_>`_.
+初めに、`こちら <https://drive.google.com/open?id=1em99dle1ejsvzJxDJdkW8yzbYWrN7wj_>`_ からDeepStreamパッケージをダウンロードしてください。
 
-After extracting the pakcage,
-go to the project directory, follow the README file to build custom libraries as follows.
+パッケージを展開したら、プロジェクトディレクトリに移動し、カスタムライブラリをビルドするためにREADMEファイルを読みましょう。
 
 .. code-block:: bash
 
@@ -398,90 +404,88 @@ go to the project directory, follow the README file to build custom libraries as
   $ export CUDA_VER=10.0
   $ make -C nvdsinfer_custom_impl_Yolo
 
-Then, launch the deepstream-app to check if it correctly works.
-Also, at this initial launch, a TensorRT engine file is created.
+次に、正常に動作するか確認するためにdeepstream-appを起動します。
+また、最初の起動時には、TensorRTエンジンファイルが作成されます。
 
 .. code-block:: bash
 
   $ deepstream-app -c deepstream_app_config_yoloV3_tiny.txt
 
-Note that the Tiny Yolo V3 application runs as fast as about 50 fps in FP32 mode on Jetson TX2.
-You can try different Yolo versions to see their performances.
+Tiny Yolo V3アプリケーションは、Jetson TX2のFP32モードでは約50 fpsで動作することに注意してください。
+異なるYoloのバージョンを試し、パフォーマンスを確認してみてください。
 
-The configuration of the tiny Yolo V3 will be used here in the following sections.
+Tiny Yolo V3のコンフィグレーションは次章で使用します。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Place your trained Yolo model binary and related files
+学習済Yoloモデルバイナリとその関連ファイルを配置する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now that you have a working example of your Yolo model binary and related files,
-let's package them as an EAP file.
+それでは、Yoloモデルバイナリとその関連ファイルを用いてEAPファイルパッケージを作成してみましょう。
 
-Copy the simple Detector project folder in applications folder,
-then rename as "My Yolo Detector".
+簡単な検出器をアプリケーションフォルダにコピーし、"My Yolo Detector"と名前をつけてください。
 
-Then, remove all the text files and the so file under resource folder.
-Also, drop the Secondary_CarColor folder and all the files in the Primary_Detector folder under the resource/models folder.
+次に、`resource` フォルダ下のすべてのテキストファイルとsoファイルを削除してください。
+また、`resource/models/` フォルダ下の `Primary_Detector` フォルダ内のすべてのファイルと `Secondary_CarColor` フォルダも削除してください。
 
-Old files got cleanup. So, let's put new files.
+これで、古いファイルはすべて削除できました。
+それでは、新しいファイルを配置していきましょう。
 
-Copy config_infer_primary_yoloV3_tiny.txt and nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so to the resource folder.
-Then, copy the following files to the resource/models/Primary_Detector folder.
+`config_infer_primary_yoloV3_tiny.txt` と `nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so` を `resource` フォルダにコピーしてください。
+その後、次のファイルを `resource/models/Primary_Detector` フォルダにコピーしてください。
 
 * labels.txt
 * model_b1_fp32.engine
 * yolov3_tiny.cfg
 * yolov3_tiny.weights
 
-The folder structure now looks like this:
+現時点で、フォルダ構造はこのようになっています。
 
     .. image:: images/tutorials/myyolodetector_ls.png
        :align: center
 
-Close if you still open the SDK, then open to load the new application.
+まだSDKを開いている場合はそれを閉じ、新しいアプリケーションを開いて読み込んでください。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Change property configurations
+プロパティコンフィグレーションを変更する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The only property you have to change is config-file-path in the Primary.
+最初に変更すべきプロパティは、`config_file_path` のみです。
 
     .. image:: images/tutorials/myyolodetector_primary.png
        :align: center
 
-After changing the property, save the config. Then, open config_infer_primary_yoloV3_tiny.txt,
-and update properties as follows.
-Please make sure to comment out the model-engine-file property, and add ".gpg" suffixes.
+プロパティを変更したら、設定を保存しましょう。
+次に、`config_infer_primary_yoloV3_tiny.txt` を開き、以下のようにプロパティを更新します。
+`model-engine-file` プロパティがコメントアウトされ、`.gpg` 拡張子が追加されていることを確認してください。
 
     .. image:: images/tutorials/myyolodetector_diff.png
        :align: center
 
-By following the procedures as before, your application can be launched in the mydetector_stream as below.
+前の手順にしたがって、以下のようにmydetector_streamでアプリケーションを起動できます。
 
-Actions)
+アクション)
 
     .. image:: images/tutorials/myyolodetector_actions.png
        :align: center
 
-Debug Window)
+デバッグウィンドウ)
 
     .. image:: images/tutorials/myyolodetector_debug.png
        :align: center
 
 --------------------------------------------------------
-Using your own trained SSD model binary with IPlugin
+IPluginで自作の学習済SSDモデルバイナリを使用する
 --------------------------------------------------------
 
-This is pretty much the same as the previous Yolo example.
+この章は、前章のYoloモデルの例と酷似しています。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Follow the SSD tutorial on DeepStream SDK
+DeepStream SDK上でSSDチュートリアルを行う
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you did not download the deepstream package, yet, download `it from here <https://drive.google.com/open?id=1em99dle1ejsvzJxDJdkW8yzbYWrN7wj_>`_.
+もしDeepStreamパッケージをダウンロードしていなければ、`こちら <https://drive.google.com/open?id=1em99dle1ejsvzJxDJdkW8yzbYWrN7wj_>`_ からダウンロードしてください。
 
-After extracting the pakcage,
-go to the project directory, follow the README file to build custom libraries as follows.
+パッケージを展開したら、プロジェクトディレクトリに移動し、カスタムライブラリをビルドするためにREADMEファイルを読みましょう。
 
 .. code-block:: bash
 
@@ -501,68 +505,67 @@ go to the project directory, follow the README file to build custom libraries as
   $ export CUDA_VER=10.0
   $ make -C nvdsinfer_custom_impl_ssd
 
-Then, launch the deepstream-app to check if it correctly works.
-Also, at this initial launch, a TensorRT engine file is created.
+次に、正常に動作するか確認するためにdeepstream-appを起動します。
+また、最初の起動時には、TensorRTエンジンファイルが作成されます。
 
 .. code-block:: bash
 
   $ deepstream-app -c deepstream_app_config_ssd.txt
 
-Note that the SSD application runs as fast as about 21 fps in FP32 mode on Jetson TX2.
+SSDアプリケーションはJetson TX2のFP32モードでは約21 fpsで動作することに注意してください。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Place your trained SSD model binary and related files
+学習済SSDモデルとその関連ファイルを配置する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now that you have a working example of your SSDK model binary and related files,
-let's package them as an EAP file.
+それでは、SSDモデルバイナリとその関連ファイルを用いてEAPファイルパッケージを作成してみましょう。
 
-Copy the simple Detector project folder in applications folder,
-then rename as "My SSD Detector".
+簡単な検出器のプロジェクトフォルダを `applications` フォルダにコピーし、"My SSD Detector"と名前をつけてください。
 
-Then, remove all the text files and the so file under resource folder.
-Also, drop the Secondary_CarColor folder and all the files in the Primary_Detector folder under the resource/models folder.
+次に、`resource` フォルダ内のすべてのテキストファイルとsoファイルを削除してください。
+また、`resource/models` フォルダ下の `Primary_Detector` フォルダ内のすべてのファイルと `Secondary_CarColor` フォルダも削除してください。
 
-Old files got cleanup. So, let's put new files.
+これで、古いファイルはすべて削除できました。
+それでは、新しいファイルを配置していきましょう。
 
-Copy config_infer_primary_ssd.txt and nvdsinfer_custom_impl_ssd/libnvdsinfer_custom_impl_ssd.so to the resource folder.
-Then, copy the following files to the resource/models/Primary_Detector folder.
+`config_infer_primary_ssd.txt` と `nvdsinfer_custom_impl_ssd/libnvdsinfer_custom_impl_ssd.so` を `resource` フォルダにコピーしてください。
+その後、次のファイルを `resource/models/Primary_Detector` にコピーしてください。
 
 * sample_ssd_relu6.uff
 * sample_ssd_relu6.uff_b1_fp32.engine
 * ssd_coco_labels.txt
 
-The folder structure now looks like this:
+現時点で、フォルダ構造はこのようになっています。
 
     .. image:: images/tutorials/myssddetector_ls.png
        :align: center
 
-Close if you still open the SDK, then open to load the new application.
+まだSDKを開いている場合はそれを閉じ、新しいアプリケーションを開いて読み込んでください。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Change property configurations
+プロパティコンフィグレーションを変更する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The only property you have to change is config-file-path in the Primary.
+最初に変更すべきプロパティは、 `config-file-path` のみです。
 
     .. image:: images/tutorials/myssddetector_primary.png
        :align: center
 
-After changing the property, save the config. Then, open config_infer_primary_ssd.txt,
-and update properties as follows.
-Please make sure to add ".gpg" suffixes.
+プロパティを変更したら、設定を保存しましょう。
+次に、`config_infer_primary_ssd.txt` を開き、以下のようにプロパティを更新します。
+`.gpg` 拡張子が追加されていることを確認してください。
 
     .. image:: images/tutorials/myssddetector_diff.png
        :align: center
 
-By following the procedures as before, your application can be launched in the mydetector_stream as below.
+前の手順にしたがって、以下のようにmydetector_streamでアプリケーションを起動できます。
 
-Actions)
+アクション)
 
     .. image:: images/tutorials/myssddetector_actions.png
        :align: center
 
-Debug Window)
+デバッグウィンドウ)
 
     .. image:: images/tutorials/myssddetector_debug.png
        :align: center
