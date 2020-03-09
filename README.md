@@ -10,3 +10,7 @@ $ cd EdgeStreamSDKTutorial
 $ git checkout -b feature/EMI-61 origin/feature/EMI-61
 $ sh run.sh
 ```
+
+## Information
+
+- [EdgeMatrix EdgeStream SDK Tutorial (English)](https://edgestreamsdk-tutorial.readthedocs.io/en/latest/)
