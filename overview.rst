@@ -105,7 +105,6 @@ EdgeStreamパイプラインは、GStreamerサーバプロセスの中で走るG
 このアーキテクチャは、複数のWebRTCクライアントを同じストリームに接続するときにクリティカルであることに気づくでしょう。
 
 また、目標として、2つの先見性のあるパイプラインがあります。
-Also, we have two visionary pipelines as our goals.
 
 1. 1つのEdgeStreamパイプラインが複数のAI開発者によって構成される。
 
