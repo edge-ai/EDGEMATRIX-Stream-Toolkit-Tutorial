@@ -158,13 +158,12 @@ edgestreamsdkプログラムを実行し、EdgeStreamSDKアプリケーション
     .. image:: images/quickstart/new_eap_dialog_filled.png
        :align: center
 
-テンプレートがコピーされ、新しいアプリケーションが作成されました。SDKウィンドウには、以下のようにアプリケーションを表示します。
+テンプレートがコピーされ、新しいアプリケーションが作成されました。SDKウィンドウには、以下のようにアプリケーションが表示されます。
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_created.png
        :align: center
 
 以下のように、アプリケーションフォルダは、コピーしたテンプレートフォルダとまったく同じ構造で構成されています。
-As below, your application folder contains exactly the same structure as the copied template folder.
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_terminal.png
        :align: center
@@ -190,7 +189,7 @@ EAPを選択
     .. image:: images/quickstart/edgestreamsdk_new_eap_terminal_app_structure.png
        :align: center
 
-このアプリケーションでは、学習済モデルをそのまま使用することに今一度注意してください。
+このアプリケーションでは、学習済モデルバイナリをそのまま使用することに今一度注意してください。
 EAPパッケージを保護する方法は後ほど確認します。
 
 --------------------------------------------------------
@@ -315,7 +314,7 @@ EAPパッケージを保護する方法は後ほど確認します。
 何も変わっていませんね。
 ディスク上に復号化されたファイルはありません。
 それらはメモリ内で復号されます。
-そのため、AIボックスが盗まれた場合でも、貴重な学習済モデルがすぐに悪用されることはありません。
+そのため、AIボックスが盗まれた場合でも、貴重な学習済モデルバイナリがすぐに悪用されることはありません。
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 パイプラインの終了
