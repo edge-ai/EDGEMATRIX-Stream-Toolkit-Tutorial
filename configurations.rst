@@ -76,7 +76,7 @@ Primary
 
 `model-engine-file` プロパティは必須ですが、ここでは扱いません。
 なぜなら、GStreamerプラグインであるnvinferのプロパティは絶対パスである必要があるからです。
-そのため、nvinferの設定ファイルは `config-file-path` で定義されていることに注意してください。
+そのため、nvinferの設定ファイルは `config-file-path` で正しく定義してください。
 
 次の画像は、クイックスタートでの例のスクリーンショットです。
 
@@ -120,7 +120,7 @@ Secondary
 
 `model-engine-file` プロパティは必須ですが、ここでは扱いません。
 なぜなら、GStreamerプラグインであるnvinferのプロパティは絶対パスである必要があるからです。
-そのため、nvinferの設定ファイルは `config-file-path` で定義されていることに注意してください。
+そのため、nvinferの設定ファイルは `config-file-path` で正しく定義してください。
 
 次の画像は、クイックスタートでの例のスクリーンショットです。
 
@@ -148,11 +148,11 @@ AI Meta
 
 パイプラインの推論シグナルに関する構成です。
 
-GStreamer要素は、EdgeMatrix社が専有しているものを使用しています。
+ここで使用されているGStreamerはEdgeMatrix社が独自開発したものです。
 
 使用可能かつ必須なプロパティは `signal-interval` のみです。
 
-`signal-interval` プロパティは、(バッファを含む) シグナル間の間隔です。
+`signal-interval` プロパティは、シグナル間の間隔です。
 必要でないアプリケーションでは、シグナルを送信する頻度を減らしてください。
 
 次の画像は、クイックスタートでの例のスクリーンショットです。
@@ -224,9 +224,9 @@ Callback and Events
 コールバック
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-コールバック関数は、 `emi_signal_callback.py`で定義されます。
+コールバック関数は、 `emi_signal_callback.py` で定義されます。
 
-このPythonファイルは、stream-configurationファイルで定義された条件が満たされたときに実行されるシグナルコールバック関数を表現したソースコードです。
+このPythonファイルは、stream-configurationファイルで定義された条件が満たされたときに実行されるシグナルコールバック関数が記述されたソースコードです。
 
 シグナルコールバックファイルは、最小でも次の条件を満たしていなければなりません。
 
@@ -234,8 +234,8 @@ Callback and Events
 * `emi_stream_config.json` の `signal_callback_function_name` フィールドで定義された関数名であること。
 * 関数は、2つのオブジェクトを返すこと。
     * 少なくとも `emi_stream_config.json` の `event_item_keys` フィールドで定義されたフィールドを含む要素で構成される辞書配列。この配列は空でもよい。
-    * デバッグに使用するデバッグ文字列。ない場合は、空の文字列が返される。
-* Pythonファイルは、Restricted Pythonをもとにしたsandbox環境でコンパイルされ、実行されること。許可・制限されたPythonの関数は以下に掲載されている。
+    * デバッグに使用するデバッグ文字列。空の文字列が返された場合は、何も表示されない。
+* Pythonファイルは、Restricted Pythonをもとにしたsandbox環境でコンパイルされ、実行されるため、それに準拠して記述すること。許可・制限されたPythonの関数は以下に掲載されている。
 
 許可されているもの::
 
