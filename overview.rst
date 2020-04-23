@@ -5,7 +5,7 @@ Overview
        :align: center
 
 
-EDGEMATRIX Stream Toolkit is a software development kit released by `EdgeMatrix, Inc <https://edgematrix.com/>`_ (EMI),
+EDGEMATRIX Stream Toolkit is a software toolkit released by `EDGEMATRIX, Inc <https://edgematrix.com/>`_ (EMI),
 and which is defined as folows::
 
     An EDGEMATRIX Stream Toolkit is a tool installed on an Toolkit Box that allows an AI model developer 
@@ -31,6 +31,12 @@ And EMI will take care of various interactions between end users.
 
 The overal look of the EMI's Edge AI service is as shown above.
 
+Any EAP developed with the EDGEMATRIX Stream Toolkit can benefit from the service. There are three core benefits.
+
+1. Device Remote Management (OTA, EAP License, EAP Installation/Uninstallation, Device Status, Terminal Emulation)
+2. Security (Network Security, Device Authentication, Secondary Drive Encryption, EAP Encryption, AI Model Binary Encryption)
+3. EdgeView (WebRTC Realtime Stream even from a device behind a NAT [no public address])
+
 ==========================================
 Toolkit Box
 ==========================================
@@ -39,7 +45,7 @@ EMI provides an end-to-end service including an edge device called `AI Box <http
 
 A Toolkit Box is a type of AI Box built for an AI Model Developer, which comes with the EDGEMATRIX Stream Toolkit.
 
-For more information, please contact our sales.
+If you are interested, please contact our sales.
 
 ==========================================
 EDGEMATRIX Stream
