@@ -151,7 +151,7 @@ Copy the following content to the "emi_signal_callback.py".
 
 The callback function name was left as "update_tracking", but the whole content was replaced.
 
-Let's go back to the SDK, and check if this callback works correctly by pressing "Spell Check".
+Let's go back to the Toolkit, and check if this callback works correctly by pressing "Spell Check".
 
     .. image:: images/tutorials/mydetector_failed.png
        :align: center
@@ -168,7 +168,7 @@ So, let's create our own event and use it for this check.
 Use your own event
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Copy the following content to "detector_signal.json" in the signals folder under the SDK root folder.
+Copy the following content to "detector_signal.json" in the signals folder under the Toolkit root folder.
 If you happen to place such a file in an application folder, it wouldn't work correctly.
 
 .. code-block:: javascript
@@ -383,7 +383,7 @@ If you have your own trained Yolo model, you can refer to the following guide by
 Here in this tutorial, you will see how to package a sample Yolo detector contained in DeepStream 4.0.1.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Follow the Yolo tutorial on DeepStream SDK
+Follow the Yolo tutorial on DeepStream Toolkit
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 At first, download `the deepstream pcakage from here <https://drive.google.com/open?id=1em99dle1ejsvzJxDJdkW8yzbYWrN7wj_>`_.
@@ -438,7 +438,7 @@ The folder structure now looks like this:
     .. image:: images/tutorials/myyolodetector_ls.png
        :align: center
 
-Close if you still open the SDK, then open to load the new application.
+Close if you still open the Toolkit, then open to load the new application.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Change property configurations
@@ -514,7 +514,7 @@ Note that the SSD application runs as fast as about 21 fps in FP32 mode on Jetso
 Place your trained SSD model binary and related files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now that you have a working example of your SSDK model binary and related files,
+Now that you have a working example of your Toolkit model binary and related files,
 let's package them as an EAP file.
 
 Copy the simple Detector project folder in applications folder,
@@ -537,7 +537,7 @@ The folder structure now looks like this:
     .. image:: images/tutorials/myssddetector_ls.png
        :align: center
 
-Close if you still open the SDK, then open to load the new application.
+Close if you still open the Toolkit, then open to load the new application.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Change property configurations

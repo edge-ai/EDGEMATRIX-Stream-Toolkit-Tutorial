@@ -6,7 +6,7 @@ Quick Start
     #. Run an update script
 #. Create a new EAP by copying from a template EAP
     #. runedgestreamsdk and sdk_home
-    #. Launch the EdgeStream SDK application
+    #. Launch the EDGEMATRIX Stream Toolkit application
     #. Create a new EAP
     #. Select the EAP
 #. Validate the new EAP
@@ -107,7 +107,7 @@ Create a new EAP by copying from a template EAP
 --------------------------------------------------------
 
 At first, let's explore a command line program and the main directory you work on.
-Then, launch the EdgeStream SDK application, then create a new EAP application from one of templates.
+Then, launch the EDGEMATRIX Stream Toolkit application, then create a new EAP application from one of templates.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 runedgestreamsdk and sdk_home
@@ -121,10 +121,10 @@ And the main directory you work on is sdk_home, which is mounted on a secondary 
        :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Launch the EdgeStream SDK application
+Launch the EDGEMATRIX Stream Toolkit application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Launch the EdgeStreamSDK application by executing the edgestreamsdk program.
+Launch the EDGEMATRIX StreamToolkit application by executing the edgestreamsdk program.
 
 .. code-block:: bash
 
@@ -156,7 +156,7 @@ Then, enter "My First Vehicle Counter", select "EMI Vehicle DCF Counter By Color
     .. image:: images/quickstart/new_eap_dialog_filled.png
        :align: center
 
-This will copy the template to create your application. Now the SDK window shows your application as follows.
+This will copy the template to create your application. Now the Toolkit window shows your application as follows.
 
     .. image:: images/quickstart/edgestreamsdk_new_eap_created.png
        :align: center
@@ -324,7 +324,7 @@ Movie files made by record actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 At last, let's check movie files left, which were made by record action events.
-Go to $SDK_HOME/streams/vehicle_stream/recordings folder, then you'll see some files as follows.
+Go to $Toolkit_HOME/streams/vehicle_stream/recordings folder, then you'll see some files as follows.
 
     .. image:: images/quickstart/test_eap_recordings.png
        :align: center
