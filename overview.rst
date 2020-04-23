@@ -82,7 +82,7 @@ EDGEMATRIX Stream Application Package
 An EDGEMATRIX Stream Application Package is a encrypted file with a public key of a licensed device that consists of the followings.
 
 * A config file
-* A Python file that contains a user defined callback function
+* A Python file that contains a developer defined callback function
 * A resource folder that contains any other files like an AI model binary
 
 A stream config file contains not only various information about this application package, but also does event item definitions.
@@ -102,6 +102,10 @@ What kind of event is generated is up to an application, but what action is exec
 
 So, an end user is allowed to define an action rule by using those events defined in a config file.
 
+These interactions are illustrated as below.
+
+    .. image:: images/overview/stream_data_flow.png
+       :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 EDGEMATRIX Stream Pipeline
