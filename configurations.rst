@@ -1,7 +1,7 @@
 Configurations
 ====================
 
-#. SDK Directory Structure
+#. Toolkit Directory Structure
 #. Configurations
     #. Overview
     #. Input
@@ -14,10 +14,10 @@ Configurations
     #. Actions
 
 ============================================================
-SDK Directory Structure
+Toolkit Directory Structure
 ============================================================
 
-The directory structure of the EdgeStream SDK looks like this:
+The directory structure of the EDGEMATRIX Stream Toolkit looks like this:
 
     .. image:: images/configurations/sdk_directories.png
        :align: center
@@ -470,7 +470,7 @@ The following actions are available on the EMI's Edge AI Platform.
 Recording Action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The EdgeStream application implements the video recording module which records videos for each incoming event, this module is configured according to established actions into the stream configuration file.
+The EDGEMATRIX Stream application implements the video recording module which records videos for each incoming event, this module is configured according to established actions into the stream configuration file.
 
 The actions determine the video duration for:
 
