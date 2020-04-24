@@ -19,7 +19,7 @@ Toolkit Directory Structure
 
 The directory structure of the EDGEMATRIX Stream Toolkit looks like this:
 
-    .. image:: images/configurations/sdk_directories.png
+    .. image:: images/configurations/toolkit_directories.png
        :align: center
 
 ============================================================
@@ -32,10 +32,17 @@ Overview
 
 This is a configuration about an overview of an EAP.
 
-An example screenshot from the quick start example looks like this:
+======================== =================================================== ========================
+Property                 Meaning                                             Type                    
+======================== =================================================== ========================
+developer_name           The company name of an AI Model Developer           String
+application_name         The name of an application. This has to be unique 
+                         among all your applications.                        String
+application_version      The version name of your application.               String
+application_description  The description of your application                 String
+======================== =================================================== ========================
 
-    .. image:: images/configurations/overview.png
-       :align: center
+All the properties are mandatory.
 
 ----------------
 Input
@@ -43,45 +50,95 @@ Input
 
 This is a configuration about an input of a pipeline.
 
-The GStreamer used for this is nvstreammux.
+The GStreamer element used for this is `nvstreammux <https://docs.nvidia.com/metropolis/deepstream/plugin-manual/index.html#page/DeepStream_Plugin_Manual%2Fdeepstream_plugin_details.02.03.html>`_.
 
-Please refer to the DeepStream Plugin Manual for details.
+Available properties are:
 
-The mandatory properties are the following.
-
-#. width
-#. height
-
-An example screenshot from the quick start example looks like this:
-
-    .. image:: images/configurations/input.png
-       :align: center
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+batch-size               Maximum number of buffers in a batch                Unsigned Integer         0 - 1024                 0
+batched-push-timeout     Timeout in microseconds to wait after the first 
+                         buffer is available to push the batch even if 
+                         the complete batch is not formed. 
+                         Set to -1 to wait infinitely                        Integer                  -1 - 2147483647          -1
+width                    Width of each frame in output batched buffer. 
+                         **This property MUST be set.**                      Unsigned Integer         0 - 4294967295           0
+height                   Height of each frame in output batched buffer. 
+                         **This property MUST be set.**                      Unsigned Integer         0 - 4294967295           0
+enable-padding           Maintain input aspect ratio when scaling by 
+                         padding with black bands.                           Boolean                  true - false             false
+gpu-id                   Set GPU Device ID                                   Unsigned Integer         0 - 4294967295           0
+live-source              Boolean property to inform muxer that 
+                         sources are live.                                   Boolean                  true - false             false
+num-surfaces-per-frame   Max number of surfaces per frame                    Unsigned Integer         1 - 4                    1
+nvbuf-memory-type        Type of NvBufSurface Memory to be allocated for 
+                         output buffers                                      Enum(GstNvBufMemoryType) (0) nvbuf-mem-default: 
+                                                                                                      memory allocated, 
+                                                                                                      specific to particular 
+                                                                                                      platform. (4) nvbuf-mem-
+                                                                                                      surface-array: Allocate 
+                                                                                                      Surface Array memory, 
+                                                                                                      applicable for Jetson    0
+buffer-pool-size         Maximum number of buffers in muxer's internal pool  Unsigned Integer         0 - 1024                 4
+======================== =================================================== ======================== ======================== ============
 
 Please note that an end user is allowed to configure their own ROI over their RTSP stream.
 
-----------------
-Primary
-----------------
+------------------
+Primary/Secondary
+------------------
 
 This is a configuration about a primary inference of a pipeline.
 
-The GStreamer used for this is nvinfer.
+The GStreamer element used for this is `nvinfer <https://docs.nvidia.com/metropolis/deepstream/plugin-manual/index.html#page/DeepStream_Plugin_Manual%2Fdeepstream_plugin_details.02.01.html%23wwpID0E0IZ0HA>`_.
 
-Please refer to the DeepStream Plugin Manual for details.
+Available properties are:
+
+============================= =================================================== ========================== ======================== ============
+Property                      Meaning                                             Type                       Range                    Default
+============================= =================================================== ========================== ======================== ============
+unique-id                     Unique ID for the element. Can be used to identify 
+                              output of the element                               Unsigned Integer           0 4294967295             1
+process-mode                  Infer processing mode                               Enum 
+                                                                                  GstNvInferProcessModeType  (1) primary: Full Frame 
+                                                                                                             (2) secondary: Objects   1
+config-file-path              Path to the configuration file for this instance 
+                              of nvinfer                                          String                                              ""
+infer-on-gie-id               Infer on metadata generated by GIE with this unique 
+                              ID. Set to -1 to infer on all metadata.             Integer                    -1 2147483647            -1
+infer-on-class-ids            Infer on objects with specified class ids 
+                              Use string with values of class ids in ClassID 
+                              to set the property. e.g. 0:2:3                     String                                              ""
+model-engine-file             Absolute path to the pre-generated serialized 
+                              engine file for the model. If using encription this 
+                              is (required)                                       String                                              ""
+batch-size                    Maximum batch size for inference                    Unsigned Integer           1 1024                   1
+interval                      Specifies number of consecutive batches to be 
+                              skipped for inference                               Unsigned Integer           0 2147483647             0
+gpu-id                        Set GPU Device ID                                   Unsigned Integer           0 4294967295             0
+raw-output-file-write         Write raw inference output to file                  Boolean                    true false               false
+raw-output-generated-callback Pointer to the raw output generated callback 
+                              funtion
+                              (type gst_nvinfer_raw_output_generated_callback in 
+                              'gstnvdsinfer.h')                                   Pointer                                             -
+raw-output-generated-userdata Pointer to the userdata to be supplied with raw 
+                              output generated callback                           Pointer                                             -
+output-tensor-meta            Attach inference tensor outputs as buffer metadata  Boolean                    true false               false
+decrypt                       Whether to decrypt or not the incoming files        Boolean                    true false               false
+decryption-passphrase         Passphrase to decrypt the model                     String                                              ""
+============================= =================================================== ========================== ======================== ============
 
 The mandatory properties are the following.
 
-#. process-mode == 1
+#. process-mode == 1 (Primary), 2 (Secondary)
 #. config-file-path
 
-Note that model-engine-file property is a mandatory property, but can not be used here 
+Note that ``model-engine-file`` property is a mandatory property, but can not be used here 
 because the property of nvinfer as a GStreamer plugin needs to be an absolute path.
-So, please make sure to define in a config file of nvinfer as indicated by config-file-path.
+So, please make sure to define in a config file of nvinfer as indicated by ``config-file-path``.
 
-An example screenshot from the quick start example looks like this:
-
-    .. image:: images/configurations/primary.png
-       :align: center
+Also note that ``config-file-path`` is the path to the configuration file for this instance of nvinfer. This configuration file contains some fields that can only be configured from there and some fields that overlap with nvinfer element properties enumerated before. Whenever a property is configured in both places, the one configured on the pipeline will take precedence and the one in the config file will be ignored.
 
 ----------------
 Tracker
@@ -89,43 +146,25 @@ Tracker
 
 This is a configuration about a tracker of a pipeline.
 
-The GStreamer used for this is nvtracker.
+The GStreamer used for this is `nvtracker <https://docs.nvidia.com/metropolis/deepstream/plugin-manual/index.html#page/DeepStream_Plugin_Manual%2Fdeepstream_plugin_details.02.02.html>`.
 
-Please refer to the DeepStream Plugin Manual for details.
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+tracker-width            Frame width at which the tracker should operate, 
+                         in pixels                                           Unsigned Integer         0 - 4294967295           640
+tracker-height           Frame height at which the tracker should operate, 
+                         in pixels                                           Unsigned Integer         0 - 4294967295           368
+gpu-id                   Set GPU Device ID                                   Unsigned Integer         0 - 4294967295           0
+ll-config-file           Low-level library config file path                  String                                            null
+ll-lib-file              Low-level library file path                         String                                            null
+enable-batch-process     Enable batch processing across multiple streams?    Boolean                  true - false             false
+======================== =================================================== ======================== ======================== ============
 
 The mandatory properties are the following.
 
 #. ll-config-file
 #. ll-lib-file
-
-An example screenshot from the quick start example looks like this:
-
-    .. image:: images/configurations/tracker.png
-       :align: center
-
-----------------
-Secondary
-----------------
-
-This is a configuration about a secondary inference of a pipeline.
-
-The GStreamer used for this is nvinfer.
-
-Please refer to the DeepStream Plugin Manual for details.
-
-The mandatory properties are the following.
-
-#. process-mode == 2
-#. config-file-path
-
-Note that model-engine-file property is a mandatory property, but can not be used here 
-because the property of nvinfer as a GStreamer plugin needs to be an absolute path.
-So, please make sure to define in a config file of nvinfer as indicated by config-file-path.
-
-An example screenshot from the quick start example looks like this:
-
-    .. image:: images/configurations/secondary.png
-       :align: center
 
 ----------------
 Overlay
@@ -133,14 +172,23 @@ Overlay
 
 This is a configuration about an overlay of a pipeline.
 
-The GStreamer used for this is nvdsosd.
+The GStreamer used for this is `nvdsosd <https://docs.nvidia.com/metropolis/deepstream/plugin-manual/index.html#page/DeepStream_Plugin_Manual%2Fdeepstream_plugin_details.02.06.html>`.
 
-Please refer to the DeepStream Plugin Manual for details.
-
-An example screenshot from the quick start example looks like this:
-
-    .. image:: images/configurations/overlay.png
-       :align: center
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+silent                   Produce verbose output ?                            Boolean                  true - false             false
+display-clock            Whether to display clock                            Boolean                  true - false             false
+clock-font               Clock Font to be set                                String                                            null
+clock-font-size          font size of the clock                              Unsigned Integer.        0 - 60                   0
+x-clock-offset           x-clock-offset                                      Unsigned Integer.        0 - 4294967295           0
+y-clock-offset           y-clock-offset                                      Unsigned Integer.        0 - 4294967295           0
+clock-color              clock-color                                         Unsigned Integer.        0 - 4294967295           0
+process-mode             Rect and text draw process mode                     Enum "GstNvDsOsdMode"    (0) CPU_MODE
+                                                                                                      (1) GPU_MODE
+                                                                                                      (2) HW_MODE              2, "HW_MODE"
+gpu-id                   Set GPU Device ID                                   Unsigned Integer.        0 - 4294967295           0
+======================== =================================================== ======================== ======================== ============
 
 ----------------
 AI Meta
@@ -150,14 +198,22 @@ This is a configuration about a signaling of inference result of a pipeline.
 
 This GStreamer element is a priprietary one by EdgeMatrix, Inc.
 
+Available properties are:
+
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+silent                   silent                                              Boolean                  true - false             true
+last-meta                last-meta                                           String                                            null
+signal-aimetas           Send a signal when the json containing the meta is 
+                         ready for read                                      Boolean                  true - false             true
+signal-interval          Interval (in buffers) between aimeta signal 
+                         emissions                                           Integer                  1 - 2147483647           1
+======================== =================================================== ======================== ======================== ============
+
 The only property available is signal-interval, and which is mandatory.
 
 The signal-interval property is the interval between signals (in buffers). Change this property to reduce the frequency of emitted signals in non-critical applications.
-
-An example screenshot from the quick start example looks like this:
-
-    .. image:: images/configurations/aimeta.png
-       :align: center
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Signal
