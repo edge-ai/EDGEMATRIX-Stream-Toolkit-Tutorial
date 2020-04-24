@@ -16,10 +16,9 @@ Tutorials
     #. Follow the Yolo tutorial on DeepStream SDK
     #. Place your trained Yolo model binary and related files
     #. Change property configurations
-#. Using your own trained SSD model binary with IPlugin
-    #. Follow the SSD tutorial on DeepStream SDK
-    #. Place your trained SSD model binary and related files
-    #. Change property configurations
+#. Making a submission package
+    #. What is a submission package?
+    #. How to make a submission package?
 
 --------------------------------------------------------
 Preparing a simple Detector project
@@ -526,3 +525,44 @@ Debug Window)
 
     .. image:: images/tutorials/myyolodetector_debug.png
        :align: center
+
+-----------------------------
+Making a submission package
+-----------------------------
+
+When you become confident that you app is ready to ship, you can make a submission package.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+What is a submission package?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A submission package contains all the necessary files for EDGEMATRIX to prepare your app for sale.
+
+This includes:
+
+* an EAP file including encrypted model binaries
+* the passphrase (used to encrpt your model binaries) encrypted with your device credential
+* a stream config file used for the last test
+* a movie file used for the last test
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+How to make a submission package?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+After successfully running your test, the ``Network`` button placed between the ``Stop`` button and the ``Close`` button becomes active.
+
+Press this ``Network`` button to make a submission pacakge from the last test. Then, the save thread starts, and which will ask a sudo password in order to access the device credential to encrypt your pass phrase as below.
+
+    .. image:: images/tutorials/myyolodetector_submission_package.png
+       :align: center
+
+Then, you will find a folder that contains all the necessary files to submit as below.
+
+.. code-block:: bash
+
+  /mnt/nvme/toolkit_home$ ls -l submissions/My\ Yolo\ Detector/
+  total 197908
+  -rw-r--r-- 1 nvidia nvidia       142 Apr 24 21:17 C0210001_encrypted.json
+  -rw-r--r-- 1 nvidia nvidia 129384358 Apr 24 21:17 ChuoHwy-720p-faststart.mp4
+  -rw-r--r-- 1 nvidia nvidia      1297 Apr 24 21:17 mydetector_stream_configuration.json
+  -rw-r--r-- 1 nvidia nvidia  73263564 Apr 24 21:17 mydetector.zip
