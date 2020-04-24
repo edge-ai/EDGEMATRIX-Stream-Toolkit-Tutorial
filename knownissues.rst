@@ -1,11 +1,13 @@
 Known Issues
 ====================
 
-#. A record action could hang a GStreamer daemon process if a debug window is shown
+=======
+v1.1
+=======
 
-==================================================================================
+----------------------------------------------------------------------------------
 A record action could hang a GStreamer daemon process if a debug window is shown
-==================================================================================
+----------------------------------------------------------------------------------
 
 When you start an EAP package with a debug window, a GStreamer Daemon process could hang when you try to stop it.
 This is known that it could happen if a record action is invoked and in progress.
