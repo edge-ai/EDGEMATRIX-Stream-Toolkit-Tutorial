@@ -451,7 +451,7 @@ Movie files made by record actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 At last, let's check movie files left, which were made by record actions.
-Go to ``/mnv/nvme/toolkit_home/streams/vehicle_stream/recordings`` folder, then you'll see some files as follows.
+Go to ``/mnt/nvme/toolkit_home/streams/vehicle_stream/recordings`` folder, then you'll see some files as follows.
 
 .. code-block:: bash
 
