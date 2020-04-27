@@ -151,7 +151,7 @@ Launch the EDGEMATRIX Stream Toolkit application by executing ``runtoolkit``.
 
 .. code-block:: bash
 
-  nvidia@nvidia-desktop:/mnt/nvme/sdk_home$ runtoolkit ./
+  nvidia@nvidia-desktop:/mnt/nvme/toolkit_home$ runtoolkit ./
 
 Then, the following window will be shown.
 
