@@ -147,7 +147,11 @@ And the main directory you work on is ``toolkit_home``, which is mounted on a se
 Launch the EDGEMATRIX Stream Toolkit application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+<<<<<<< HEAD
 Launch the EDGEMATRIX Stream Toolkit application by executing ``runtoolkit``.
+=======
+Launch the EDGEMATRIX StreamToolkit application by executing the edgestreamsdk program.
+>>>>>>> 7e98f74e33a50ebde5352ed23a1cb698352a929d
 
 .. code-block:: bash
 

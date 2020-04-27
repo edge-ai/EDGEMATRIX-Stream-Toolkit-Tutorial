@@ -481,8 +481,6 @@ The folder structure now looks like this:
   -rw-r--r-- 1 nvidia nvidia     1915 Apr 24 13:56 yolov3-tiny.cfg
   -rw-r--r-- 1 nvidia nvidia 35434956 Apr 24 13:56 yolov3-tiny.weights
 
-Close if you still open the Toolkit, then open to load the new application.
-
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Change property configurations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
