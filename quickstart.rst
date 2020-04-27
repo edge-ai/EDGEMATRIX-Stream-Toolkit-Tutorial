@@ -317,7 +317,7 @@ The ``streams`` folder and the ``movies`` folder look as below.
 
 .. code-block:: bash
 
-  $ ls -l streams/
+  nvidia@nvidia-desktop:/mnt/nvme/toolkit_home$ ls -l streams/
   total 44
   drwxr-xr-x 2 nvidia nvidia 4096 Apr 10 20:42 face_net
   drwxr-xr-x 2 nvidia nvidia 4096 Feb 14 10:09 line_stream
