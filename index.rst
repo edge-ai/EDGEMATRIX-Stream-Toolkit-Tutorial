@@ -13,5 +13,6 @@ EDGEMATRIX Stream Toolkit Tutorial
    overview
    quickstart
    tutorials
+   sample_app
    configurations
    knownissues

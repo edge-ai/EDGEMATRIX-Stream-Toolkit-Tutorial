@@ -2,18 +2,25 @@ Quick Start
 =====================
 
 #. Update to the latest version
+
     #. Check the current version
     #. Run an update script
+
 #. Create a new EAP by copying from a template EAP
+
     #. runtoolkit and sdk_home
     #. Launch the EDGEMATRIX Stream Toolkit application
     #. Create a new EAP
     #. Select the EAP
+
 #. Validate the new EAP
+
     #. Open a validation dialog
     #. Run a validation
     #. Use your own sample siginal to validate
+
 #. Test the new EAP
+
     #. Execute, Choose a stream and Create an EAP package
     #. Play a pipeline
     #. Stop a pipeline
@@ -33,16 +40,16 @@ Run the following command to check the currently installed version.
 
 .. code-block:: bash
 
-  /mnt/nvme/toolkit_home$ apt show python3-edgematrix-stream-toolkit
+  $ apt show python3-edgematrix-stream-toolkit 
   Package: python3-edgematrix-stream-toolkit
-  Version: 1.2.0b7-1
+  Version: 1.3.0b3-1
   Priority: optional
   Section: python
   Source: edgematrix-stream-toolkit
   Maintainer: Takenori Sato <tsato@edgematrix.com>
-  Installed-Size: 267 kB
-  Depends: python3-boto3, python3-gpg, python3-pycryptodome, python3-pysnmp4, python3-requests, python3:any (>= 3.3.2-2~), edgestream, python3-emisecurity
-  Download-Size: 39.1 kB
+  Installed-Size: 272 kB
+  Depends: python3-boto3, python3-gpg, python3-pycryptodome, python3-pysnmp4, python3-requests, python3:any (>= 3.3.2-2~), edgematrix-stream (>= 1.7.0), edgematrix-stream (<< 1.8.0), python3-emisecurity (>= 1.1.0), python3-emisecurity (<< 1.2.0)
+  Download-Size: 40.0 kB
   APT-Manual-Installed: yes
   APT-Sources: https://apt.console.edgematrix.com/airbase/apt/debian bionic/main arm64 Packages
   Description: EDGEMATRIX Stream Toolkit allows an AI model developer to build, test, and package an EAP (EDGEMATRIX Stream Application Package).
@@ -64,7 +71,6 @@ Run the following command to try updating to the latest version.
   a local proxy is launching...
   a local proxy is launching...
   a local proxy is launching...
-  a local proxy is launching...
   Get:1 file:/var/cuda-repo-10-0-local-10.0.326  InRelease
   Ign:1 file:/var/cuda-repo-10-0-local-10.0.326  InRelease
   Get:2 file:/var/visionworks-repo  InRelease
@@ -75,37 +81,35 @@ Run the following command to try updating to the latest version.
   Ign:4 file:/var/visionworks-tracking-repo  InRelease
   Get:5 file:/var/cuda-repo-10-0-local-10.0.326  Release [574 B]
   Get:6 file:/var/visionworks-repo  Release [1,999 B]
+  Get:7 file:/var/visionworks-sfm-repo  Release [2,003 B]
   Get:5 file:/var/cuda-repo-10-0-local-10.0.326  Release [574 B]
-  Get:7 file:/var/visionworks-sfm-repo  Release [2,003 B]     
-  Get:6 file:/var/visionworks-repo  Release [1,999 B]             
   Get:8 file:/var/visionworks-tracking-repo  Release [2,008 B]
+  Get:6 file:/var/visionworks-repo  Release [1,999 B]                            
   Get:7 file:/var/visionworks-sfm-repo  Release [2,003 B]                        
   Get:8 file:/var/visionworks-tracking-repo  Release [2,008 B]                   
-  Hit:10 http://ports.ubuntu.com/ubuntu-ports bionic InRelease                   
-  Get:11 http://ports.ubuntu.com/ubuntu-ports bionic-updates InRelease [88.7 kB] 
-  Get:15 https://repo.download.nvidia.com/jetson/common r32 InRelease [2,541 B]  
-  Get:16 https://repo.download.nvidia.com/jetson/t210 r32 InRelease [2,555 B]    
-  Get:17 http://ports.ubuntu.com/ubuntu-ports bionic-backports InRelease [74.6 kB]
-  Get:19 https://apt.console.edgematrix.com/airbase/apt/debian bionic InRelease [2,403 B]
+  Hit:12 http://ports.ubuntu.com/ubuntu-ports bionic InRelease                   
+  Hit:15 https://repo.download.nvidia.com/jetson/common r32 InRelease            
+  Get:16 http://ports.ubuntu.com/ubuntu-ports bionic-updates InRelease [88.7 kB] 
+  Get:17 https://apt.console.edgematrix.com/airbase/apt/debian bionic InRelease [2,409 B]
+  Get:18 https://repo.download.nvidia.com/jetson/t210 r32 InRelease [2,555 B]    
+  Get:19 http://ports.ubuntu.com/ubuntu-ports bionic-backports InRelease [74.6 kB]
+  Hit:14 https://packagecloud.io/github/git-lfs/ubuntu bionic InRelease              
   Get:20 http://ports.ubuntu.com/ubuntu-ports bionic-security InRelease [88.7 kB]
-  Hit:14 https://packagecloud.io/github/git-lfs/ubuntu bionic InRelease          
-  Get:21 http://ports.ubuntu.com/ubuntu-ports bionic-updates/main arm64 Packages [651 kB]
-  Get:22 http://ports.ubuntu.com/ubuntu-ports bionic-updates/main arm64 DEP-11 Metadata [296 kB]
-  Get:23 http://ports.ubuntu.com/ubuntu-ports bionic-updates/universe arm64 Packages [950 kB]
-  Get:24 http://ports.ubuntu.com/ubuntu-ports bionic-updates/universe arm64 DEP-11 Metadata [268 kB]
-  Get:25 http://ports.ubuntu.com/ubuntu-ports bionic-backports/universe arm64 DEP-11 Metadata [7,968 B]
-  Get:26 http://ports.ubuntu.com/ubuntu-ports bionic-security/main arm64 DEP-11 Metadata [32.5 kB]
-  Get:27 http://ports.ubuntu.com/ubuntu-ports bionic-security/universe arm64 DEP-11 Metadata [36.9 kB]
-  Fetched 2,503 kB in 5s (484 kB/s)                
+  Get:21 http://ports.ubuntu.com/ubuntu-ports bionic-updates/main arm64 DEP-11 Metadata [298 kB]
+  Get:22 http://ports.ubuntu.com/ubuntu-ports bionic-updates/universe arm64 DEP-11 Metadata [269 kB]
+  Get:23 http://ports.ubuntu.com/ubuntu-ports bionic-backports/universe arm64 DEP-11 Metadata [7,968 B]
+  Get:24 http://ports.ubuntu.com/ubuntu-ports bionic-security/main arm64 DEP-11 Metadata [34.5 kB]
+  Get:25 http://ports.ubuntu.com/ubuntu-ports bionic-security/universe arm64 DEP-11 Metadata [36.9 kB]
+  Fetched 903 kB in 3s (286 kB/s)                                                
   Reading package lists... Done
   Building dependency tree       
   Reading state information... Done
-  146 packages can be upgraded. Run 'apt list --upgradable' to see them.
+  149 packages can be upgraded. Run 'apt list --upgradable' to see them.
   Reading package lists... Done
   Building dependency tree       
   Reading state information... Done
-  python3-edgematrix-stream-toolkit is already the newest version (1.2.0b7-1).
-  0 upgraded, 0 newly installed, 0 to remove and 146 not upgraded.
+  python3-edgematrix-stream-toolkit is already the newest version (1.3.0b3-1).
+  0 upgraded, 0 newly installed, 0 to remove and 149 not upgraded.
 
 Note that ``Get:19 https://apt.console.edgematrix.com/airbase/apt/debian bionic InRelease`` is the private APT repository by EDGEMATRIX that can be accessed only an authorized device.
 
@@ -147,11 +151,7 @@ And the main directory you work on is ``toolkit_home``, which is mounted on a se
 Launch the EDGEMATRIX Stream Toolkit application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-<<<<<<< HEAD
 Launch the EDGEMATRIX Stream Toolkit application by executing ``runtoolkit``.
-=======
-Launch the EDGEMATRIX StreamToolkit application by executing the edgestreamsdk program.
->>>>>>> 7e98f74e33a50ebde5352ed23a1cb698352a929d
 
 .. code-block:: bash
 

@@ -2,21 +2,31 @@ Tutorials
 =====================
 
 #. Preparing a simple Detector project
+
 #. Using your own events and callback function
+
     #. Write your own callback function
     #. Use your own event
     #. Test your application
+
 #. Using your own input source
+
     #. Preparing your movie file for a streaming
     #. Use your own stream ready movie file
+
 #. Using your own trained model binary
+
     #. Place your trained model binary and related files
     #. Change property configurations
+
 #. Using your own trained Yolo model binary with IPlugin
+
     #. Follow the Yolo tutorial on DeepStream SDK
     #. Place your trained Yolo model binary and related files
     #. Change property configurations
+
 #. Making a submission package
+
     #. What is a submission package?
     #. How to make a submission package?
 
@@ -359,24 +369,6 @@ This can be done with ffmpeg, not on the Toolkit box, but on your any host compu
 .. code-block:: bash
 
   $ ffmpeg -i INPUT -c:v libx264 -b:v 4m -maxrate 4m -bufsize 4m -movflags +faststart OUTPUT
-
---------------------------------------------------------
-Using your own trained model binary
---------------------------------------------------------
-
-TBD
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Place your trained model binary and related files
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-TBD
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Change property configurations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-TBD
 
 --------------------------------------------------------
 Using your own trained Yolo model binary with IPlugin

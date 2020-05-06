@@ -537,7 +537,7 @@ The following actions are available on the EMI's Edge AI Platform.
 #. Send a LINE message/stamp Action
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Recording Action
+Record Action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The EDGEMATRIX Stream application implements the video recording module which records videos for each incoming event, this module is configured according to established actions into the stream configuration file.
@@ -559,7 +559,8 @@ This action establishes the duration of videos for pre-recording and post-record
 .. code-block:: javascript
 
     "action":{
-        "action_name": "record", "duration_in_seconds": 15
+        "action_name": "record", 
+        "duration_in_seconds": 15
     }
 
 Video prolongation for post-recording
@@ -590,34 +591,34 @@ Format name for recorded video::
 * z = numeric time zone
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Upload to Amazon Kinesis Firehorse Action
+Amazon Kinesis Firehorse Action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is one of delegate actions executed by a Device Agent.
 
 It will upload an event to a user defined location of the Amazon Kinesis Firehorse.
 
-Here's such a configuration.
+Here's the format of such a configuration.
 
 .. code-block:: javascript
 
     "action": {
-    "action_name": "upload",
-    "deliveryStreamName": "pedestrianStream",
-    "accessKey": "",
-    "secretKey": "",
-    "region": ""
+      "action_name": "upload",
+      "deliveryStreamName": "pedestrianStream",
+      "accessKey": "",
+      "secretKey": "",
+      "region": ""
     }
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Send a LINE message/stamp Action
+LINE Action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is one of delegate actions executed by a Device Agent.
 
 It will send a message and/or a stamp to a specified LINE talk room.
 
-Here's such a configuration.
+Here's the format of such a configuration.
 
 .. code-block:: javascript
 
@@ -626,7 +627,51 @@ Here's such a configuration.
         "token_id": "",
         "message": "",
         "stickerId": 0,
-        "stickerPackageId": 0
+        "stickerPackageId": 0,
+        "interval": 0
     }
 
 Please check the Notification section of `the LINE Notify API Document <https://notify-bot.line.me/doc/en/>`_ .
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+HTTPS Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+It will make a post request with a basic authentication to a user defined location of a HTTPS server.
+The body content is a json event.
+
+Here's the format of such a configuration.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "https",
+      "url": "https://YOUR_HTTPS_SERVER/path",
+      "user": "",
+      "password": ""
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SNMP Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+It will send a SNMP Trap to a user defined SNMP device.
+
+Here's the format of such a configuration.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "snmp",
+      "oid": "1.3.6.1.4.1.55412.1",
+      "ipaddress": "IPADDRESS_OF_YOUR_SNMP_DEVICE",
+      "port": 162,
+      "var_bind_key": "VAR_BIND_KEY",
+      "var_bind_value": VAR_BIND_VALUE,
+      "community": "public",
+      "interval": 0
+    }
