@@ -435,12 +435,6 @@ Then, copy the following files to the resource/models/Primary_Detector folder.
   /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/
   /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp labels.txt /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
   /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp model_b1_fp32.engine /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
-  /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp yolov3
-  yolov3-calibration.table.trt5.1  yolov3-tiny.cfg                  yolov3.weights
-  yolov3.cfg                       yolov3-tiny.weights              
-  /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp yolov3
-  yolov3-calibration.table.trt5.1  yolov3-tiny.cfg                  yolov3.weights
-  yolov3.cfg                       yolov3-tiny.weights              
   /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp yolov3-tiny.* /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
 
 The folder structure now looks like this:
