@@ -15,4 +15,5 @@ EDGEMATRIX Stream Toolkit Tutorial
    tutorials
    sample_app
    configurations
+   emcustom
    knownissues
