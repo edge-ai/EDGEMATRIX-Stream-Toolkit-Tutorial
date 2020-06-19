@@ -142,11 +142,11 @@ B) A single EDGEMATRIX Stream pipeline consists of multiple AI model developers
 4. The development process using the EDGEMATRIX Toolkit
 ===================================================================
 
-At the end of this chapter, a typical development process using the EDGEMATRIX Stream Toolkit is explained.
+At the end of this chapter, here is a typical development process using the EDGEMATRIX Stream Toolkit.
 
 #. pick up your precious trained model binary (such a trained model binary should be trained with a decent amount of training data to cover most of possible variations for the task)
 #. convert the model binary to an engine file of TensorRT
-#. wrap it as a GStreamer element called nvinfer to make it work in a pipeline
+#. wrap it up as a GStreamer element called nvinfer to make it work in a pipeline
 #. run your trained model as a nvinfer in a simple GStreamer pipeline (use gst-launch)
 #. launch the Toolkit GUI application to make your own app as an EAP out of available templates
 #. design your events and options

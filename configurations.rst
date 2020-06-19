@@ -2,16 +2,22 @@ Configurations
 ====================
 
 #. Toolkit Directory Structure
-#. Configurations
+#. Application Configurations
 
     #. Overview
     #. Input
     #. Primary/Secondary
     #. Tracker
+    #. EMCustom
     #. Overlay
     #. AI Meta
     #. Callback and Events
+    #. Options
+
+#. Stream Configurations
+
     #. Actions
+    #. Continuous Recording
 
 ============================================================
 Toolkit Directory Structure
@@ -23,7 +29,7 @@ The directory structure of the EDGEMATRIX Stream Toolkit looks like this:
        :align: center
 
 ============================================================
-Configurations
+Application Configurations
 ============================================================
 
 ----------------
@@ -50,9 +56,9 @@ Input
 
 This is a configuration about an input of a pipeline.
 
-The GStreamer element used for this is `nvstreammux <https://docs.nvidia.com/metropolis/deepstream/plugin-manual/index.html#page/DeepStream_Plugin_Manual%2Fdeepstream_plugin_details.02.03.html>`_.
+The GStreamer element used for this is `nvstreammux <https://docs.nvidia.com/metropolis/deepstream/plugin-manual/index.html#page/DeepStream_Plugin_Manual%2Fdeepstream_plugin_details.02.03.html>`_ or dstransfermeta.
 
-Available properties are:
+Available properties of nvstreammux are:
 
 ======================== =================================================== ======================== ======================== ============
 Property                 Meaning                                             Type                     Range                    Default
@@ -84,6 +90,18 @@ buffer-pool-size         Maximum number of buffers in muxer's internal pool  Uns
 ======================== =================================================== ======================== ======================== ============
 
 Please note that an end user is allowed to configure their own ROI over their RTSP stream.
+
+Alternatively, you can use dsmetatransfer.
+
+This GStreamer element is a priprietary one by EDGEMATRIX, Inc.
+
+Available properties of dstransfermeta are:
+
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+listen-to                Primary package to get buffers from                 String                                            Null
+======================== =================================================== ======================== ======================== ============
 
 ------------------
 Primary/Secondary
@@ -170,6 +188,32 @@ The mandatory properties are the following.
 #. ll-lib-file
 
 ----------------
+EMCustom
+----------------
+
+This is a configuration about a custom element of a pipeline.
+
+This GStreamer element is a priprietary one by EDGEMATRIX, Inc.
+
+Available properties are:
+
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+silent                   silent                                              Boolean                  true - false             true
+last-meta                last-meta                                           String                                            null
+process-interval         Interval (in buffers) to process                    Integer                  1 - 2147483647           1 
+custom-lib               Custom library where the process_ip
+                         or process functions will be found                  String                                            null
+in-place                 Process buffers in place or not                     Boolean                  true - false             true 
+format                   Input format for processing                         String                   RGBA or I420             RGBA
+======================== =================================================== ======================== ======================== ============
+
+The mandatory properties are the followings.
+
+#. custom-lib
+
+----------------
 Overlay
 ----------------
 
@@ -199,7 +243,7 @@ AI Meta
 
 This is a configuration about a signaling of inference result of a pipeline.
 
-This GStreamer element is a priprietary one by EdgeMatrix, Inc.
+This GStreamer element is a priprietary one by EDGEMATRIX, Inc.
 
 Available properties are:
 
@@ -266,6 +310,68 @@ The structure of a signal is defined as follows by example.
         }
       ]
     }
+
+If your pipeline involves an EMCustom element, it would look liket this. An output from an EMCustom element is added to each object.
+
+.. code-block:: python
+
+  "frame": [
+    {
+      "frame_num": 0,
+      "buf_pts": 0,
+      "ntp_timestamp": 0,
+      "object": [
+        {
+          "class_id": 0,
+          "object_id": -1,
+          "confidence": 0,
+          "rect_params": {
+            "left": 768,
+            "top": 586,
+            "width": 43,
+            "height": 31
+          },
+          "text_params": {
+            "display_text": "Car"
+          },
+          "classifier": [],
+          "emcustom": "Arbitrary JSON for object 1"
+        },
+        {
+          "class_id": 0,
+          "object_id": -1,
+          "confidence": 0,
+          "rect_params": {
+            "left": 843,
+            "top": 598,
+            "width": 48,
+            "height": 46
+          },
+          "text_params": {
+            "display_text": "Car"
+          },
+          "classifier": [],
+          "emcustom": "Arbitrary JSON for object 2"
+        },
+        {
+          "class_id": 2,
+          "object_id": -1,
+          "confidence": 0,
+          "rect_params": {
+            "left": 883,
+            "top": 610,
+            "width": 147,
+            "height": 111
+          },
+          "text_params": {
+            "display_text": "Person"
+          },
+          "classifier": [],
+          "emcustom": "Arbitrary JSON for object 3"
+        }
+      ]
+    }
+  ]
 
 ----------------------
 Callback and Events
@@ -524,17 +630,294 @@ Restricted::
         object
         property
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Custom Overlay
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This feature allows an AI model developer to send data in a callback to draw an overlay. This is achieved via NvDsDisplayMeta, hence its subject to its functionalities. Such metadata is added by the `signal_callback` function, appended to the `last-meta` structure to preserve backwards compatibility. 
+
+For each supported overlay object, the properties and their type are listed bellow:
+
+**Text overlay:**
+
+* display_text : string 
+* x_offset : unsigned int  
+* y_offset : unsigned int
+* font_params : dict (NvOSD_FontParams)
+* set_bg_clr : int 
+* text_bg_clr : dict NvOSD_ColorParams  
+
+
+**Rect overlay:**
+
+* left : unsigned int   
+* top : unsigned int
+* width : unsigned int
+* height : unsigned int
+* border_width : unsigned int
+* border_color : dict (NvOSD_ColorParams)
+* has_bg_color : unsigned int  
+* bg_color : dict (NvOSD_ColorParams)
+* has_color_info : int
+* color_id : int 
+
+**Line overlay:**
+
+* x1 : int
+* y1 : int
+* x2 : int
+* y2 : int
+* line_width : unsigned int
+* line_color : dict (NvOSD_ColorParams)
+
+For convenience, here are the DeepStream structs referenced above:
+
+**NdOSD_FontParams**
+
+* font_name : string         
+* font_size : unsigned int         
+* font_color : NvOSD_ColorParams 
+
+**NvOSD_ColorParams**
+
+* red : double                 
+* green :  double
+* blue : double
+* alpha : double
+
+In order to support adding multiple objects on a single meta, the following structure was chosen:
+
+* `overlay_item` is the dictionary ultimately appended to `last-meta` by the callback.
+* It contains two keys, `text_params` and `rect_params`, the two objects currently supported.
+* Each of these objects is an array.
+* Every new objects is appended to its respective array in the form of a dictionary.
+
+So,`overlay_item` would be formed as follows:
+
+.. code-block:: python
+
+  {
+     "text_params" :  [
+       {  <object1> },
+       {  <object2> },
+       ...
+     ],
+     "rect_params" : [
+       {  <rect1> },
+       {  <rect2> },
+       ...
+     ]
+  }
+
+Finally, in order to facilitate the settings of properties formed by dictionaries, they were separated so that they all belong on the same level, as follows:
+
+.. code-block:: python
+
+  'text_params': [
+    'display_text',
+    'x_offset',
+    'y_offset',
+    'font_name',
+    'font_size',
+    'font_color_red',
+    'font_color_green',
+    'font_color_blue',
+    'font_color_alpha',
+    'set_bg_clr',
+    'bg_color_red',
+    'bg_color_green',
+    'bg_color_blue',
+    'bg_color_alpha'
+ ],
+ 'rect_params': [
+    'left',
+    'top',
+    'width',
+    'height',
+    'border_width',
+    'border_color_red',
+    'border_color_green',
+    'border_color_blue',
+    'border_color_alpha',
+    'has_bg_color',
+    'bg_color_red',
+    'bg_color_green',
+    'bg_color_blue',
+    'bg_color_alpha',
+    'has_color_info',
+    'color_id'
+ ]
+
+Consider the following example on appending the `overlay-meta` to the `last-meta`:
+
+.. code-block:: python
+
+  def add_overlay(stats):
+    overlay_item = {}
+    text_params = []
+    label1 = {}
+    label1['display_text'] = stats
+    label1['x_offset'] = 10
+    label1['y_offset'] = 20
+    label1['font_name'] =  "Serif"
+    label1['font_size'] = 10
+    label1['font_color_green'] = 1
+    label1['font_color_red'] = 1
+    label1['font_color_blue'] = 1
+    label1['font_color_alpha'] = 1
+    label1['set_bg_clr'] = 1
+    label1['bg_color_red'] = 1
+    label1['bg_color_blue'] = 0
+    label1['bg_color_green'] = 0
+    label1['bg_color_alpha'] = 0
+    text_params.append(label1)
+    overlay_item['text_params'] = text_params
+
+Also, consider the following example on appending the `overlay-meta` including the lines to the `last-meta` in order to draw polygons:
+
+.. code-block:: python
+
+  def add_overlay(polygons):
+      overlay_item = {}
+      line_params = []
+      if len(polygons) > 0:
+          for polygon in polygons:
+              points = polygon["value"]
+              add_overlay_flag = polygon["add_overlay"]
+              if add_overlay_flag:
+                  # Draw the polygon on the frame with the following params:
+                  n_points = len(points)
+                  for index in range(n_points):
+                      line = {}
+                      point_a = points[index]
+                      if (index == (n_points - 1)):
+                          point_b = points[0]
+                      else:
+                          point_b = points[index + 1]
+                      line['x1'] = point_a[0]
+                      line['y1'] = point_a[1]
+                      line['x2'] = point_b[0]
+                      line['y2'] = point_b[1]
+                      line['line_color_red'] = 0
+                      line['line_color_green'] = 1
+                      line['line_color_blue'] = 0
+                      line['line_color_alpha'] = 1
+                      line['line_width'] = 10
+                      line_params.append(line)
+          overlay_item['line_params'] = line_params
+      return overlay_item
+
+----------------
+Options
+----------------
+
+An end user to override any configuration value allowed by the AI model developer on a specific application package. Such a configuration override is achieved by the end user through a set of valid key/value pairs in a stream configuration file. Currently, there are two override modes supported:
+
+* **GStreamer**: allows an end user to modify any allowed property on a GStreamer element among `primary`, `tracker`, `secondary`, `overlay`, `aimeta`, `dsmetatransfer`, and `emcustom`. 
+* **Callback**: callback options are parsed and added to a list, which is then attached to the metadata sent to a callback, by appending to its dictonary an `options` entry, which will hold a list of these dictionary elements with the current values so that an AI model developer can access them.
+
+In order to enable such feature, the AI model developer must define each option by defining the following elements:
+
+* key: depending on the `option_type`, this contains the key element and property name for a GStreamer element, or the variable name for the callback option. 
+* option_type: currently supported: `gstreamer`, `callback`.
+
+Additionally, for `callback` type options you can define the value type:
+
+* value_type: currently supported: `string`, `number` or `list`.
+
+Consider the following example for a GStreamer option override:
+
+**Property override enable on the app_config**
+
+.. code-block:: python
+
+  "pipeline_configuration": { 
+   ...
+  },
+  "options": [
+    {
+      "key": {
+        "element": "aimeta",
+        "property": "signal-interval"
+      },
+      "option_type": "gstreamer"
+    },
+   ...
+ ]
+
+**Property override on the stream_config**
+
+.. code-block:: python
+
+  "action_rules": [
+   ...
+  ]
+  "options": [
+    {
+      "key": {
+        "element": "aimeta",
+        "property": "signal-interval"
+      },
+      "value": 1
+    }
+  ]
+
+Consider the following example for a callback option override:
+
+**Property override enable on the app_config**
+
+.. code-block:: python
+
+  "pipeline_configuration": { 
+   ...
+  },
+  "options": [
+    {
+      {
+        "key": "new_var_num",
+        "option_type": "callback",
+        "value_type": "number"
+      },
+    ...
+    }
+  ]
+
+**Property override on the stream_config**
+
+.. code-block:: python
+
+  "action_rules": [
+   ...
+  ]
+  "options": [
+    {
+      "key": "new_var_num",
+      "value": 1
+    },
+    ...
+  ]
+
+============================================================
+Stream Configurations
+============================================================
+
 ----------------
 Actions
 ----------------
 
-An action is executed when an event matchs a user defined action rule.
+An action is defined in a stream config and executed when an event matchs a user defined action rule.
 
-The following actions are available on the EMI's Edge AI Platform.
+Please note that this will be configured on the Device Console.
+
+The following actions are available on the EDGEMATRIX Service.
 
 #. Recording Action
-#. Upload to Amazon Kinesis Firehorse Action
-#. Send a LINE message/stamp Action
+#. Upload (to Amazon Kinesis Firehorse) Action
+#. LINE Action
+#. HTTPS Action
+#. SNMP Action
+#. Email Action
+#. Play Action
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Record Action
@@ -673,5 +1056,69 @@ Here's the format of such a configuration.
       "var_bind_key": "VAR_BIND_KEY",
       "var_bind_value": VAR_BIND_VALUE,
       "community": "public",
-      "interval": 0
+      "interval": 0 (no interval) or larger
     }
+
+One typical example is to send signals and sounds.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Email Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+It will send an email as defined.
+
+Here's the format of such a configuration.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "email",
+      "host": "SMTP_SERVER_ADDRESS",
+      "port": "SMTP_PORT",
+      "sender": "SENDER_EMAIL_ADDRESS",
+      "password": "PASSWORD",
+      "recipients": ["RECIPIENT_1", "RECEPIENT_2", ...],
+      "subject": "SUBJECT_TEXT",
+      "text": "BODY_TEXT",
+      "interval": 0 (no interval) or larger
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Play Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+It will show an arbitrary contents configured by a uri parameter on a display.
+This is effective only when a kiosk mode is enabled.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "play",
+      "uri": "RTSP_ADDRESS"
+    }
+
+--------------------------------
+Continuous Recording
+--------------------------------
+
+The stream configuration file contains an object called **continuous_recording** which is optional parameter and represents Continuous recording by the values of the following properties:
+
+* **duration_in_minutes** Indicates the duration for each video recording in minutes.
+* **max_files** Maximum video records for each EdgeStream session.
+* **bitrate** Encoding bitrates for the video record like **1M, 1000000, 5m**
+
+* Example:
+
+.. code-block:: javascript
+
+  {
+    "continuous_recording": {
+      "duration_in_minutes": 1,
+      "max_files": 1440,
+      "bitrate": "1m"
+    },
+  }
