@@ -6,6 +6,8 @@ Quick Start
     #. Check the current version
     #. Run an update script
 
+#. Prepare a template app
+
 #. Create a new EAP by copying from a template EAP
 
     #. runtoolkit and sdk_home
@@ -54,7 +56,7 @@ Run the following command to check the currently installed version.
   APT-Sources: https://apt.console.edgematrix.com/airbase/apt/debian bionic/main arm64 Packages
   Description: EDGEMATRIX Stream Toolkit allows an AI model developer to build, test, and package an EAP (EDGEMATRIX Stream Application Package).
 
-In the example above, the version is 1.2.0b7-1.
+In the example above, the version is 1.3.0b3-1.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Run an update script
@@ -114,6 +116,14 @@ Run the following command to try updating to the latest version.
 Note that ``Get:19 https://apt.console.edgematrix.com/airbase/apt/debian bionic InRelease`` is the private APT repository by EDGEMATRIX that can be accessed only an authorized device.
 
 In the example above, the sdk was confirmed as the latest version.
+
+--------------------------------------------------------
+Prepare a template app
+--------------------------------------------------------
+
+Each template has prepare_resource.sh that copies and compiles libraries, and generates an engine file to setup everything needed to run a particular app on your toolkit box.
+
+An engine file varies by a version of CUDA, TensorRT, and GPU architecture. So please make sure to run the prepare_resource.sh script whenever necessary.
 
 --------------------------------------------------------
 Create a new EAP by copying from a template EAP
