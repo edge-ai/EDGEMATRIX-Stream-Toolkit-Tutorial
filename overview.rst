@@ -32,7 +32,8 @@ The EDGEMATRIX Service is an Edge AI Security Platform with the following featur
 1. Device Remote Management (OTA, EAP License, EAP Installation/Uninstallation, Device Status, Terminal Emulation)
 2. Security (Network Security, Device Authentication, Secondary Drive Encryption, EAP Encryption, AI Model Binary Encryption)
 3. EdgeView (WebRTC Realtime Stream even from a device behind a NAT [no public address])
-* EAP stands for EDGEMATRIX stream Application Package
+
+NOTE: EAP stands for EDGEMATRIX stream Application Package
 
 Please note that every `AI Box <https://edgematrix.com/business/box/>`_ and every client are placed behind NATs and interact with others by peer to peer. This is our assumption of the said "Edge AI" from the Network's point's of view. 
 

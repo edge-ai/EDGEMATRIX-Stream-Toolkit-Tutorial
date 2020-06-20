@@ -16,4 +16,5 @@ EDGEMATRIX Stream Toolkit Tutorial
    sample_app
    configurations
    emcustom
+   doubleeaps
    knownissues
