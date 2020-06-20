@@ -897,6 +897,14 @@ Consider the following example for a callback option override:
     ...
   ]
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Device Console Integration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Device Console will automagically find available lines or polygons in options, then let an end user draw such object on a screen. Such configuration will be saved in a stream config, then which will be accessible to your app.
+
+In order for the Device Console to find such lines or polygons, please make sure to add a prefix, "line" for lines, and "polygon" for polygons, to keys. 
+
 ============================================================
 Stream Configurations
 ============================================================
