@@ -2,6 +2,20 @@ Known Issues
 ====================
 
 =======
+v1.6.2
+=======
+
+----------------------------------------------------------------------------------
+Pre processing of a primary nvinfer of a custom pipeline prevents it from running
+----------------------------------------------------------------------------------
+
+If you add an emcustom as a pre-processing of primary nvinfer, such a pipeline won't run.
+
+It won't leave any exceptions and errors in your log.
+
+So, until this issue is fixed, please avoid using a pre processing of a primary nvinfer 
+
+=======
 v1.1
 =======
 

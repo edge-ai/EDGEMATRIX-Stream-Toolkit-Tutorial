@@ -47,7 +47,7 @@ Then, modify the application name to reflect this application.
     .. image:: images/tutorials/mydetector_overview_editted.png
        :align: center
 
-And change the resolution for the primary inference.
+And change the resolution of the input.
 
     .. image:: images/tutorials/mydetector_input.png
        :align: center

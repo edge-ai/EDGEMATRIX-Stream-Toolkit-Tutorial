@@ -17,4 +17,5 @@ EDGEMATRIX Stream Toolkit Tutorial
    configurations
    emcustom
    doubleeaps
+   custompipeline
    knownissues

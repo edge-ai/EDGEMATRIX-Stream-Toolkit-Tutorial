@@ -951,8 +951,19 @@ This action establishes the duration of videos for pre-recording and post-record
 
     "action":{
         "action_name": "record", 
-        "duration_in_seconds": 15
+        "duration_in_seconds": 15,
+        "max_duration_in_seconds": 30
     }
+
+Where:
+
+* duration_in_seconds: indicates the desired duration in seconds of the recording files.
+* max_duration_in_seconds: when a series of matching events keep occurring, the length of a recording could be greater than duration_in_seconds. The max_duration_in_seconds parameter limits the length of the recording files when such a series of matching events occurs.
+
+Important:
+
+* The duration_in_seconds parameter is mandatory, while the max_duration_in_seconds is optional. The default value of max_duration_in_seconds is equal to 60 seconds if not specified.
+* The max_duration_in_seconds parameter must greater than duration_in_seconds, which must be positive.
 
 Video prolongation for post-recording
 

@@ -183,7 +183,7 @@ For the primary inference, the AI model of the DeepStream reference app can be u
 That detects the following types of objects.
 
 0. Car
-1. Bicycle
+1. Two Wheeler
 2. Person
 3. Roadsign
 
