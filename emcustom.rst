@@ -425,6 +425,8 @@ The resulting JSON that will be received by the signal callback will have the fo
 
 If not all objects have a corresponding JSON, the aimeta element will assign the elements it can in sequential order. Empty JSON strings: `{}` are valid and should be used for values where no data is to be passed to Edgestream.
 
+Note that aimeta and emcustom only support batches of one frame. If the application is using batching greater than one, only the first frame (frame 0) will be processed.
+
 ============================================================
 Examples
 ============================================================

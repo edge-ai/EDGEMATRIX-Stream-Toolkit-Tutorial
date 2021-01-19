@@ -161,6 +161,33 @@ So, please make sure to define in a config file of nvinfer as indicated by ``con
 
 Also note that ``config-file-path`` is the path to the configuration file for this instance of nvinfer. This configuration file contains some fields that can only be configured from there and some fields that overlap with nvinfer element properties enumerated before. Whenever a property is configured in both places, the one configured on the pipeline will take precedence and the one in the config file will be ignored.
 
+--------------------
+Meta Transfer Mode
+--------------------
+
+This is a configuration about passing meta from one stream to others.
+
+This GStreamer element allows a developer to apply a custom function to the buffer stream.
+
+Available properties are:
+
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+listen-to                Primary package to get buffers from                 String                                            null
+return-custom-overlay    Boolean that indicates if the secondary EdgeStream 
+                         application should return the resulting custom 
+                         overlay metadata to be displayed on the primary     Boolean                  [0,1]                    0
+======================== =================================================== ======================== ======================== ============
+
+The mandatory properties are the followings.
+
+#. listen-to
+
+The ``listen-to`` property is matched by a ``meta-source-id`` in the primary package. If ``return-custom-overlay`` is set to 1(true) the secondary application in a double EAP will return the ``custom-overlay-meta`` to the primary pipeline's aimeta and it will be displayed in both pipelines.
+
+Note that ``return-custom-overlay`` is not available on the GUI.
+
 ----------------
 Tracker
 ----------------
@@ -480,7 +507,13 @@ Allowed::
         repr()
         round()
         zip()
-    Module imports are potentially dangerous but the datetime package and all its sub-modules are allowed.
+    Module imports are potentially dangerous but the following are allowed:
+        Complete Modules:
+            datetime
+        Submodules:
+            pointPolygonTest from cv2
+            array, sin, cos, tan , arctan2, deg2rad, rad2deg, and pi from numpy
+            time and _strptime from datetime
     New classes, parameters, and methods are allowed
     The following data types are allowed:
         bool
@@ -610,7 +643,7 @@ Restricted::
         ^=
         >>=
         <<=
-    Prints are restricted
+    Prints are restricted. However, you can print debug strings by returning a non-empty string on the signal callback ``debug_string``.
     Strings that describe Python are restricted, there's no point to including these:
         copyright()
         credits()
