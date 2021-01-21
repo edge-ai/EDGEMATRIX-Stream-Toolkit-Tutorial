@@ -486,7 +486,7 @@ Allowed::
         ValueError
         Warning
         ZeroDivisionError
-    For loops are allowed when iterating over lists, tuples or strings.
+    For loops are allowed when iterating over lists, tuples, dict or strings.
     Flow control statements are allowed:, break, continue, pass
     Using format() on a str is not safe but it is allowed
     The following built-in functions are allowed:
@@ -566,7 +566,7 @@ Restricted::
         hasattr()
     Attribute names that start with "_" are restricted
     compile() is restricted because it can be used to produce new unrestricted code
-    For loops are restricted when iterating over dict
+    sequence unpacking is restricted
     dir() is restricted because it returns all properties and methods of an object
     Direct IO is restricted:
         execfile()
