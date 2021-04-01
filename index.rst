@@ -15,7 +15,8 @@ EDGEMATRIX Stream Toolkit Tutorial
    tutorials
    sample_app
    configurations
-   emcustom
    doubleeaps
+   emcustom
+   empycustom
    custompipeline
    knownissues
