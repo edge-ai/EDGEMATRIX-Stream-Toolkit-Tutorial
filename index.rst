@@ -19,4 +19,5 @@ EDGEMATRIX Stream Toolkit Tutorial
    emcustom
    empycustom
    custompipeline
+   sample_app_torch
    knownissues
