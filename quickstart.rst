@@ -43,18 +43,19 @@ Run the following command to check the currently installed version.
 .. code-block:: bash
 
     $ apt show python3-edgematrix-stream-toolkit
-    Package: python3-edgematrix-stream-toolkit
-    Version: 1.6.2b0-0
-    Priority: optional
-    Section: python
-    Source: edgematrix-stream-toolkit
-    Maintainer: Takenori Sato <tsato@edgematrix.com>
-    Installed-Size: 308 kB
-    Depends: python3-boto3, python3-gpg, python3-pycryptodome, python3-pysnmp4, python3-requests, python3:any (>= 3.3.2-2~), edgematrix-stream (>= 1.10.0), edgematrix-stream (<< 2.0), python3-emisecurity (>= 1.1.2), python3-emitools (>= 1.0.1), meson, python3-libnvinfer-dev, uff-converter-tf, edgematrix-deepstream (>= 4.0.4)
-    Download-Size: 40.9 kB
-    APT-Manual-Installed: yes
-    APT-Sources: https://apt.console.edgematrix.com/airbase/apt/debian bionic/main arm64 Packages
-    Description: EDGEMATRIX Stream Toolkit allows an AI model developer to build, test, and package an EAP (EDGEMATRIX Stream Application Package).
+      Package: python3-edgematrix-stream-toolkit
+      Version: 2.0.1b1-1
+      Priority: optional
+      Section: python
+      Source: edgematrix-stream-toolkit
+      Maintainer: Takenori Sato <tsato@edgematrix.com>
+      Installed-Size: 310 kB
+      Depends: python3-boto3, python3-gpg, python3-pycryptodome, python3-pysnmp4, python3-requests, python3:any (>= 3.3.2-2~), edgematrix-stream (>= 2.3.1), edgematrix-stream (<< 3.0), python3-emisecurity (>= 2.0.1), python3-emitools (>= 1.0.5), meson, python3-libnvinfer-dev, uff-converter-tf
+      Homepage: https://github.com/edge-ai/EdgeStreamSDK
+      Download-Size: 41.2 kB
+      APT-Manual-Installed: yes
+      APT-Sources: https://apt.console.edgematrix.com/airbase/apt/debian r32.4/main arm64 Packages
+      Description: EDGEMATRIX Stream Toolkit allows an AI model developer to build, test, and package an EAP (EDGEMATRIX Stream Application Package).
 
 In the example above, the version is 1.5.1b0-1.
 
@@ -73,44 +74,30 @@ Run the following command to try updating to the latest version.
 
     a local proxy is launching...
     a local proxy is launching...
-    a local proxy is launching...
-    Get:1 file:/var/cuda-repo-10-0-local-10.0.326  InRelease
-    Ign:1 file:/var/cuda-repo-10-0-local-10.0.326  InRelease
-    Get:2 file:/var/cuda-repo-10-0-local-10.0.326  Release [574 B]
-    Get:2 file:/var/cuda-repo-10-0-local-10.0.326  Release [574 B]
-    Hit:4 http://ports.ubuntu.com/ubuntu-ports bionic InRelease                                                             
-    Hit:5 https://repo.download.nvidia.com/jetson/common r32 InRelease                                                  
-    Get:6 http://ports.ubuntu.com/ubuntu-ports bionic-updates InRelease [88.7 kB]                                       
-    Get:7 https://apt.console.edgematrix.com/airbase/apt/debian bionic InRelease [2,412 B]                                  
-    Hit:8 https://repo.download.nvidia.com/jetson/t210 r32 InRelease                                                        
-    Get:10 http://ports.ubuntu.com/ubuntu-ports bionic-backports InRelease [74.6 kB]                                        
-    Get:11 http://ports.ubuntu.com/ubuntu-ports bionic-security InRelease [88.7 kB]      
-    Get:12 http://ports.ubuntu.com/ubuntu-ports bionic-updates/main arm64 Packages [711 kB]
-    Hit:9 https://packagecloud.io/github/git-lfs/ubuntu bionic InRelease                
-    Get:13 http://ports.ubuntu.com/ubuntu-ports bionic-updates/main arm64 DEP-11 Metadata [290 kB]
-    Get:14 http://ports.ubuntu.com/ubuntu-ports bionic-updates/universe arm64 Packages [975 kB]
-    Get:15 http://ports.ubuntu.com/ubuntu-ports bionic-updates/universe arm64 DEP-11 Metadata [280 kB]
-    Get:16 http://ports.ubuntu.com/ubuntu-ports bionic-backports/universe arm64 DEP-11 Metadata [9,288 B]
-    Get:17 http://ports.ubuntu.com/ubuntu-ports bionic-security/main arm64 Packages [505 kB]
-    Get:18 http://ports.ubuntu.com/ubuntu-ports bionic-security/main arm64 DEP-11 Metadata [42.6 kB]
-    Get:19 http://ports.ubuntu.com/ubuntu-ports bionic-security/universe arm64 Packages [609 kB]
-    Get:20 http://ports.ubuntu.com/ubuntu-ports bionic-security/universe arm64 DEP-11 Metadata [51.0 kB]
-    Fetched 3,727 kB in 4s (873 kB/s)                                            
+    Hit:1 http://ppa.launchpad.net/aleksander-m/modemmanager-bionic/ubuntu bionic InRelease
+    Hit:2 http://ports.ubuntu.com/ubuntu-ports bionic InRelease                                                        
+    Hit:3 https://repo.download.nvidia.com/jetson/common r32.4 InRelease                                               
+    Hit:4 http://ports.ubuntu.com/ubuntu-ports bionic-updates InRelease                                                
+    Get:5 https://apt.console.edgematrix.com/airbase/apt/debian r32.4 InRelease [2,408 B]          
+    Hit:6 http://ports.ubuntu.com/ubuntu-ports bionic-backports InRelease                                 
+    Hit:7 http://ports.ubuntu.com/ubuntu-ports bionic-security InRelease     
+    Hit:8 https://packagecloud.io/github/git-lfs/ubuntu bionic InRelease     
+    Fetched 2,408 B in 2s (1,019 B/s)
     Reading package lists... Done
     Building dependency tree       
     Reading state information... Done
-    286 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    347 packages can be upgraded. Run 'apt list --upgradable' to see them.
     Reading package lists... Done
     Building dependency tree       
     Reading state information... Done
-    python3-edgematrix-stream-toolkit is already the newest version (1.6.2b0-0).
-    0 upgraded, 0 newly installed, 0 to remove and 286 not upgraded.
+    python3-edgematrix-stream-toolkit is already the newest version (2.0.1b1-1).
+    0 upgraded, 0 newly installed, 0 to remove and 347 not upgraded.
     Reading package lists... Done
     Building dependency tree       
     Reading state information... Done
-    0 upgraded, 0 newly installed, 0 to remove and 286 not upgraded.
+    0 upgraded, 0 newly installed, 0 to remove and 347 not upgraded.
 
-Note that ``Get:7 https://apt.console.edgematrix.com/airbase/apt/debian bionic InRelease`` is the private APT repository by EDGEMATRIX that can be accessed only an authorized device.
+Note that ``Get:5 https://apt.console.edgematrix.com/airbase/apt/debian r32.4 InRelease`` is the private APT repository by EDGEMATRIX that can be accessed only an authorized device.
 
 In the example above, the sdk was confirmed as the latest version.
 
