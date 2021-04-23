@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = 'EDGEMATRIX Stream Toolkit Tutorial'
-copyright = '(C) 2020 EDGEMATRIX, Inc.'
+copyright = '(C) 2019 EDGEMATRIX Inc.'
 author = 'Takenori Sato'
 
 # The short X.Y version
-version = '1.6'
+version = '2.0'
 # The full version, including alpha/beta/rc tags
-release = '1.6.2'
+release = '2.0.1'
 
 
 # -- General configuration ---------------------------------------------------
