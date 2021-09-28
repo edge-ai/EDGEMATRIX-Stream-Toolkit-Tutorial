@@ -28,6 +28,9 @@ Properties and Signals
     custom-lib          : Custom python library where the function will be found
                           flags: readable, writable
                           String. Default: null
+    events              : JSON string containing events to be passed to the custom library,
+                          updated, and added to the emcustom meta
+                          flags: readable, writable
     in-place            : Process buffer in place or not
                           Boolean. Default: false
     last-meta           : Last Meta available to read
@@ -71,8 +74,8 @@ Due to a limitation on the GObject python bindings, the GStreamer buffer can onl
 
 * start(options): This method is called once during element start. Any computational-intensive tasks that need to be performed once should be called here. For example, loading models in memory or configuring libraries. The options JSON is passed to the method for any argument that might need to be passed to the method from the stream configuration. Implementing this method is completely optional.
 * stop(options): This method is called once during element stop. It should free all the memory that the Python Garbage collector can't free. The options JSON is passed to the method for any argument that might need to be passed to the method from the stream configuration. Implementing this method is completely optional.
-* process(in_buffer, in_meta, options): This method is called for every buffer received by the element. It receives an input buffer and meta and must create a new output buffer to return it alongside the output meta. The options JSON is passed to the method for any argument that might need to be passed to the method from the stream configuration. This method must be implemented if the property in-place is set to false, otherwise, the element will return an error. **Note that due to limitations in the current version of the GObject python bindings this method is useless because a GstBuffer can not be mapped for writing. Because of that, in-place should always be set to true.**
-* process_ip(in_buffer, in_meta, options): This method is called for every buffer received by the element. It receives an input/output buffer to process it in place. The options JSON is passed to the method for any argument that might need to be passed to the method from the stream configuration. This method must be implemented if the property in-place is set to true, otherwise, the element will return an error. **Note that due to limitations in the current version of the GObject python bindings the buffer can be only mapped for reading.**
+* process(in_buffer, in_meta, options, events): This method is called for every buffer received by the element. It receives an input buffer and meta and must create a new output buffer to return it alongside the output meta. The options JSON is passed to the method for any argument that might need to be passed to the method from the stream configuration. This method must be implemented if the property in-place is set to false, otherwise, the element will return an error. **Note that due to limitations in the current version of the GObject python bindings this method is useless because a GstBuffer can not be mapped for writing. Because of that, in-place should always be set to true.**
+* process_ip(in_buffer, in_meta, options, events): This method is called for every buffer received by the element. It receives an input/output buffer to process it in place. The options JSON is passed to the method for any argument that might need to be passed to the method from the stream configuration. This method must be implemented if the property in-place is set to true, otherwise, the element will return an error. **Note that due to limitations in the current version of the GObject python bindings the buffer can be only mapped for reading.**
 
 ============================================================
 Usage and Examples
@@ -135,13 +138,13 @@ Example pipeline
 .. code-block:: bash
 
   $ gst-launch-1.0 \
-  uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-5.0/samples/streams/sample_720p.mp4" ! \
+  uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_720p.mp4" ! \
   queue ! \
   nvvideoconvert ! \
   'video/x-raw(memory:NVMM)' ! \
   nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 width=640 height=360 live-source=true ! \
   nvvideoconvert ! 'video/x-raw,format=(string)RGBA' ! \
-  empycustom custom-lib="average_intensity.py" in-place=true process-interval=10 ! \
+  empycustom custom-lib="/mnt/nvme/toolkit_home/libs/gst-empycustom/average_intensity.py" in-place=true process-interval=10 ! \
   aimeta silent=false ! perf ! fakesink
 
 ============================================================
@@ -157,13 +160,13 @@ Replace `fakesink` in the pipeline above with `nvvideoconvert ! nvdsosd ! nveglt
 .. code-block:: bash
 
   $ gst-launch-1.0 \
-  uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-5.0/samples/streams/sample_720p.mp4" ! \
+  uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_720p.mp4" ! \
   queue ! \
   nvvideoconvert ! \
   'video/x-raw(memory:NVMM)' ! \
   nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 width=640 height=360 live-source=true ! \
   nvvideoconvert ! 'video/x-raw,format=(string)RGBA' ! \
-  empycustom custom-lib="average_intensity.py" in-place=true process-interval=10 ! \
+  empycustom custom-lib="/mnt/nvme/toolkit_home/libs/gst-empycustom/average_intensity.py" in-place=true process-interval=10 ! \
   aimeta silent=false ! perf ! nvvideoconvert ! nvdsosd ! nvegltransform ! nveglglessink sync=false
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -175,14 +178,14 @@ Print output meta to console
 
 .. code-block:: bash
 
-  $ GST_DEBUG=*emcustom*:6 gst-launch-1.0 \
-  uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-5.0/samples/streams/sample_720p.mp4" ! \
+  $ GST_DEBUG=*python*:6 gst-launch-1.0 \
+  uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_720p.mp4" ! \
   queue ! \
   nvvideoconvert ! \
   'video/x-raw(memory:NVMM)' ! \
   nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 width=640 height=360 live-source=true ! \
   nvvideoconvert ! 'video/x-raw,format=(string)RGBA' ! \
-  empycustom custom-lib="average_intensity.py" in-place=true process-interval=10 silent=false ! \
+  empycustom custom-lib="/mnt/nvme/toolkit_home/libs/gst-empycustom/average_intensity.py" in-place=true process-interval=10 silent=false ! \
   aimeta silent=false ! perf ! fakesink
 
 * You will see messages in console that indicate that the element is processing:
@@ -204,7 +207,7 @@ Following steps are required in case you want to compile and use your own custom
 
 .. code-block:: python
 
-  def process(in_buffer, in_meta, options):
+  def process(in_buffer, in_meta, options, events):
       """
       Applies a custom function to a video stream
 
@@ -232,7 +235,7 @@ Following steps are required in case you want to compile and use your own custom
       return out_buffer, out_meta
 
 
-  def process_ip(io_buffer, in_meta, options):
+  def process_ip(io_buffer, in_meta, options, events):
       """
       Applies a custom function to a video stream in-place
 
@@ -440,7 +443,7 @@ This example parses the input meta to determine the ROI for a primary engine per
 
   DEFAULT_PERSON_CLASS_ID = 2
 
-  def process(in_buffer, in_meta, options):
+  def process(in_buffer, in_meta, options, events):
       """
       Applies a custom function to a video stream
 
@@ -465,7 +468,7 @@ This example parses the input meta to determine the ROI for a primary engine per
       return None, ''
 
 
-  def process_ip(io_buffer, in_meta, options):
+  def process_ip(io_buffer, in_meta, options, events):
       """
       Applies a custom function to a video stream in-place
 
@@ -590,7 +593,7 @@ This example parses the input meta to determine the ROI for each detected object
       torch.cuda.empty_cache()
 
 
-  def process(in_buffer, in_meta, options):
+  def process(in_buffer, in_meta, options, events):
       """
       Applies a custom function to a video stream
 
@@ -615,7 +618,7 @@ This example parses the input meta to determine the ROI for each detected object
       return None, ''
 
 
-  def process_ip(io_buffer, in_meta, options):
+  def process_ip(io_buffer, in_meta, options, events):
       """
       Applies a custom function to a video stream in-place
 
@@ -695,8 +698,8 @@ The options are received in the custom library as a parameter in all vortual met
 
   start(options)
   stop(options)
-  process_ip(io_buffer, in_meta, options)
-  process(in_buffer, in_meta, options)
+  process_ip(io_buffer, in_meta, options, events)
+  process(in_buffer, in_meta, options, events)
 
 ============================================================
 Known issues
