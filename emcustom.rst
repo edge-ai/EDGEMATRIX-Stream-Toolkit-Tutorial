@@ -13,7 +13,7 @@ The format and video resolution can be queried from the video_data structure. Th
 
 The output metadata should be allocated by the custom function, and it will be freed by the element.
 
-Both the process and the in-place process can be implemented but only one of these will be executed at the time, this is controlled by a parameter in the configuration file.
+Both of the process and the in-place process can be implemented but only one of these will be executed at the time, this is controlled by a parameter in the configuration file.
 
 ============================================================
 Properties and Signals
@@ -49,7 +49,10 @@ Properties and Signals
     options             : JSON string containing options to be passed to the custom library
                           flags: readable, writable
                           String. Default: null
-
+    events              : JSON string containing events to be passed to the custom library,
+                          updated, and added to the emcustom meta
+                          flags: readable, writable
+                          String. Default: null
 
   Element Signals:
     "emcustom" :  void user_function (GstElement* object,
@@ -61,9 +64,9 @@ Usage and Examples
 
 .. code-block:: bash
 
-  gst-launch-1.0 uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-4.0/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
+  gst-launch-1.0 uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
   nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 batched-push-timeout=40000 width=1280 height=720 live-source=TRUE ! queue ! nvvideoconvert ! queue ! \
-  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream-4.0/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream-4.0/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
+  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
   emcustom custom-lib=/mnt/nvme/toolkit_home/libs/gst-emcustom/build/examples/libaverage_intensity.so  ! fakesink
 
 ============================================================
@@ -78,9 +81,9 @@ Replace `fakesink` in the pipeline above by `videoconvert ! xvimagesink`.
 
 .. code-block:: bash
 
-  $ gst-launch-1.0 uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-4.0/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
+  $ gst-launch-1.0 uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
   nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 batched-push-timeout=40000 width=1280 height=720 live-source=TRUE ! queue ! nvvideoconvert ! queue ! \
-  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream-4.0/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream-4.0/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
+  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
   emcustom custom-lib=/mnt/nvme/toolkit_home/libs/gst-emcustom/build/examples/libaverage_intensity.so  ! videoconvert ! xvimagesink
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -92,7 +95,7 @@ Print output meta to console
 
 .. code-block:: bash
 
-  $ GST_DEBUG=*emcustom*:6 gst-launch-1.0 uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-4.0/samples/streams/sample_1080p_h264.mp4" ! queue  ! nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 batched-push-timeout=40000 width=1280 height=720 live-source=TRUE ! queue ! nvvideoconvert ! queue ! nvinfer config-file-path="/opt/nvidia/deepstream/deepstream-4.0/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream-4.0/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! emcustom name=emcustom custom-lib=/home/nvidia/gst-emcustom/build/examples/libaverage_intensity.so silent=false  ! fakesink
+  $ GST_DEBUG=*emcustom*:6 gst-launch-1.0 uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_1080p_h264.mp4" ! queue  ! nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 batched-push-timeout=40000 width=1280 height=720 live-source=TRUE ! queue ! nvvideoconvert ! queue ! nvinfer config-file-path="/opt/nvidia/deepstream/deepstream/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! emcustom name=emcustom custom-lib=/mnt/nvme/toolkit_home/libs/gst-emcustom/build/examples/libaverage_intensity.so silent=false  ! fakesink
 
 * You will see the metas in the console like this:
 
@@ -127,10 +130,10 @@ The element exposes the last meta through the `last-meta` property:
   $ gstd
 
   # Launch pipeline
-  $ gstd-client pipeline_create pipe uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-4.0/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
+  $ gstd-client pipeline_create pipe uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
   nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 batched-push-timeout=40000 width=1280 height=720 live-source=TRUE ! queue ! nvvideoconvert ! queue ! \
-  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream-4.0/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream-4.0/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
-  emcustom name=emcustom custom-lib=/home/nvidia/gst-emcustom/build/examples/libaverage_intensity.so silent=false  ! fakesink
+  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
+  emcustom name=emcustom custom-lib=/mnt/nvme/toolkit_home/libs/gst-emcustom/build/examples/libaverage_intensity.so silent=false  ! fakesink
 
   # Play pipeline
   $ gstd-client pipeline_play pipe
@@ -152,10 +155,10 @@ The EMCustom element can signal that a frame has been processed, this avoids hav
   $ gstd
 
   # Launch pipeline
-  $ gstd-client pipeline_create pipe uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream-4.0/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
+  $ gstd-client pipeline_create pipe uridecodebin3 uri="file:///opt/nvidia/deepstream/deepstream/samples/streams/sample_1080p_h264.mp4" ! queue  ! \
   nvstreammux0.sink_0 nvstreammux name=nvstreammux0 batch-size=1 batched-push-timeout=40000 width=1280 height=720 live-source=TRUE ! queue ! nvvideoconvert ! queue ! \
-  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream-4.0/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream-4.0/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
-  emcustom name=emcustom custom-lib=/home/nvidia/gst-emcustom/build/examples/libaverage_intensity.so silent=false  ! fakesink
+  nvinfer config-file-path="/opt/nvidia/deepstream/deepstream/samples/configs/deepstream-app/config_infer_primary_nano.txt" model-engine-file="/opt/nvidia/deepstream/deepstream/samples/models/Primary_Detector_Nano/resnet10.caffemodel_b8_fp16.engine" ! queue ! nvvidconv ! \
+  emcustom name=emcustom custom-lib=/mnt/nvme/toolkit_home/libs/gst-emcustom/build/examples/libaverage_intensity.so silent=false  ! fakesink
 
   # Play pipeline
   $ gstd-client pipeline_play pipe
@@ -177,6 +180,7 @@ Interface
 .. code-block:: cpp
 
   #define MAX_N_PLANES 3
+  #include "gstnvdsmeta.h"
 
   /**
    * List of supported formats
@@ -229,23 +233,41 @@ Interface
    * contain the custom metadata. This buffer can have an arbitrary size
    * and its memory will be freed by the gstemcustom element.
    *
+   * @param options JSON string containing custom configurable options
+   *
+   * @param events JSON string containing external events that can be used
+   * to share variables with emcustom upstream
+   *
+   * @param batch_meta DeepStream batch meta pointer.
+   *
    */
   void process (const struct video_data *in_buffer, const char *in_meta,
-          struct video_data *out_buffer, char **out_meta);
+          struct video_data *out_buffer, char **out_meta, const char *options,
+    const char *events, NvDsBatchMeta *batch_meta);
 
   /**
    * This function allows a custom function to be applied to an in-place video stream
    *
    * @param io_buffer Input/Output buffer
+   *
    * @param io_meta Input meta in a json format
+   *
    * @param out_meta Output meta in a json format. The input meta data
    * is moved over by the gstemcustom element so this should only
    * contain the custom metadata. This buffer can have an arbitrary size
    * and its memory will be freed by the gstemcustom element.
    *
+   * @param options JSON string containing custom configurable options
+   *
+   * @param events JSON string containing external events that can be used
+   * to share variables with emcustom upstream
+   *
+   * @param batch_meta DeepStream batch meta pointer.
+   *
    */
   void process_ip (struct video_data *io_buffer, const char *in_meta,
-       char **out_meta);
+       char **out_meta, const char *options, const char *events,
+    NvDsBatchMeta *batch_meta);
 
 ============================================================
 How to add a custom library
@@ -269,12 +291,14 @@ Following steps are required in case you want to compile and use your own custom
 
   void
   process (const struct video_data *in_buffer, const char *in_meta,
-      struct video_data *out_buffer, char **out_meta)
+      struct video_data *out_buffer, char **out_meta, const char *options, 
+      const char *events, NvDsBatchMeta *batch_meta)
   {
   }
 
   void
-  process_ip (struct video_data *io_buffer, const char *in_meta, char **out_meta)
+  process_ip (struct video_data *io_buffer, const char *in_meta, char **out_meta, 
+    const char *options, const char *events, NvDsBatchMeta *batch_meta)
   {
     /* Create sample JSON */
     JsonBuilder *builder = json_builder_new ();
@@ -333,7 +357,7 @@ In case your library has a different name, just change `new_lib` by your library
 EMCustom Meta
 ============================================================
 
-The EMCustom element uses the GstEMCustomMeta structure to move its data along the meta. Which can be see in the following code snippets:
+The EMCustom element uses the GstEMCustomMeta structure to move its data along the meta. Which can be seen in the following code snippets:
 
 .. code-block:: cpp
 
@@ -344,8 +368,99 @@ The EMCustom element uses the GstEMCustomMeta structure to move its data along t
     gchar *custom;
   };
 
-The custom structure contains custom data from the user, this is expected to be a JSON array. This is shown in the Average Intensity example.
+The custom structure contains custom data from the user represented with a JSON string with a particular structure. There are currently 2 structures supported for this field: Array (old) and object (new).
 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Array structure
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The array structure was designed initially to make adding metadata to the detected objects easy. The structure is composed by a single object array where every object corresponds to a detected object and the last element can be used to add metadata for the corresponding frame. For example, given 3 detected objects:
+
+.. code-block:: javascript
+
+  [
+    {
+      "custom_old": "object 0 meta"
+    },
+    {
+      "custom_old": "object 1 meta"
+    },
+    {
+      "custom_old": "object 2 meta"
+    },
+    {
+      "custom_old": "frame 0 meta"
+    }
+  ]
+
+The fields can be of any type supported by JSON and have any arbitrary name.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Object structure
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The object structure was added to give developers more control over the meta they want to add without needing to worry about detected objects. It follows a structure similar to DeepStream meta, where a batch has a list frames and each frame has a list of objects. This structure allows several cases that are imposible with the array structure:
+
+* Add batch meta
+* Add frame meta without adding objects
+* Add frame and object meta for frames other than the first one
+
+Here is an example of this structure:
+
+.. code-block:: javascript
+
+  {
+    "meta": {
+      "custom_new": "batch meta"
+    },
+    "frame": [
+      {
+        "meta": {
+          "custom_new": "frame 0 meta"
+        },
+        "object": [
+          {
+            "custom_new": "object 0 meta"
+          },
+          {
+            "custom_new": "object 1 meta"
+          },
+          {
+            "custom_new": "object 2 meta"
+          }
+        ]
+      },
+      {
+        "meta": {
+          "custom_new": "frame 1 meta"
+        },
+        "object": [
+          {
+            "custom_new": "object 0 meta"
+          },
+          {
+            "custom_new": "object 1 meta"
+          },
+          {
+            "custom_new": "object 2 meta"
+          }
+        ]
+      }
+    ]
+  }
+
+The root of the object is considered batch meta. It can have any of the following fields:
+
+* frame: Array of frame objects
+* meta: Object containing any arbitrary fields that represent meta linked to the whole batch
+
+Each frame object represent meta for a given frame. It can have any of the following fields:
+
+* object: Array of object objects
+* meta: Object containing any arbitrary fields that represent meta linked to the frame
+
+Each object object can contain any arbitrary fields that represent meta linked to the object
 
 ============================================================
 EMCustom Integration
@@ -455,7 +570,8 @@ The following function performs a passthrough operation on the buffer and counts
 
   void
   process (const struct video_data *in_buffer, const char *in_meta,
-      struct video_data *out_buffer, char **out_meta)
+      struct video_data *out_buffer, char **out_meta, const char *options,
+      const char *events, NvDsBatchMeta *batch_meta)
   {
     JsonBuilder *builder = json_builder_new ();
     JsonNode *node;
@@ -605,7 +721,8 @@ This example parses the input meta to determine the ROI for a primary engine per
    */
 
   void
-  process_ip (struct video_data *io_buffer, const char *in_meta, char **out_meta)
+  process_ip (struct video_data *io_buffer, const char *in_meta, char **out_meta, 
+              const char *options, const char *events, NvDsBatchMeta *batch_meta)
   {
     GError *error = NULL;
     unsigned char *in_data;
@@ -728,12 +845,13 @@ The options are received in the custom library as a parameter in both process fu
 .. code-block:: cpp
 
   void
-  process_ip (struct video_data *io_buffer, const char *in_meta, char **out_meta,
-      const char *options)
+  process_ip (struct video_data *io_buffer, const char *in_meta, char **out_meta, 
+      const char *options, const char *events, NvDsBatchMeta *batch_meta)
   ...
   void
   process (const struct video_data *in_buffer, const char *in_meta,
-      struct video_data *out_buffer, char **out_meta, const char *options)
+      struct video_data *out_buffer, char **out_meta, const char *options,
+      const char *events, NvDsBatchMeta *batch_meta)
 
 And can be parsed using any JSON library:
 
@@ -754,3 +872,60 @@ And can be parsed using any JSON library:
           "person_class_id");
     }
   }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Batch meta from custom library
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The custom library receives batch_meta as a parameter, which is a DeepStream batch meta pointer (NvDsBatchMeta). This pointer can be used to access all the meta fields defined in NvDsBatchMeta:
+
+.. code-block:: 
+
+  ├── batch_user_meta_list
+  ├── frame_meta_list
+  │   ├── display_meta_list
+  │   ├── frame_user_meta_list
+  │   └── obj_meta_list
+  │       ├── classifier_meta_list
+  │       └── obj_user_meta_list
+  ├── max_frames_in_batch
+  └── num_frames_in_batch
+
+  The following example describes how to access the batch_user_meta_list
+
+.. code-block:: c
+
+  #include "gstnvdsmeta.h"
+
+  ...
+
+  NvDsUserMetaList *batch_user_meta_list;
+  NvDsUserMeta *user_meta;
+  batch_user_meta_list = batch_meta->batch_user_meta_list;
+  while (batch_user_meta_list != NULL) {
+    user_meta = (NvDsUserMeta *) batch_user_meta_list->data;
+    // Cast user meta to the specific type
+  }
+
+Access NvDsInferSegmentationMeta
+
+.. code-block:: c
+
+  NvDsFrameMetaList *frame_meta_list;
+  NvDsFrameMeta *frame_meta;
+  NvDsUserMetaList *frame_user_meta_list;
+  NvDsInferSegmentationMeta *segmentation_meta;
+
+  frame_user_meta_list = batch_meta->frame_user_meta_list;
+  while (frame_meta_list != NULL) {
+    frame_meta = (NvDsFrameMeta *) frame_meta_list->data;
+    frame_user_meta_list = frame_meta->frame_user_meta_list;
+    while (frame_user_meta_list != NULL) {
+      segmentation_meta = (NvDsInferSegmentationMeta *) frame_user_meta_list->data;
+      // Use segmentation_meta
+      frame_user_meta_list = frame_user_meta_list->next;
+    }
+    frame_meta_list = frame_meta_list->next;
+  }
+
+  ...
