@@ -68,9 +68,9 @@ You could write a very complex algorithm for this, but for the simplicity, it is
 The next thing to define is how to send an alert to such a vehicle.
 Here, it is sent by a light as well as a sound by using a signal.
 
-A SNMP action is available for this purpose to trigger such an alert locally on site.
+A SNMP action is available for this purpose to trigger such an alert locally on site. A Relay action is more efficient in terms of power consumption as well as TCO if a supported CDC-ACM device is available. But here, we use a generic SNMP as an example. 
 
-As an example, we use the following product by Patlite.
+As an example, we use the following product by Patlite. Please note that this model is for inddor, but which is used here for the simplicity.
 
 https://www.patlite.com/product/detail0000021465.html
 
@@ -238,7 +238,7 @@ Define the structure of an event
 
 For all of the Actions, the length that at least one vehicle has stayed for in a restricted region must be known by an event.
 
-Also an event is generated when at least one vehicle enters into a restricted area or a restricted region becomes empty for an analysis in the cloud.
+Also an event is generated when at least one vehicle enters a restricted area or a restricted region becomes empty for an analysis in the cloud.
 
 So, such an event is structured as follows:
 
@@ -505,7 +505,7 @@ Implementation
 Action Definitions
 ---------------------------------------
 
-Here're some examples to define such actions explained above.
+Here're some examples to define such actions explained above. As a reference, You can use the parking_violation_detector_stream.json in the streams folder to test this app. 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 SNMP Action

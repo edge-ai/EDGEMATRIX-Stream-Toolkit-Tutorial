@@ -46,13 +46,13 @@ Examples
 
 1. To add a Secondary only EAP 
 
-* (parent) EMI Vehicle IOU Counter By Make 720p
-* (child) EMI Vehicle DCF MetaTransfer
+* (parent) EMI Vehicle Counter
+* (child) EMI Vehicle Color Watcher
 
 2. To use two cameras (RTSP streams)
 
-* (parent) EMI Vehicle IOU Counter By Make 720p
-* (child) EMI Vehicle DCF EMCustom
+* (parent) EMI Vehicle Counter
+* (child) EMI Vehicle EMCustom
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Preparation
@@ -60,28 +60,30 @@ Preparation
 
 As a preparation, all the resources have to be generated with a ``prepare_resource.sh`` script in each resource folder of templates.
 
-EMI Vehicle IOU Counter By Make 720p
+EMI Vehicle Counter
 
 .. code-block:: bash
 
   $ cd /mnt/nvme/toolkit_home
-  $ cd templates/EMI\ Vehicle\ IOU\ Counter\ By\ Make\ 720p/resource/
+  $ cd templates/EMI\ Vehicle\ Counter/resource/
   $ ./prepare_resource.sh
   $ cd ../../../
 
-EMI Vehicle DCF MetaTransfer
+EMI Vehicle Color Watcher
 
 .. code-block:: bash
 
-  $ cd templates/EMI\ Vehicle\ DCF\ MetaTransfer/resource/
+  $ cd templates/EMI\ Vehicle\ Color\ Watcher/resource/
   $ ./prepare_resource.sh
+  $ cd ../../../
 
-EMI Vehicle DCF EMCustom
+EMI Vehicle EMCustom
 
 .. code-block:: bash
 
-  $ cd templates/EMI\ Vehicle\ DCF\ EMCustom/resource/
+  $ cd templates/EMI\ Vehicle\ EMCustom/resource/
   $ ./prepare_resource.sh
+  $ cd ../../../
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Create Apps
@@ -96,15 +98,10 @@ Then, you will have three apps as follows.
 
 ParentApp
 
-By selecting the ParentApp, you can find it is the same as the EMI Vehicle IOU Counter By Make as the name suggests except for the following two configurations.
-
-A. 720p instead of 1080p
-B. meta-source-id for the Double EAPs support (referenced by a child app, see below)
+By selecting the ParentApp, you can find the property to enable one app to work with another, which is meta-source-id for the Double EAPs support (referenced by a child app, see below).
 
     .. image:: images/doubleeaps/meta-source-id.png
        :align: center
-
-And this app works exactly the same way as the EMI Vehicle IOU Counter By Make.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 1. To add a Secondary only EAP
@@ -117,17 +114,17 @@ At first, please setup the ParentApp as shown below. The stream config is from t
 
 
 
-Then, launch another toolkit from another shell. Then select the MetaTransferChildApp and go to the Primary tab. You will find a new GUI that enables to receive inference results from a parent app instead of its own primary inference.
+Then, launch another toolkit from another shell. Then select the ChildColorWatcherApp and go to the Primary tab. You will find a new GUI that enables to receive inference results from a parent app instead of its own primary inference.
 
     .. image:: images/doubleeaps/metatransfermode.png
        :align: center
 
-Then, setup the MetaTransferChildApp as shown below. The stream config is from the doubleeap_emcustom stream. Note that the Launch Local RTSP Server is not checked because it will use the same RTSP source as the one of the ParentApp.
+Then, setup the ChildColorWatcherApp as shown below. The stream config is from the vehicle_color_watcher stream. Note that the Launch Local RTSP Server is not checked because it will use the same RTSP source as the one of the ParentApp.
 
     .. image:: images/doubleeaps/metatransferapp.png
        :align: center
 
-Now, it is time to start the ParentApp first. Then, after pressing the Start button, start the MetaTransferChildApp.
+Now, it is time to start the ParentApp first. Then, after pressing the Start button, start the ChildColorWatcherApp.
 
 You will see a desktop like this.
 

@@ -69,7 +69,7 @@ Then, modify event items for a detector as follows.
 Please note that now this application raises events about a location of a detected object,
 instead of properties of each identified object by a tracker.
 
-Now, it's time to save these changes. Click ``Save`` button, then the sdk will reload applications.
+Now, it's time to save these changes. Click ``Save`` button, then the toolkit will reload applications.
 
     .. image:: images/tutorials/mydetector_save.png
        :align: center
@@ -237,25 +237,31 @@ Now the folder structure should look like this.
 .. code-block:: bash
 
   /mnt/nvme/toolkit_home$ ls -l streams/
-  total 56
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 20 09:13 doubleeap_emcustom
-  drwxr-xr-x 2 nvidia nvidia 4096 May 13 04:13 face_net
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 20 09:13 line_stream
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 20 10:41 mydetector_stream
-  drwxr-xr-x 2 nvidia nvidia 4096 May 12 08:44 no_app_stream
-  drwxr-xr-x 5 nvidia nvidia 4096 Jun 20 09:13 pedestrian_stream
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 11 08:43 pedestrian_stream_bottomleft
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 11 08:43 pedestrian_stream_upperleft
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 11 08:43 pedestrian_stream_upperright
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 20 09:13 snmp_stream
-  drwxr-xr-x 5 nvidia nvidia 4096 Jun 20 09:13 vehicle_colorwatcher_stream
-  drwxr-xr-x 5 nvidia nvidia 4096 Jun 20 09:46 vehicle_stream
-  drwxr-xr-x 2 nvidia nvidia 4096 May 13 09:50 yolo_stream
-  drwxr-xr-x 2 nvidia nvidia 4096 Jun 11 08:43 yolo_stream_bottomright
+  total 84
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 doubleeap_emcustom
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 face_net
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 line_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 27 14:44 mydetector_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 no_app_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 parking_violation_detector_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 pedestrian_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 pedestrian_stream_bottomleft
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 pedestrian_stream_upperleft
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 pedestrian_stream_upperright
+  drwxrwxr-x 4 nvidia nvidia 4096 Sep 27 13:39 segmentation_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 sensor_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 simple_recorder_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 snmp_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 torch_3dcnn_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 torch_imagenet_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 vehicle_colorwatcher_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 vehicle_prepost_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 27 14:44 vehicle_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 24 20:53 yolo_stream
+  drwxrwxr-x 2 nvidia nvidia 4096 Sep 17 17:48 yolo_stream_bottomright
   /mnt/nvme/toolkit_home$ ls -l streams/mydetector_stream/
-  total 8
-  -rw-r--r-- 1 nvidia nvidia 1264 Jun 20 10:40 vehicle_counter_stream_configuration.json
-  -rw-r--r-- 1 nvidia nvidia 1515 Jun 20 10:40 vehicle_counter_stream_configuration_with_options.json
+  total 4
+  -rw-rw-r-- 1 nvidia nvidia 1785 Sep 17 17:48 vehicle_counter_stream_configuration.json
 
 If you find any other files or folders when you come from the quickstart,
 then remove all the files except for ``vehicle_by_make_counter_stream_configuration.json``.
@@ -297,7 +303,8 @@ then copy the following content.
         "or": [],
         "action": {
           "action_name": "record",
-          "duration_in_seconds": 3
+          "duration_in_seconds": 20,
+          "max_duration_in_seconds": 20
         }
       },
       {
@@ -341,9 +348,8 @@ Also, recording actions will be invoked, and leave some movie files in the recor
 .. code-block:: bash
 
   /mnt/nvme/toolkit_home/streams/mydetector_stream$ ls -l prerecordings/
-  total 17912
-  -rw-r--r-- 1 nvidia nvidia 18239015 Jun 20 10:45 mydetector_stream_21841_prerecord_0_2020-06-20T10:44:50+0900.mp4
-  -rw-r--r-- 1 nvidia nvidia    99418 Jun 20 10:45 mydetector_stream_21841_prerecord_0_2020-06-20T10:45:38+0900.mp4
+  total 3644
+  -rw-r--r-- 1 nvidia nvidia 3730554 Sep 27 14:52 mydetector_stream_prerecord_0_2021-09-27T14:51:49+0900.mp4
 
 --------------------------------------------------------
 Using your own input source
@@ -379,7 +385,7 @@ Using your own trained Yolo model binary with IPlugin
 
 If you have your own trained Yolo model, you can refer to the following guide by NVIDIA.
 
-`Custom YOLO Model in the DeepStream YOLO App <https://docs.nvidia.com/metropolis/deepstream/Custom_YOLO_Model_in_the_DeepStream_YOLO_App.pdf>`_ 
+`Custom YOLO Model in the DeepStream YOLO App <https://docs.nvidia.com/metropolis/deepstream/5.0.1/dev-guide/text/DS_custom_YOLO.html>`_ 
 
 Here in this tutorial, you will see how to package a sample Yolo detector contained in the DeepStream.
 
@@ -389,12 +395,12 @@ Follow the Yolo tutorial on the DeepStream SDK
 
 Sample files of the deepsteram are stored on ``/opt/nvidia/deepstream``.
 
-The Yolo sample project is located at ``/opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo``. You can build the project by simply following the README file as follows.
+The Yolo sample project is located at ``/opt/nvidia/deepstream/deepstream/sources/objectDetector_Yolo``. You can build the project by simply following the README file as follows.
 
 .. code-block:: bash
 
   $ ./prebuild.sh
-  $ export CUDA_VER=10.0
+  $ export CUDA_VER=10.2
   $ make -C nvdsinfer_custom_impl_Yolo
 
 Then, launch the deepstream-app to check if it correctly works.
@@ -402,7 +408,7 @@ Also, at this initial launch, a TensorRT engine file will be created.
 
 .. code-block:: bash
 
-  $ deepstream-app -c deepstream_app_config_yoloV3_tiny.txt
+  $ sudo deepstream-app -c deepstream_app_config_yoloV3_tiny.txt
 
 Note that the Tiny Yolo V3 application runs as fast as about 50 fps in FP32 mode on Jetson TX2.
 You can try different Yolo versions to see their performances.
@@ -434,11 +440,11 @@ Then, copy the following files to the resource/models/Primary_Detector folder.
 
 .. code-block:: bash
 
-  /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp config_infer_primary_yoloV3_tiny.txt /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/
-  /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/
-  /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp labels.txt /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
-  /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp model_b1_fp32.engine /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
-  /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo$ cp yolov3-tiny.* /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
+  /opt/nvidia/deepstream/deepstream/sources/objectDetector_Yolo$ cp config_infer_primary_yoloV3_tiny.txt /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/
+  /opt/nvidia/deepstream/deepstream/sources/objectDetector_Yolo$ cp nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/
+  /opt/nvidia/deepstream/deepstream/sources/objectDetector_Yolo$ cp labels.txt /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
+  /opt/nvidia/deepstream/deepstream/sources/objectDetector_Yolo$ cp model_b1_gpu0_fp32.engine /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
+  /opt/nvidia/deepstream/deepstream/sources/objectDetector_Yolo$ cp yolov3-tiny.* /mnt/nvme/toolkit_home/applications/My\ Yolo\ Detector/resource/models/Primary_Detector/
 
 The folder structure now looks like this:
 
@@ -447,28 +453,28 @@ The folder structure now looks like this:
   /mnt/nvme/toolkit_home/applications/My Yolo Detector$ ls -lR
   .:
   total 32
-  -rw-r--r-- 1 nvidia nvidia  2006 Apr 24 13:40 emi_signal_callback.py
-  -rw-r--r-- 1 nvidia nvidia  1317 Apr 24 13:40 emi_stream_config.json
-  -rw-r--r-- 1 nvidia nvidia  1543 Apr 24 13:40 emi_stream_config.json.bak
-  -rw-r--r-- 1 nvidia nvidia 13271 Apr 24 13:40 icon.png
-  drwxr-xr-x 3 nvidia nvidia  4096 Apr 24 13:55 resource
+  -rw-rw-r-- 1 nvidia nvidia  2007 Sep 27 14:42 emi_signal_callback.py
+  -rw-rw-r-- 1 nvidia nvidia  2293 Sep 27 14:38 emi_stream_config.json
+  -rw-r--r-- 1 nvidia nvidia  2600 Sep 27 14:38 emi_stream_config.json.bak
+  -rw-rw-r-- 1 nvidia nvidia 13271 Sep 17 17:48 icon.png
+  drwxrwxr-x 3 nvidia nvidia  4096 Sep 27 15:05 resource
 
   ./resource:
-  total 872
-  -rwxrwxr-x 1 nvidia nvidia   3163 Apr 24 13:54 config_infer_primary_yoloV3_tiny.txt
-  -rwxr-xr-x 1 nvidia nvidia 882888 Apr 24 13:55 libnvdsinfer_custom_impl_Yolo.so
-  drwxr-xr-x 3 nvidia nvidia   4096 Apr 24 13:47 models
+  total 772
+  -rw-r--r-- 1 nvidia nvidia   3475 Sep 27 15:04 config_infer_primary_yoloV3_tiny.txt
+  -rwxr-xr-x 1 nvidia nvidia 781464 Sep 27 15:05 libnvdsinfer_custom_impl_Yolo.so
+  drwxr-xr-x 3 nvidia nvidia   4096 Sep 27 15:03 models
 
   ./resource/models:
   total 4
-  drwxr-xr-x 2 nvidia nvidia 4096 Apr 24 13:56 Primary_Detector
+  drwxr-xr-x 2 nvidia nvidia 4096 Sep 27 15:21 Primary_Detector
 
   ./resource/models/Primary_Detector:
-  total 71288
-  -rwxrwxr-x 1 nvidia nvidia      624 Apr 24 13:55 labels.txt
-  -rw-r--r-- 1 nvidia nvidia 37548579 Apr 24 13:55 model_b1_fp32.engine
-  -rw-r--r-- 1 nvidia nvidia     1915 Apr 24 13:56 yolov3-tiny.cfg
-  -rw-r--r-- 1 nvidia nvidia 35434956 Apr 24 13:56 yolov3-tiny.weights
+  total 128392
+  -rw-r--r-- 1 nvidia nvidia      624 Sep 27 15:05 labels.txt
+  -rw-r--r-- 1 nvidia nvidia 96021065 Sep 27 15:21 model_b1_gpu0_fp32.engine
+  -rw-r--r-- 1 nvidia nvidia     1915 Sep 27 15:21 yolov3-tiny.cfg
+  -rw-r--r-- 1 nvidia nvidia 35434956 Sep 27 15:21 yolov3-tiny.weights
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Change property configurations
@@ -485,18 +491,18 @@ Please make sure to remove the comment on the model-engine-file property, and ad
 
 .. code-block:: bash
 
-  /mnt/nvme/toolkit_home/applications/My Yolo Detector/resource$ diff config_infer_primary_yoloV3_tiny.txt /opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo/config_infer_primary_yoloV3_tiny.txt 
+  /mnt/nvme/toolkit_home/applications/My Yolo Detector/resource$ diff config_infer_primary_yoloV3_tiny.txt /opt/nvidia/deepstream/deepstream/sources/objectDetector_Yolo/config_infer_primary_yoloV3_tiny.txt 
   65,68c65,68
   < custom-network-config=models/Primary_Detector/yolov3-tiny.cfg
-  < model-file=models/Primary_Detector/yolov3-tiny.weights.gpg
-  < model-engine-file=models/Primary_Detector/model_b1_fp32.engine.gpg
+  < model-file=models/Primary_Detector/yolov3-tiny.weights
+  < model-engine-file=models/Primary_Detector/model_b1_gpu0_fp32.engine.gpg
   < labelfile-path=models/Primary_Detector/labels.txt
   ---
   > custom-network-config=yolov3-tiny.cfg
   > model-file=yolov3-tiny.weights
-  > #model-engine-file=model_b1_fp32.engine
+  > #model-engine-file=yolov3-tiny_b1_gpu0_fp32.engine
   > labelfile-path=labels.txt
-  76c76
+  79c79
   < custom-lib-path=libnvdsinfer_custom_impl_Yolo.so
   ---
   > custom-lib-path=nvdsinfer_custom_impl_Yolo/libnvdsinfer_custom_impl_Yolo.so

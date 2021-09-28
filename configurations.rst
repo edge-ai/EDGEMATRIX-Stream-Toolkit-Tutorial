@@ -9,6 +9,7 @@ Configurations
     #. Primary/Secondary
     #. Tracker
     #. EMCustom
+    #. EMPyCustom
     #. Overlay
     #. AI Meta
     #. Callback and Events
@@ -241,6 +242,33 @@ The mandatory properties are the followings.
 #. custom-lib
 
 ----------------
+EMPyCustom
+----------------
+
+This is a configuration about a custom element in Python of a pipeline.
+
+This GStreamer element is a priprietary one by EDGEMATRIX, Inc.
+
+Available properties are:
+
+======================== =================================================== ======================== ======================== ============
+Property                 Meaning                                             Type                     Range                    Default
+======================== =================================================== ======================== ======================== ============
+silent                   silent                                              Boolean                  true - false             true
+last-meta                last-meta                                           String                                            null
+process-interval         Interval (in buffers) to process                    Integer                  1 - 2147483647           1 
+custom-lib               Custom python library containing the implemented 
+                         virtual methods                                     String                                            null
+in-place                 Process buffers in place or not                     Boolean                  true - false             true 
+format                   Input format for processing                         String                   RGBA, I420, NV12         RGBA
+memory                   Type of memory of the input buffer                  String                   CPU or NVMM              CPU
+======================== =================================================== ======================== ======================== ============
+
+The mandatory properties are the followings.
+
+#. custom-lib
+
+----------------
 Overlay
 ----------------
 
@@ -284,8 +312,6 @@ signal-aimetas           Send a signal when the json containing the meta is
 signal-interval          Interval (in buffers) between aimeta signal 
                          emissions                                           Integer                  1 - 2147483647           1
 ======================== =================================================== ======================== ======================== ============
-
-The only property available is signal-interval, and which is mandatory.
 
 The signal-interval property is the interval between signals (in buffers). Change this property to reduce the frequency of emitted signals in non-critical applications.
 
@@ -725,7 +751,7 @@ In order to support adding multiple objects on a single meta, the following stru
 * Each of these objects is an array.
 * Every new objects is appended to its respective array in the form of a dictionary.
 
-So,`overlay_item` would be formed as follows:
+So, `overlay_item` would be formed as follows:
 
 .. code-block:: python
 
@@ -840,13 +866,20 @@ Also, consider the following example on appending the `overlay-meta` including t
           overlay_item['line_params'] = line_params
       return overlay_item
 
+Please note that there are some restrictions as described below.
+
+* Max text_params items: 16
+* Max rect_params items: 16
+* Max line_params items: 16
+* Max display_text length: 512 chars
+
 ----------------
 Options
 ----------------
 
 An end user to override any configuration value allowed by the AI model developer on a specific application package. Such a configuration override is achieved by the end user through a set of valid key/value pairs in a stream configuration file. Currently, there are two override modes supported:
 
-* **GStreamer**: allows an end user to modify any allowed property on a GStreamer element among `primary`, `tracker`, `secondary`, `overlay`, `aimeta`, `dsmetatransfer`, and `emcustom`. 
+* **GStreamer**: allows an end user to modify any allowed property on a GStreamer element among `primary`, `tracker`, `secondary`, `overlay`, `aimeta`, `dsmetatransfer`, `emcustom`, and `empycustom`. 
 * **Callback**: callback options are parsed and added to a list, which is then attached to the metadata sent to a callback, by appending to its dictonary an `options` entry, which will hold a list of these dictionary elements with the current values so that an AI model developer can access them.
 
 In order to enable such feature, the AI model developer must define each option by defining the following elements:
@@ -873,7 +906,8 @@ Consider the following example for a GStreamer option override:
         "element": "aimeta",
         "property": "signal-interval"
       },
-      "option_type": "gstreamer"
+      "option_type": "gstreamer",
+      "value_type": "number"
     },
    ...
  ]
@@ -906,13 +940,11 @@ Consider the following example for a callback option override:
   },
   "options": [
     {
-      {
-        "key": "new_var_num",
-        "option_type": "callback",
-        "value_type": "number"
-      },
+      "key": "new_var_num",
+      "option_type": "callback",
+      "value_type": "number"
+    },
     ...
-    }
   ]
 
 **Property override on the stream_config**
@@ -934,7 +966,7 @@ Consider the following example for a callback option override:
 Device Console Integration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Device Console will automagically find available lines or polygons in options, then let an end user draw such object on a screen. Such configuration will be saved in a stream config, then which will be accessible to your app.
+The Device Console will automagically find available lines or polygons in options, then let an end user to draw such an object on a screen. Such a configuration will be saved in a stream config, then which will be accessible to your app.
 
 In order for the Device Console to find such lines or polygons, please make sure to add a prefix, "line" for lines, and "polygon" for polygons, to keys. 
 
@@ -952,13 +984,17 @@ Please note that this will be configured on the Device Console.
 
 The following actions are available on the EDGEMATRIX Service.
 
-#. Recording Action
+#. Record Action
 #. Upload (to Amazon Kinesis Firehorse) Action
 #. LINE Action
 #. HTTPS Action
 #. SNMP Action
 #. Email Action
 #. Play Action
+#. ImageFreeze Action
+#. Udp Action
+#. Relay Action
+#. Vacan Action
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Record Action
@@ -1025,9 +1061,9 @@ Format name for recorded video::
 * S = seconds
 * z = numeric time zone
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Amazon Kinesis Firehorse Action
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Upload (to Amazon Kinesis Firehorse) Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is one of delegate actions executed by a Device Agent.
 
@@ -1063,7 +1099,7 @@ Here's the format of such a configuration.
         "message": "",
         "stickerId": 0,
         "stickerPackageId": 0,
-        "interval": 0
+        "interval": 0 (no interval) or larger
     }
 
 Please check the Notification section of `the LINE Notify API Document <https://notify-bot.line.me/doc/en/>`_ .
@@ -1085,7 +1121,8 @@ Here's the format of such a configuration.
       "action_name": "https",
       "url": "https://YOUR_HTTPS_SERVER/path",
       "user": "",
-      "password": ""
+      "password": "",
+      "interval": 0 (no interval) or larger
     }
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1134,6 +1171,7 @@ Here's the format of such a configuration.
       "recipients": ["RECIPIENT_1", "RECEPIENT_2", ...],
       "subject": "SUBJECT_TEXT",
       "text": "BODY_TEXT",
+      "add_direct_link": 1 (add) or 0
       "interval": 0 (no interval) or larger
     }
 
@@ -1151,6 +1189,75 @@ This is effective only when a kiosk mode is enabled.
     "action": {
       "action_name": "play",
       "uri": "RTSP_ADDRESS"
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImageFreeze Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+It will show an arbitrary image configured by a uri parameter on a display.
+This is effective only when a kiosk mode is enabled.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "imagefreeze",
+      "uri": "IMAGE_ADDRESS"
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UDP Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+This will send an arbitrary user data to a server configured by address and port.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "udp",
+      "address": "UDP_ADDRESS",
+      "port": port_number,
+      "userdata": "USERDATA_IN_STRING"
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Relay Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+This is a special action for the Security/River monitoring packages that works with a supported CDC-ACM device.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "relay",
+      "acm_id": 0 or any other device number,
+      "ch_name": "ONE_OF_PREDEFINED_CHANNEL_NAME_BY_DEVICE",
+      "relay_status": 0 (OFF) or 1 (ON),
+      "auto_flip_in_seconds": 0 (DISABLED) or a number of seconds to flip the status
+    }
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+VACAN Action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is one of delegate actions executed by a Device Agent.
+
+This is a special action used for the Crowdness Notification Package integrated with the VACAN (R) serivice.
+
+.. code-block:: javascript
+
+    "action": {
+      "action_name": "vacan",
+      "url": "VACAN_SERVICE_URL",
+      "key": "UNIQUE_KEY_FOR_THE_DEVICE",
+      "timestamp_key": "timestamp",
+      "count_key": "count"
     }
 
 --------------------------------
