@@ -2,6 +2,22 @@ Known Issues
 ====================
 
 =======
+v2.3
+=======
+
+----------------------------------------------------------------------------------
+Known Memory Leaks
+----------------------------------------------------------------------------------
+
+1. Text overlay
+
+  The more text overlay items you use, the more memory leak is observed. One source of this leak is `font_name` of `NdOSD_FontParams`. So, please do not use it unless you really need to. We are investigating possible sources related to NvDsBatchMeta due to timings. But please note that `font_name` was mandatory until v2.2. So, a new app without `font_name` won't run on an older versions due to such a validation failure.
+
+2. Pipeline Start/Stop
+
+  Every time a pipeline, including a sub pipeline, is stopped, memory leak is observed. This has been known that this is cleared if `nvdsosd` is not used. As a part of our cross platform effort, we have a plan to replace `nvdsosd` with our own `emoverlay` to get rid of this leaks.
+
+=======
 v1.6.2
 =======
 

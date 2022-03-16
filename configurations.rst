@@ -733,7 +733,7 @@ For convenience, here are the DeepStream structs referenced above:
 
 **NdOSD_FontParams**
 
-* font_name : string         
+* font_name : string **DO NOT USE, LEADS TO MEMORY LEAK**  
 * font_size : unsigned int         
 * font_color : NvOSD_ColorParams 
 
@@ -776,7 +776,7 @@ Finally, in order to facilitate the settings of properties formed by dictionarie
     'display_text',
     'x_offset',
     'y_offset',
-    'font_name',
+    # 'font_name', DO NOT USE
     'font_size',
     'font_color_red',
     'font_color_green',
@@ -818,7 +818,7 @@ Consider the following example on appending the `overlay-meta` to the `last-meta
     label1['display_text'] = stats
     label1['x_offset'] = 10
     label1['y_offset'] = 20
-    label1['font_name'] =  "Serif"
+    # label1['font_name'] =  "Serif" DO NOT USE
     label1['font_size'] = 10
     label1['font_color_green'] = 1
     label1['font_color_red'] = 1
