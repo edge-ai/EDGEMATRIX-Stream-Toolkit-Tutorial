@@ -430,6 +430,10 @@ If your pipeline involves an EMCustom element, it would look liket this. An outp
 Callback and Events
 ----------------------
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Definitions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 This is a configuration about the callback function name and event definitions.
 
 * signal_callback_function_name: The name of the callback function to call if the event conditions are satisfied.
@@ -447,6 +451,15 @@ This is a configuration about the callback function name and event definitions.
 
       * min_value: The minimum float value the item could take (optional). This property is valid for ``number`` type only.
       * max_value: The maximum float value the item could take (optional). This property is valid for ``number`` type only.
+
+As an exception, you can use this event to raise a fatal error from an app. By using a class among `Built-in Exceptions <https://docs.python.org/3/library/exceptions.html>`_ as a key, and an error message as a value, you can notify an EDGEMATRIX Stream of any malfunctions detected by an app. And it will be eventually notified an end user of such a fatal error.
+
+.. code-block:: python
+
+    events = []
+    ...
+    events.append({ValueError: 'A sensor reading is too low. Please check if the sensor is working fine.'})
+    return events
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Callback
