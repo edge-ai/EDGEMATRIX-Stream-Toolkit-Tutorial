@@ -89,6 +89,19 @@ seek_time	             ANY (EXPERIMENTAL)
 
 If a command is requested in a state where it isn't available, the application will return an error message specifying the reason why that command can't be executed.
 
+--------------------------------
+start_webrtc
+--------------------------------
+
+You can use this `PubNub Demo Page <https://www.pubnub.com/developers/demos/webrtc/launch/>`_ for a webrtc communication. The number shown as `your phone number` is the `PubNub Demo ID` you are going to connect to from your EDGEMATRIX Stream. In the case below, it is 223. You can choose Device ID as you like.
+
+    .. image:: images/cli/pubnub_demo.png
+       :align: center
+
+If you want to try a P2P connection beyond your local network, then, you need to fill out xirsys related fields. Go to the `Xirsys website <https://xirsys.com/>`_, then sign up, and log in to find your API credentials. You can use the Development plan for free.
+
+There is one know restriction. You can not access from a mobile browser because the demo website is old.
+
 ============================================================
 CLI Result Messages
 ============================================================
