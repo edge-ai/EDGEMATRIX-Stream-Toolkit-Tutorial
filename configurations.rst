@@ -891,7 +891,48 @@ Additionally, for `callback` type options you can define the value type:
 
 * value_type: currently supported: `string`, `number` or `list`.
 
-Consider the following example for a GStreamer option override:
+And depending on a type, a list of possible values for string, a range for number can be defined.
+
+* a list of possible values for string
+
+.. code-block:: python
+
+  "pipeline_configuration": { 
+   ...
+  },
+  "options": [
+    {
+      "key": "new_var_str",
+      "option_type": "callback",
+      "value_type": "string",
+      "value_list": ["foo", "bar"]
+    },
+    ...
+  ]
+
+In this case, only value either of "foo" or "bar" is allowed for this option.
+
+* a range of values for number
+
+.. code-block:: python
+
+  "pipeline_configuration": { 
+   ...
+  },
+  "options": [
+    {
+      "key": "new_var_num",
+      "option_type": "callback",
+      "value_type": "number",
+      "min-value": 20,
+      "max-value": 30
+    },
+    ...
+  ]
+
+In this case, any number larger than or equal to 20 and smaller than or equal to 30 is allowed.
+
+Next, consider the following example for a GStreamer option override:
 
 **Property override enable on the app_config**
 
