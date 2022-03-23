@@ -1176,6 +1176,7 @@ Here's the format of such a configuration.
       "url": "https://YOUR_HTTPS_SERVER/path",
       "user": "",
       "password": "",
+      "user_agent": "OPTIONAL_USER_DEFINED_USER_AGENT",
       "interval": 0 (no interval) or larger
     }
 
