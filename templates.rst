@@ -729,16 +729,75 @@ EMI Simple Recorder                 iot.json                        simple_recor
 EMI IoT Sensor Monitor
 --------------------------------
 
-udp + cdcacm (usb045a)
+This template is one of CPU apps that demonstrates the usage of an IoT sensor processing. A sensor reading from a supported cdcacm device arrives at a pre-configured udp port of an EDGEMATRIX Stream. This template assumes a river monitoring sensor. Futher details are not covered here because it is beyond the scope of this tutorial.
+
+The pipeline of this template consists of:
+
+.. code-block:: json
+
+    "pipeline_configuration": {
+        "input": {
+            "batch-size": 1,
+            "width": 1920,
+            "height": 1080
+        },
+        "overlay": {
+            "display-clock": 1
+        },
+        "aimeta": {
+            "signal-interval": 10
+        }
+    }
 
 --------------------------------
 EMI Simple UDP
 --------------------------------
 
-udp
+This template is one of CPU apps that demonstrates the usage of a simple UDP input processing. In addition to an RTSP stream, an udp source can be added to inputs of an EDGEMATRIX Stream by configuring the `udp_location` of a stream config as below. In this case, any data arrived through a udp port, 3333, of a loopback address, is passed to an EDGEMATRIX Stream for further processings.
+
+.. code-block:: bash
+
+    $ grep udp_location streams/udp_stream/udp_stream_configuration.json 
+    "udp_location": "127.0.0.1:3333",
+
+The pipeline of this template consists of:
+
+.. code-block:: json
+
+    "pipeline_configuration": {
+        "input": {
+            "batch-size": 1,
+            "width": 1920,
+            "height": 1080
+        },
+        "overlay": {
+            "display-clock": 1
+        },
+        "aimeta": {
+            "signal-interval": 10
+        }
+    }
 
 --------------------------------
 EMI Simple Recorder
 --------------------------------
 
-recorder
+This template is one of CPU apps that allows an end user to record by some simple but rich features.
+
+The pipeline of this template consists of:
+
+.. code-block:: json
+
+  "pipeline_configuration": {
+    "input": {
+      "batch-size": 1,
+      "width": 1920,
+      "height": 1080
+    },
+    "overlay": {
+      "display-clock": 1
+    },
+    "aimeta": {
+      "signal-interval": 30
+    }
+  }
