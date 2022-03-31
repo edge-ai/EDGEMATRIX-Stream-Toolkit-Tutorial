@@ -20,10 +20,13 @@ Here's the steps to launch a CLI program.
 
 1. successfully launch your app with a GUI program with **the default passphrase** in order to create your EAP in your stream folder
 2. cd to the stream folder used at 1
-3. run gstd
-4. run `edgestream-app` with the stream config used at 1 in your stream folder
-5. for now, enter 9 to terminate your app
-6. kill gstd
+3. modify the location of the stream config so that it would get launched without a local RTSP server
+
+    * e.g. `"location": "file:///mnt/nvme/toolkit_home/movies/ChuoHwy-720p-faststart.mp4"`
+4. run gstd
+5. run `edgestream-app` with the stream config used at 1 in your stream folder
+6. for now, enter 9 to terminate your app
+7. kill gstd
 
 .. code-block:: bash
 
