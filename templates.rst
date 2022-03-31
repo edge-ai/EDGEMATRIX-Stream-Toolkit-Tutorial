@@ -691,6 +691,15 @@ Facenet
 
 This template is to demonstrate the usage of the lagendary detection model called `detectnet <https://developer.nvidia.com/blog/detectnet-deep-neural-network-object-detection-digits/>`_ desgined by NVIDIA.
 
+A custom output parser function is provided as a custom library as below. It is configured in the dstest1_pgie_config.txt.
+
+.. code-block:: bash
+
+
+    custom-lib-path=nvdsinfer_custom_lib/libnvdsinfer_custom_impl.so
+    parse-bbox-func-name=NvDsInferParseDetectNet
+
+
 The pipeline of this template consists of:
 
 .. code-block:: json
