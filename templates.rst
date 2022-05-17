@@ -19,6 +19,7 @@ Templates
     #. (Double EAPs) EMI Vehicle EMCustom
     #. (Double EAPs) EMI Vehicle Color Watcher
     #. EMI Vehicle PrePost EMCustom
+    #. EMI EMCustom CPP
     #. EMI Torch 3DCNN
     #. EMI Torch Imagenet Yolo IOU Counter
     #. Facenet
@@ -404,6 +405,7 @@ template name                       signal                          stream
 =================================== =============================== =============================
 EMI Vehicle EMCustom                my_signal.json                  vehicle_emcustom_stream
 EMI Vehicle Color Watcher           my_signal.json                  vehicle_colorwatcher_stream
+EMI EMCustom CPP                    my_signal.json                  emcustom_cpp_stream
 EMI Vehicle PrePost EMCustom        my_signal.json                  vehicle_prepost_stream
 EMI Torch 3DCNN                     my_signal.json                  torch_3dcnn_stream
 EMI Torch Imagenet Yolo IOU Counter my_signal.json                  torch_imagenet_stream
@@ -489,6 +491,92 @@ The pipeline of this template consists of:
             "signal-interval": 10
         }
     }
+
+--------------------------------
+EMI EMCustom CPP
+--------------------------------
+
+This is a template to show how to call a C++ library from an implementation of EMCustom. In this template, the timer object from `the dlib library <http://dlib.net/>`_ is called as an example. This is not practical, but you can clearly see that the pipeline sleeps at intervals, which means the timer object is correctly called. For more infomration about the timer object, please refer to `this page <http://dlib.net/timer_ex.cpp.html>`_.
+
+In order to try this template, please follow the follwing instructions.
+
+1. install libdlib-dev
+
+.. code-block:: bash
+
+  $ sudo apt install libdlib-dev
+
+This will install libdlib.so, in /usr/lib. So, the linker flag is -ldlib.
+
+2. run `prepare_resource.sh`
+
+.. code-block:: bash
+
+  $ cd templates/EMI\ EMCustom\ CPP/resource/
+  $ ./prepare_resource.sh
+
+Now you have built required libraries and copied them to the `resource/models/Secondary_Dlib/` directory.
+
+3. check those built libraries
+
+.. code-block:: bash
+
+  $ ls -l models/Secondary_Dlib/
+  total 1216
+  -rwxrwxr-x 1 nvidia nvidia   19664 May 17 16:14 libdlibcall.so
+  -rw-r--r-- 1 nvidia nvidia 1122056 May 17 16:14 libdlib.so.18
+  -rwxrwxr-x 1 nvidia nvidia  101976 May 17 16:14 libdlibwrapper.so
+
+Note that `libdlib.so.18` was included to distribute this EAP, where dlib is not installed.
+
+4. you can find the actual name linked from your custom library as below
+
+.. code-block:: bash
+
+  $ ldd build/emcustom_sources/libdlibwrapper.so 
+      linux-vdso.so.1 (0x0000007f8912f000)
+      libdlib.so.18 => /usr/lib/libdlib.so.18 (0x0000007f88fa7000)
+      libstdc++.so.6 => /usr/lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000007f88e13000)
+      libgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000007f88def000)
+      libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000007f88c96000)
+      /lib/ld-linux-aarch64.so.1 (0x0000007f89104000)
+      libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000007f88c6a000)
+      libpng16.so.16 => /usr/lib/aarch64-linux-gnu/libpng16.so.16 (0x0000007f88c2f000)
+      libjpeg.so.8 => /usr/lib/aarch64-linux-gnu/libjpeg.so.8 (0x0000007f88be5000)
+      libm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000007f88b2b000)
+      libz.so.1 => /lib/aarch64-linux-gnu/libz.so.1 (0x0000007f88afe000)
+
+5. this template is ready
+6. uninstall libdlib-dev as needed
+
+The pipeline of this template consists of:
+
+.. code-block:: json
+
+  "pipeline_configuration": {
+    "input": {
+      "batch-size": 1,
+      "width": 1920,
+      "height": 1080
+    },
+    "primary": {
+      "process-mode": 1,
+      "config-file-path": "dstest1_pgie_config.txt"
+    },
+    "emcustom": {
+      "custom-lib": "models/Secondary_Dlib/libdlibcall.so",
+      "in-place": "true",
+      "format": "RGBA",
+      "process-interval": 10,
+      "libraries": ["models/Secondary_Dlib/libdlibwrapper.so","models/Secondary_Dlib/libdlib.so.18"]
+    },
+    "overlay": {
+      "display-clock": 1
+    },
+    "aimeta": {
+      "signal-interval": 10
+    }
+  }
 
 --------------------------------
 EMI Vehicle PrePost EMCustom
