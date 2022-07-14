@@ -15,6 +15,7 @@ edgestream_app
 * you need to run your app remotely via ssh
 * you want to try a long run test with a real IP camera
 * you want to try a webrtc available on a service box
+* you don't need to test actions (CLI does not come with any EDGEMATRIX Stream agent, which means no action is invoked based on callback events)
 
 Here's the steps to launch a CLI program.
 
