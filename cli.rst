@@ -24,7 +24,7 @@ Here's the steps to launch a CLI program.
 3. modify the location of the stream config so that it would get launched without a local RTSP server
 
     * e.g. `"location": "file:///mnt/nvme/toolkit_home/movies/ChuoHwy-720p-faststart.mp4"`
-4. run gstd
+4. run gstd (if you use any external libraries, please make sure that /tmp/lib exists and is added to LD_LIBRARY_PATH before launching gstd)
 5. run `edgestream-app` with the stream config used at 1 in your stream folder
 6. for now, enter 9 to terminate your app
 7. kill gstd
