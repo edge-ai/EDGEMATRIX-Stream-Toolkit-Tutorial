@@ -15,9 +15,11 @@ EDGEMATRIX Stream Toolkit Tutorial
    tutorials
    sample_app
    configurations
+   templates
    doubleeaps
    emcustom
    empycustom
    custompipeline
    sample_app_torch
+   cli
    knownissues

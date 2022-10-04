@@ -24,9 +24,9 @@ copyright = '(C) 2019 EDGEMATRIX Inc.'
 author = 'Takenori Sato'
 
 # The short X.Y version
-version = '2.1'
+version = '2.3'
 # The full version, including alpha/beta/rc tags
-release = '2.1.0'
+release = '2.3.0'
 
 
 # -- General configuration ---------------------------------------------------

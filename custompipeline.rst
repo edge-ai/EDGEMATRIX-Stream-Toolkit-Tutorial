@@ -138,6 +138,8 @@ And it can be illustrated as below.
 
 In the templates, this is available as ``EMI Vehicle PrePost EMCustom``.
 
+Note that emcustom has to be used inside an array of a primary or a secondary. When you place an emcustom as an independent element, it will hide secondary.
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Advanced Patterns with EMPyCustom
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -430,6 +430,10 @@ If your pipeline involves an EMCustom element, it would look liket this. An outp
 Callback and Events
 ----------------------
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Definitions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 This is a configuration about the callback function name and event definitions.
 
 * signal_callback_function_name: The name of the callback function to call if the event conditions are satisfied.
@@ -447,6 +451,15 @@ This is a configuration about the callback function name and event definitions.
 
       * min_value: The minimum float value the item could take (optional). This property is valid for ``number`` type only.
       * max_value: The maximum float value the item could take (optional). This property is valid for ``number`` type only.
+
+As an exception, you can use this event to raise a fatal error from an app. By using a class among `Built-in Exceptions <https://docs.python.org/3/library/exceptions.html>`_ as a key, and an error message as a value, you can notify an EDGEMATRIX Stream of any malfunctions detected by an app. And it will be eventually notified an end user of such a fatal error.
+
+.. code-block:: python
+
+    events = []
+    ...
+    events.append({ValueError: 'A sensor reading is too low. Please check if the sensor is working fine.'})
+    return events
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Callback
@@ -733,7 +746,7 @@ For convenience, here are the DeepStream structs referenced above:
 
 **NdOSD_FontParams**
 
-* font_name : string         
+* font_name : string **DO NOT USE, LEADS TO MEMORY LEAK**  
 * font_size : unsigned int         
 * font_color : NvOSD_ColorParams 
 
@@ -776,7 +789,7 @@ Finally, in order to facilitate the settings of properties formed by dictionarie
     'display_text',
     'x_offset',
     'y_offset',
-    'font_name',
+    # 'font_name', DO NOT USE
     'font_size',
     'font_color_red',
     'font_color_green',
@@ -818,7 +831,7 @@ Consider the following example on appending the `overlay-meta` to the `last-meta
     label1['display_text'] = stats
     label1['x_offset'] = 10
     label1['y_offset'] = 20
-    label1['font_name'] =  "Serif"
+    # label1['font_name'] =  "Serif" DO NOT USE
     label1['font_size'] = 10
     label1['font_color_green'] = 1
     label1['font_color_red'] = 1
@@ -891,7 +904,48 @@ Additionally, for `callback` type options you can define the value type:
 
 * value_type: currently supported: `string`, `number` or `list`.
 
-Consider the following example for a GStreamer option override:
+And depending on a type, a list of possible values for string, a range for number can be defined.
+
+* a list of possible values for string
+
+.. code-block:: python
+
+  "pipeline_configuration": { 
+   ...
+  },
+  "options": [
+    {
+      "key": "new_var_str",
+      "option_type": "callback",
+      "value_type": "string",
+      "value_list": ["foo", "bar"]
+    },
+    ...
+  ]
+
+In this case, only value either of "foo" or "bar" is allowed for this option.
+
+* a range of values for number
+
+.. code-block:: python
+
+  "pipeline_configuration": { 
+   ...
+  },
+  "options": [
+    {
+      "key": "new_var_num",
+      "option_type": "callback",
+      "value_type": "number",
+      "min-value": 20,
+      "max-value": 30
+    },
+    ...
+  ]
+
+In this case, any number larger than or equal to 20 and smaller than or equal to 30 is allowed.
+
+Next, consider the following example for a GStreamer option override:
 
 **Property override enable on the app_config**
 
@@ -1122,6 +1176,7 @@ Here's the format of such a configuration.
       "url": "https://YOUR_HTTPS_SERVER/path",
       "user": "",
       "password": "",
+      "user_agent": "OPTIONAL_USER_DEFINED_USER_AGENT",
       "interval": 0 (no interval) or larger
     }
 
