@@ -902,7 +902,7 @@ In order to enable such feature, the AI model developer must define each option 
 
 Additionally, for `callback` type options you can define the value type:
 
-* value_type: currently supported: `string`, `number` or `list`.
+* value_type: currently supported: `string`, `number`, `list`, and `object`.
 
 And depending on a type, a list of possible values for string, a range for number can be defined.
 
