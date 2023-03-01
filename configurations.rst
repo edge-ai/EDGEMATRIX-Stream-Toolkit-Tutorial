@@ -274,22 +274,12 @@ Overlay
 
 This is a configuration about an overlay of a pipeline.
 
-The GStreamer used for this is `nvdsosd <https://docs.nvidia.com/metropolis/deepstream/plugin-manual/index.html#page/DeepStream_Plugin_Manual%2Fdeepstream_plugin_details.02.06.html>`.
+The GStreamer used for this is our own plugin, emoverlay. This plugin calls OpenGL APIs to realize cross platform support.
 
 ======================== =================================================== ======================== ======================== ============
 Property                 Meaning                                             Type                     Range                    Default
 ======================== =================================================== ======================== ======================== ============
-silent                   Produce verbose output ?                            Boolean                  true - false             false
 display-clock            Whether to display clock                            Boolean                  true - false             false
-clock-font               Clock Font to be set                                String                                            null
-clock-font-size          font size of the clock                              Unsigned Integer.        0 - 60                   0
-x-clock-offset           x-clock-offset                                      Unsigned Integer.        0 - 4294967295           0
-y-clock-offset           y-clock-offset                                      Unsigned Integer.        0 - 4294967295           0
-clock-color              clock-color                                         Unsigned Integer.        0 - 4294967295           0
-process-mode             Rect and text draw process mode                     Enum "GstNvDsOsdMode"    (0) CPU_MODE
-                                                                                                      (1) GPU_MODE
-                                                                                                      (2) HW_MODE              2, "HW_MODE"
-gpu-id                   Set GPU Device ID                                   Unsigned Integer.        0 - 4294967295           0
 ======================== =================================================== ======================== ======================== ============
 
 ----------------
